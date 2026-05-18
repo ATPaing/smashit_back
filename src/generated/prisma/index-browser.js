@@ -130,6 +130,20 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GameScalarFieldEnum = {
+  id: 'id',
+  hostId: 'hostId',
+  name: 'name',
+  location: 'location',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  feeType: 'feeType',
+  minReliabilityScore: 'minReliabilityScore',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -141,9 +155,25 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   passwordHash: 'passwordHash'
 };
 
+exports.Prisma.GameOrderByRelevanceFieldEnum = {
+  name: 'name',
+  location: 'location'
+};
+exports.FeeType = exports.$Enums.FeeType = {
+  FREE: 'FREE',
+  SPLIT: 'SPLIT'
+};
+
+exports.GameStatus = exports.$Enums.GameStatus = {
+  SCHEDULED: 'SCHEDULED',
+  ONGOING: 'ONGOING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Game: 'Game'
 };
 
 /**

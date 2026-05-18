@@ -15,4 +15,38 @@ model User {
   reliabilityScore Int      @default(100)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+
+  // Relations
+  hostedGames Game[]
+}
+
+model Game {
+  id                  Int        @id @default(autoincrement())
+  hostId              Int
+  name                String
+  location            String
+  startTime           DateTime
+  endTime             DateTime
+  feeType             FeeType    @default(FREE)
+  minReliabilityScore Int        @default(0)
+  status              GameStatus @default(SCHEDULED)
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+
+  // Relations
+  host User @relation(fields: [hostId], references: [id])
+
+  @@index([hostId])
+}
+
+enum FeeType {
+  FREE
+  SPLIT
+}
+
+enum GameStatus {
+  SCHEDULED
+  ONGOING
+  COMPLETED
+  CANCELLED
 }
