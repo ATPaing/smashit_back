@@ -1,8 +1,8 @@
-import * as gameService from '../services/game.service.js';
+import * as gameService from "../services/game.service.js";
+import * as sseService from "../services/sse.service.js";
 
 export const createGame = async (req, res) => {
     try {
-
         let {
             name,
             location,
@@ -11,19 +11,13 @@ export const createGame = async (req, res) => {
             feeType,
             minReliabilityScore,
         } = req.body;
-        
+
         feeType = feeType?.toUpperCase();
 
         const hostId = req.userId;
 
         // Required fields validation
-        if (
-            !name ||
-            !location ||
-            !startTime ||
-            !endTime ||
-            !feeType
-        ) {
+        if (!name || !location || !startTime || !endTime || !feeType) {
             return res.status(400).json({
                 message: "All fields are required",
             });
@@ -39,13 +33,9 @@ export const createGame = async (req, res) => {
         }
 
         // Reliability score validation
-        if (
-            minReliabilityScore < 0 ||
-            minReliabilityScore > 100
-        ) {
+        if (minReliabilityScore < 0 || minReliabilityScore > 100) {
             return res.status(400).json({
-                message:
-                    "Min reliability score must be between 0 and 100",
+                message: "Min reliability score must be between 0 and 100",
             });
         }
 
@@ -54,10 +44,7 @@ export const createGame = async (req, res) => {
         const end = new Date(endTime);
 
         // Invalid date check
-        if (
-            isNaN(start.getTime()) ||
-            isNaN(end.getTime())
-        ) {
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
             return res.status(400).json({
                 message: "Invalid date format",
             });
@@ -66,16 +53,14 @@ export const createGame = async (req, res) => {
         // End date must be after start date
         if (end <= start) {
             return res.status(400).json({
-                message:
-                    "End time must be later than start time",
+                message: "End time must be later than start time",
             });
         }
 
         // Optional: prevent past games
         if (start < new Date()) {
             return res.status(400).json({
-                message:
-                    "Start time cannot be in the past",
+                message: "Start time cannot be in the past",
             });
         }
 
@@ -89,11 +74,14 @@ export const createGame = async (req, res) => {
             hostId,
         });
 
+        sseService.sendEventToUser(hostId, "next-game-changed", {
+            reason: "game-created",
+        });
+
         res.status(201).json({
             message: "Game created successfully",
             game,
         });
-
     } catch (err) {
         console.error(err);
 
@@ -113,7 +101,7 @@ export const getNextUpcomingGame = async (req, res) => {
                 message: "No upcoming games found",
             });
         }
-        
+
         res.status(200).json({
             game,
         });

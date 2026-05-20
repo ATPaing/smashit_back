@@ -3,6 +3,7 @@ import cors from 'cors';
 
 import authRoutes from "./routes/auth.route.js";
 import gameRoutes from './routes/game.route.js';
+import sseRoutes from "./routes/sse.route.js";
 
 const app = express();
 
@@ -15,6 +16,6 @@ app.use("/auth", authRoutes);
 
 app.use('/game', gameRoutes)
 
-
+app.use("/sse", sseRoutes);
 
 export default app;
