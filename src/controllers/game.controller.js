@@ -2,7 +2,7 @@ import * as gameService from '../services/game.service.js';
 
 export const createGame = async (req, res) => {
     try {
-        
+
         let {
             name,
             location,
@@ -11,6 +11,7 @@ export const createGame = async (req, res) => {
             feeType,
             minReliabilityScore,
         } = req.body;
+        
         feeType = feeType?.toUpperCase();
 
         const hostId = req.userId;
@@ -96,6 +97,28 @@ export const createGame = async (req, res) => {
     } catch (err) {
         console.error(err);
 
+        res.status(500).json({
+            message: "Internal server error",
+        });
+    }
+};
+
+export const getNextUpcomingGame = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const game = await gameService.getNextUpcomingGame(userId);
+
+        if (!game) {
+            return res.status(404).json({
+                message: "No upcoming games found",
+            });
+        }
+        
+        res.status(200).json({
+            game,
+        });
+    } catch (err) {
+        console.error(err);
         res.status(500).json({
             message: "Internal server error",
         });

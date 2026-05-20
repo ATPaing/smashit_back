@@ -21,4 +21,29 @@ export const createGame = async ({
         },
     });
     return game;
+}; 
+
+export const getNextUpcomingGame = async () => {
+    const game = await prisma.game.findFirst({
+        where: {
+            startTime: {
+                gte: new Date(),
+            },
+            status: "SCHEDULED",
+        },
+        orderBy: {
+            startTime: "asc",
+        },
+        include: {
+            host: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                },
+            },
+        },
+    });
+
+    return game;
 };

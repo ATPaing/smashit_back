@@ -13,6 +13,8 @@ app.use(express.json());
 // routes
 app.use("/auth", authRoutes);
 
-app.use('/game', gameRoutes )
+app.use('/game', gameRoutes)
+
+
 
 export default app;
