@@ -144,6 +144,19 @@ exports.Prisma.GameScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  senderId: 'senderId',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  isRead: 'isRead',
+  gameId: 'gameId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -159,6 +172,16 @@ exports.Prisma.GameOrderByRelevanceFieldEnum = {
   name: 'name',
   location: 'location'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
+exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
+  title: 'title',
+  message: 'message'
+};
 exports.FeeType = exports.$Enums.FeeType = {
   FREE: 'FREE',
   SPLIT: 'SPLIT'
@@ -171,9 +194,17 @@ exports.GameStatus = exports.$Enums.GameStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  FRIEND_REQUEST: 'FRIEND_REQUEST',
+  INVITATION_RECEIVED: 'INVITATION_RECEIVED',
+  MATCH_ACCEPTED: 'MATCH_ACCEPTED',
+  GAME_CANCELLED: 'GAME_CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
-  Game: 'Game'
+  Game: 'Game',
+  Notification: 'Notification'
 };
 
 /**

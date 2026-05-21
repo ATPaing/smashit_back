@@ -18,6 +18,9 @@ model User {
 
   // Relations
   hostedGames Game[]
+
+  receivedNotifications Notification[] @relation("NotificationRecipient")
+  sentNotifications     Notification[] @relation("NotificationSender")
 }
 
 model Game {
@@ -32,6 +35,8 @@ model Game {
   status              GameStatus @default(SCHEDULED)
   createdAt           DateTime   @default(now())
   updatedAt           DateTime   @updatedAt
+
+  notifications Notification[]
 
   // Relations
   host User @relation(fields: [hostId], references: [id])
@@ -49,4 +54,34 @@ enum GameStatus {
   ONGOING
   COMPLETED
   CANCELLED
+}
+
+model Notification {
+  id          Int              @id @default(autoincrement())
+  recipientId Int
+  senderId    Int?
+  type        NotificationType
+  title       String
+  message     String
+  isRead      Boolean          @default(false)
+
+  gameId    Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  recipient User  @relation("NotificationRecipient", fields: [recipientId], references: [id])
+  sender    User? @relation("NotificationSender", fields: [senderId], references: [id])
+  game      Game? @relation(fields: [gameId], references: [id])
+
+  @@index([recipientId])
+  @@index([senderId])
+  @@index([gameId])
+}
+
+enum NotificationType {
+  FRIEND_REQUEST
+  INVITATION_RECEIVED
+  MATCH_ACCEPTED
+  GAME_CANCELLED
 }

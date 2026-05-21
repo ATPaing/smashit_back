@@ -13,4 +13,5 @@ router.post('/create', authMiddleware, createGame);
 
 router.get('/next', authMiddleware, getNextUpcomingGame)
 
+
 export default router;
