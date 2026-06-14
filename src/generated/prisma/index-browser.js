@@ -120,16 +120,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  passwordHash: 'passwordHash',
-  reliabilityScore: 'reliabilityScore',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.GameScalarFieldEnum = {
   id: 'id',
   hostId: 'hostId',
@@ -157,18 +147,32 @@ exports.Prisma.NotificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  reliabilityScore: 'reliabilityScore',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvitationScalarFieldEnum = {
+  id: 'id',
+  gameId: 'gameId',
+  userId: 'userId',
+  status: 'status',
+  attendanceStatus: 'attendanceStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
-exports.Prisma.UserOrderByRelevanceFieldEnum = {
-  name: 'name',
-  email: 'email',
-  passwordHash: 'passwordHash'
-};
-
-exports.Prisma.GameOrderByRelevanceFieldEnum = {
+exports.Prisma.gameOrderByRelevanceFieldEnum = {
   name: 'name',
   location: 'location'
 };
@@ -178,33 +182,51 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
-exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
+exports.Prisma.notificationOrderByRelevanceFieldEnum = {
   title: 'title',
   message: 'message'
 };
-exports.FeeType = exports.$Enums.FeeType = {
+
+exports.Prisma.userOrderByRelevanceFieldEnum = {
+  name: 'name',
+  email: 'email',
+  passwordHash: 'passwordHash'
+};
+exports.game_feeType = exports.$Enums.game_feeType = {
   FREE: 'FREE',
   SPLIT: 'SPLIT'
 };
 
-exports.GameStatus = exports.$Enums.GameStatus = {
-  SCHEDULED: 'SCHEDULED',
+exports.game_status = exports.$Enums.game_status = {
+  UPCOMING: 'UPCOMING',
   ONGOING: 'ONGOING',
   COMPLETED: 'COMPLETED',
   CANCELLED: 'CANCELLED'
 };
 
-exports.NotificationType = exports.$Enums.NotificationType = {
+exports.notification_type = exports.$Enums.notification_type = {
   FRIEND_REQUEST: 'FRIEND_REQUEST',
   INVITATION_RECEIVED: 'INVITATION_RECEIVED',
   MATCH_ACCEPTED: 'MATCH_ACCEPTED',
   GAME_CANCELLED: 'GAME_CANCELLED'
 };
 
+exports.invitation_status = exports.$Enums.invitation_status = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED'
+};
+
+exports.attendance_status = exports.$Enums.attendance_status = {
+  PRESENT: 'PRESENT',
+  NO_SHOW: 'NO_SHOW'
+};
+
 exports.Prisma.ModelName = {
-  User: 'User',
-  Game: 'Game',
-  Notification: 'Notification'
+  game: 'game',
+  notification: 'notification',
+  user: 'user',
+  invitation: 'invitation'
 };
 
 /**

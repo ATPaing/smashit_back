@@ -11,17 +11,16 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-
 async function startServer() {
     try {
-        await prisma.$queryRaw`SELECT 1`;
+        await prisma.$connect();
+        console.log("Database connected");
 
-        console.log("Database connected successfully");
-
-        app.listen(3000, () => {
-            console.log("Server running on port 3000");
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
         });
-    } catch (err) {
-        console.error("Failed to connect database:", err);
+    } catch (error) {
+        console.error("Database connection failed:", error);
+        process.exit(1);
     }
 }

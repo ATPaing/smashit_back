@@ -112,3 +112,20 @@ export const getNextUpcomingGame = async (req, res) => {
         });
     }
 };
+
+
+export const getAllGames = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const games = await gameService.getAllGames(userId);
+        res.status(200).json({
+            games,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            message: "Internal server error",
+        });
+    }
+};
+

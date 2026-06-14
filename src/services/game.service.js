@@ -29,7 +29,7 @@ export const getNextUpcomingGame = async () => {
             startTime: {
                 gte: new Date(),
             },
-            status: "SCHEDULED",
+            status: "UPCOMING",
         },
         orderBy: {
             startTime: "asc",
@@ -46,4 +46,48 @@ export const getNextUpcomingGame = async () => {
     });
 
     return game;
+};
+
+export const getAllGames = async (userId) => {
+    console.log(userId);
+    const games = await prisma.game.findMany({
+        where: {
+            OR: [
+                { hostId: userId },
+                {
+                    invitation: {
+                        some: {
+                            userId,
+                        },
+                    },
+                },
+            ],
+        },
+        orderBy: {
+            startTime: "asc",
+        },
+        include: {
+            host: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                },
+            },
+            invitation: {
+                include: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            reliabilityScore: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return games;
 };

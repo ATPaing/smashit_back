@@ -14,65 +14,95 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model User
+ * Model game
  * 
  */
-export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+export type game = $Result.DefaultSelection<Prisma.$gamePayload>
 /**
- * Model Game
+ * Model notification
  * 
  */
-export type Game = $Result.DefaultSelection<Prisma.$GamePayload>
+export type notification = $Result.DefaultSelection<Prisma.$notificationPayload>
 /**
- * Model Notification
+ * Model user
  * 
  */
-export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+export type user = $Result.DefaultSelection<Prisma.$userPayload>
+/**
+ * Model invitation
+ * 
+ */
+export type invitation = $Result.DefaultSelection<Prisma.$invitationPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const FeeType: {
+  export const game_feeType: {
   FREE: 'FREE',
   SPLIT: 'SPLIT'
 };
 
-export type FeeType = (typeof FeeType)[keyof typeof FeeType]
+export type game_feeType = (typeof game_feeType)[keyof typeof game_feeType]
 
 
-export const GameStatus: {
-  SCHEDULED: 'SCHEDULED',
+export const game_status: {
+  UPCOMING: 'UPCOMING',
   ONGOING: 'ONGOING',
   COMPLETED: 'COMPLETED',
   CANCELLED: 'CANCELLED'
 };
 
-export type GameStatus = (typeof GameStatus)[keyof typeof GameStatus]
+export type game_status = (typeof game_status)[keyof typeof game_status]
 
 
-export const NotificationType: {
+export const notification_type: {
   FRIEND_REQUEST: 'FRIEND_REQUEST',
   INVITATION_RECEIVED: 'INVITATION_RECEIVED',
   MATCH_ACCEPTED: 'MATCH_ACCEPTED',
   GAME_CANCELLED: 'GAME_CANCELLED'
 };
 
-export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+export type notification_type = (typeof notification_type)[keyof typeof notification_type]
+
+
+export const invitation_status: {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED'
+};
+
+export type invitation_status = (typeof invitation_status)[keyof typeof invitation_status]
+
+
+export const attendance_status: {
+  PRESENT: 'PRESENT',
+  NO_SHOW: 'NO_SHOW'
+};
+
+export type attendance_status = (typeof attendance_status)[keyof typeof attendance_status]
 
 }
 
-export type FeeType = $Enums.FeeType
+export type game_feeType = $Enums.game_feeType
 
-export const FeeType: typeof $Enums.FeeType
+export const game_feeType: typeof $Enums.game_feeType
 
-export type GameStatus = $Enums.GameStatus
+export type game_status = $Enums.game_status
 
-export const GameStatus: typeof $Enums.GameStatus
+export const game_status: typeof $Enums.game_status
 
-export type NotificationType = $Enums.NotificationType
+export type notification_type = $Enums.notification_type
 
-export const NotificationType: typeof $Enums.NotificationType
+export const notification_type: typeof $Enums.notification_type
+
+export type invitation_status = $Enums.invitation_status
+
+export const invitation_status: typeof $Enums.invitation_status
+
+export type attendance_status = $Enums.attendance_status
+
+export const attendance_status: typeof $Enums.attendance_status
 
 /**
  * ##  Prisma Client ʲˢ
@@ -83,8 +113,8 @@ export const NotificationType: typeof $Enums.NotificationType
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Games
+ * const games = await prisma.game.findMany()
  * ```
  *
  *
@@ -106,8 +136,8 @@ export class PrismaClient<
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Games
+   * const games = await prisma.game.findMany()
    * ```
    *
    *
@@ -196,34 +226,44 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
-    * ```
-    */
-  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.game`: Exposes CRUD operations for the **Game** model.
+   * `prisma.game`: Exposes CRUD operations for the **game** model.
     * Example usage:
     * ```ts
     * // Fetch zero or more Games
     * const games = await prisma.game.findMany()
     * ```
     */
-  get game(): Prisma.GameDelegate<ExtArgs, ClientOptions>;
+  get game(): Prisma.gameDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+   * `prisma.notification`: Exposes CRUD operations for the **notification** model.
     * Example usage:
     * ```ts
     * // Fetch zero or more Notifications
     * const notifications = await prisma.notification.findMany()
     * ```
     */
-  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+  get notification(): Prisma.notificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.user`: Exposes CRUD operations for the **user** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
+  get user(): Prisma.userDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.invitation`: Exposes CRUD operations for the **invitation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Invitations
+    * const invitations = await prisma.invitation.findMany()
+    * ```
+    */
+  get invitation(): Prisma.invitationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -658,9 +698,10 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User',
-    Game: 'Game',
-    Notification: 'Notification'
+    game: 'game',
+    notification: 'notification',
+    user: 'user',
+    invitation: 'invitation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -676,205 +717,271 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "game" | "notification"
+      modelProps: "game" | "notification" | "user" | "invitation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      User: {
-        payload: Prisma.$UserPayload<ExtArgs>
-        fields: Prisma.UserFieldRefs
+      game: {
+        payload: Prisma.$gamePayload<ExtArgs>
+        fields: Prisma.gameFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.UserFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+            args: Prisma.gameFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.gameFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload>
           }
           findFirst: {
-            args: Prisma.UserFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+            args: Prisma.gameFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.gameFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload>
           }
           findMany: {
-            args: Prisma.UserFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+            args: Prisma.gameFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload>[]
           }
           create: {
-            args: Prisma.UserCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.gameCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload>
           }
           createMany: {
-            args: Prisma.UserCreateManyArgs<ExtArgs>
+            args: Prisma.gameCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           delete: {
-            args: Prisma.UserDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.gameDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload>
           }
           update: {
-            args: Prisma.UserUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.gameUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload>
           }
           deleteMany: {
-            args: Prisma.UserDeleteManyArgs<ExtArgs>
+            args: Prisma.gameDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.UserUpdateManyArgs<ExtArgs>
+            args: Prisma.gameUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.UserUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          aggregate: {
-            args: Prisma.UserAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateUser>
-          }
-          groupBy: {
-            args: Prisma.UserGroupByArgs<ExtArgs>
-            result: $Utils.Optional<UserGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.UserCountArgs<ExtArgs>
-            result: $Utils.Optional<UserCountAggregateOutputType> | number
-          }
-        }
-      }
-      Game: {
-        payload: Prisma.$GamePayload<ExtArgs>
-        fields: Prisma.GameFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.GameFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.GameFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload>
-          }
-          findFirst: {
-            args: Prisma.GameFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.GameFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload>
-          }
-          findMany: {
-            args: Prisma.GameFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload>[]
-          }
-          create: {
-            args: Prisma.GameCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload>
-          }
-          createMany: {
-            args: Prisma.GameCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.GameDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload>
-          }
-          update: {
-            args: Prisma.GameUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload>
-          }
-          deleteMany: {
-            args: Prisma.GameDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.GameUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.GameUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GamePayload>
+            args: Prisma.gameUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$gamePayload>
           }
           aggregate: {
             args: Prisma.GameAggregateArgs<ExtArgs>
             result: $Utils.Optional<AggregateGame>
           }
           groupBy: {
-            args: Prisma.GameGroupByArgs<ExtArgs>
+            args: Prisma.gameGroupByArgs<ExtArgs>
             result: $Utils.Optional<GameGroupByOutputType>[]
           }
           count: {
-            args: Prisma.GameCountArgs<ExtArgs>
+            args: Prisma.gameCountArgs<ExtArgs>
             result: $Utils.Optional<GameCountAggregateOutputType> | number
           }
         }
       }
-      Notification: {
-        payload: Prisma.$NotificationPayload<ExtArgs>
-        fields: Prisma.NotificationFieldRefs
+      notification: {
+        payload: Prisma.$notificationPayload<ExtArgs>
+        fields: Prisma.notificationFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+            args: Prisma.notificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+            args: Prisma.notificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload>
           }
           findFirst: {
-            args: Prisma.NotificationFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+            args: Prisma.notificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+            args: Prisma.notificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload>
           }
           findMany: {
-            args: Prisma.NotificationFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+            args: Prisma.notificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload>[]
           }
           create: {
-            args: Prisma.NotificationCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+            args: Prisma.notificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload>
           }
           createMany: {
-            args: Prisma.NotificationCreateManyArgs<ExtArgs>
+            args: Prisma.notificationCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           delete: {
-            args: Prisma.NotificationDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+            args: Prisma.notificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload>
           }
           update: {
-            args: Prisma.NotificationUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+            args: Prisma.notificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload>
           }
           deleteMany: {
-            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+            args: Prisma.notificationDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+            args: Prisma.notificationUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.NotificationUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+            args: Prisma.notificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$notificationPayload>
           }
           aggregate: {
             args: Prisma.NotificationAggregateArgs<ExtArgs>
             result: $Utils.Optional<AggregateNotification>
           }
           groupBy: {
-            args: Prisma.NotificationGroupByArgs<ExtArgs>
+            args: Prisma.notificationGroupByArgs<ExtArgs>
             result: $Utils.Optional<NotificationGroupByOutputType>[]
           }
           count: {
-            args: Prisma.NotificationCountArgs<ExtArgs>
+            args: Prisma.notificationCountArgs<ExtArgs>
             result: $Utils.Optional<NotificationCountAggregateOutputType> | number
+          }
+        }
+      }
+      user: {
+        payload: Prisma.$userPayload<ExtArgs>
+        fields: Prisma.userFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.userFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.userFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload>
+          }
+          findFirst: {
+            args: Prisma.userFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.userFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload>
+          }
+          findMany: {
+            args: Prisma.userFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload>[]
+          }
+          create: {
+            args: Prisma.userCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload>
+          }
+          createMany: {
+            args: Prisma.userCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.userDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload>
+          }
+          update: {
+            args: Prisma.userUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload>
+          }
+          deleteMany: {
+            args: Prisma.userDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.userUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.userUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$userPayload>
+          }
+          aggregate: {
+            args: Prisma.UserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUser>
+          }
+          groupBy: {
+            args: Prisma.userGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.userCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      invitation: {
+        payload: Prisma.$invitationPayload<ExtArgs>
+        fields: Prisma.invitationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.invitationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.invitationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload>
+          }
+          findFirst: {
+            args: Prisma.invitationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.invitationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload>
+          }
+          findMany: {
+            args: Prisma.invitationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload>[]
+          }
+          create: {
+            args: Prisma.invitationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload>
+          }
+          createMany: {
+            args: Prisma.invitationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.invitationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload>
+          }
+          update: {
+            args: Prisma.invitationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload>
+          }
+          deleteMany: {
+            args: Prisma.invitationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.invitationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.invitationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$invitationPayload>
+          }
+          aggregate: {
+            args: Prisma.InvitationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvitation>
+          }
+          groupBy: {
+            args: Prisma.invitationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvitationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.invitationCountArgs<ExtArgs>
+            result: $Utils.Optional<InvitationCountAggregateOutputType> | number
           }
         }
       }
@@ -986,9 +1093,10 @@ export namespace Prisma {
     comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
-    user?: UserOmit
-    game?: GameOmit
-    notification?: NotificationOmit
+    game?: gameOmit
+    notification?: notificationOmit
+    user?: userOmit
+    invitation?: invitationOmit
   }
 
   /* Types for Logging */
@@ -1065,64 +1173,17 @@ export namespace Prisma {
 
 
   /**
-   * Count Type UserCountOutputType
-   */
-
-  export type UserCountOutputType = {
-    hostedGames: number
-    receivedNotifications: number
-    sentNotifications: number
-  }
-
-  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    hostedGames?: boolean | UserCountOutputTypeCountHostedGamesArgs
-    receivedNotifications?: boolean | UserCountOutputTypeCountReceivedNotificationsArgs
-    sentNotifications?: boolean | UserCountOutputTypeCountSentNotificationsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserCountOutputType
-     */
-    select?: UserCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountHostedGamesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GameWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountReceivedNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountSentNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
-  }
-
-
-  /**
    * Count Type GameCountOutputType
    */
 
   export type GameCountOutputType = {
-    notifications: number
+    notification: number
+    invitation: number
   }
 
   export type GameCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    notifications?: boolean | GameCountOutputTypeCountNotificationsArgs
+    notification?: boolean | GameCountOutputTypeCountNotificationArgs
+    invitation?: boolean | GameCountOutputTypeCountInvitationArgs
   }
 
   // Custom InputTypes
@@ -1139,8 +1200,73 @@ export namespace Prisma {
   /**
    * GameCountOutputType without action
    */
-  export type GameCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
+  export type GameCountOutputTypeCountNotificationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: notificationWhereInput
+  }
+
+  /**
+   * GameCountOutputType without action
+   */
+  export type GameCountOutputTypeCountInvitationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: invitationWhereInput
+  }
+
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    hostedGame: number
+    invitation: number
+    notification_notification_recipientIdTouser: number
+    notification_notification_senderIdTouser: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    hostedGame?: boolean | UserCountOutputTypeCountHostedGameArgs
+    invitation?: boolean | UserCountOutputTypeCountInvitationArgs
+    notification_notification_recipientIdTouser?: boolean | UserCountOutputTypeCountNotification_notification_recipientIdTouserArgs
+    notification_notification_senderIdTouser?: boolean | UserCountOutputTypeCountNotification_notification_senderIdTouserArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHostedGameArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: gameWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInvitationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: invitationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotification_notification_recipientIdTouserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: notificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotification_notification_senderIdTouserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: notificationWhereInput
   }
 
 
@@ -1149,7 +1275,2188 @@ export namespace Prisma {
    */
 
   /**
-   * Model User
+   * Model game
+   */
+
+  export type AggregateGame = {
+    _count: GameCountAggregateOutputType | null
+    _avg: GameAvgAggregateOutputType | null
+    _sum: GameSumAggregateOutputType | null
+    _min: GameMinAggregateOutputType | null
+    _max: GameMaxAggregateOutputType | null
+  }
+
+  export type GameAvgAggregateOutputType = {
+    id: number | null
+    hostId: number | null
+    minReliabilityScore: number | null
+  }
+
+  export type GameSumAggregateOutputType = {
+    id: number | null
+    hostId: number | null
+    minReliabilityScore: number | null
+  }
+
+  export type GameMinAggregateOutputType = {
+    id: number | null
+    hostId: number | null
+    name: string | null
+    location: string | null
+    startTime: Date | null
+    endTime: Date | null
+    feeType: $Enums.game_feeType | null
+    minReliabilityScore: number | null
+    status: $Enums.game_status | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GameMaxAggregateOutputType = {
+    id: number | null
+    hostId: number | null
+    name: string | null
+    location: string | null
+    startTime: Date | null
+    endTime: Date | null
+    feeType: $Enums.game_feeType | null
+    minReliabilityScore: number | null
+    status: $Enums.game_status | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GameCountAggregateOutputType = {
+    id: number
+    hostId: number
+    name: number
+    location: number
+    startTime: number
+    endTime: number
+    feeType: number
+    minReliabilityScore: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GameAvgAggregateInputType = {
+    id?: true
+    hostId?: true
+    minReliabilityScore?: true
+  }
+
+  export type GameSumAggregateInputType = {
+    id?: true
+    hostId?: true
+    minReliabilityScore?: true
+  }
+
+  export type GameMinAggregateInputType = {
+    id?: true
+    hostId?: true
+    name?: true
+    location?: true
+    startTime?: true
+    endTime?: true
+    feeType?: true
+    minReliabilityScore?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GameMaxAggregateInputType = {
+    id?: true
+    hostId?: true
+    name?: true
+    location?: true
+    startTime?: true
+    endTime?: true
+    feeType?: true
+    minReliabilityScore?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GameCountAggregateInputType = {
+    id?: true
+    hostId?: true
+    name?: true
+    location?: true
+    startTime?: true
+    endTime?: true
+    feeType?: true
+    minReliabilityScore?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GameAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which game to aggregate.
+     */
+    where?: gameWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of games to fetch.
+     */
+    orderBy?: gameOrderByWithRelationInput | gameOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: gameWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` games from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` games.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned games
+    **/
+    _count?: true | GameCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GameAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GameSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GameMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GameMaxAggregateInputType
+  }
+
+  export type GetGameAggregateType<T extends GameAggregateArgs> = {
+        [P in keyof T & keyof AggregateGame]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGame[P]>
+      : GetScalarType<T[P], AggregateGame[P]>
+  }
+
+
+
+
+  export type gameGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: gameWhereInput
+    orderBy?: gameOrderByWithAggregationInput | gameOrderByWithAggregationInput[]
+    by: GameScalarFieldEnum[] | GameScalarFieldEnum
+    having?: gameScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GameCountAggregateInputType | true
+    _avg?: GameAvgAggregateInputType
+    _sum?: GameSumAggregateInputType
+    _min?: GameMinAggregateInputType
+    _max?: GameMaxAggregateInputType
+  }
+
+  export type GameGroupByOutputType = {
+    id: number
+    hostId: number
+    name: string
+    location: string
+    startTime: Date
+    endTime: Date
+    feeType: $Enums.game_feeType
+    minReliabilityScore: number
+    status: $Enums.game_status
+    createdAt: Date
+    updatedAt: Date
+    _count: GameCountAggregateOutputType | null
+    _avg: GameAvgAggregateOutputType | null
+    _sum: GameSumAggregateOutputType | null
+    _min: GameMinAggregateOutputType | null
+    _max: GameMaxAggregateOutputType | null
+  }
+
+  type GetGameGroupByPayload<T extends gameGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GameGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GameGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GameGroupByOutputType[P]>
+            : GetScalarType<T[P], GameGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type gameSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hostId?: boolean
+    name?: boolean
+    location?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    feeType?: boolean
+    minReliabilityScore?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    host?: boolean | userDefaultArgs<ExtArgs>
+    notification?: boolean | game$notificationArgs<ExtArgs>
+    invitation?: boolean | game$invitationArgs<ExtArgs>
+    _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["game"]>
+
+
+
+  export type gameSelectScalar = {
+    id?: boolean
+    hostId?: boolean
+    name?: boolean
+    location?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    feeType?: boolean
+    minReliabilityScore?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type gameOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hostId" | "name" | "location" | "startTime" | "endTime" | "feeType" | "minReliabilityScore" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["game"]>
+  export type gameInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    host?: boolean | userDefaultArgs<ExtArgs>
+    notification?: boolean | game$notificationArgs<ExtArgs>
+    invitation?: boolean | game$invitationArgs<ExtArgs>
+    _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $gamePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "game"
+    objects: {
+      host: Prisma.$userPayload<ExtArgs>
+      notification: Prisma.$notificationPayload<ExtArgs>[]
+      invitation: Prisma.$invitationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      hostId: number
+      name: string
+      location: string
+      startTime: Date
+      endTime: Date
+      feeType: $Enums.game_feeType
+      minReliabilityScore: number
+      status: $Enums.game_status
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["game"]>
+    composites: {}
+  }
+
+  type gameGetPayload<S extends boolean | null | undefined | gameDefaultArgs> = $Result.GetResult<Prisma.$gamePayload, S>
+
+  type gameCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<gameFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GameCountAggregateInputType | true
+    }
+
+  export interface gameDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['game'], meta: { name: 'game' } }
+    /**
+     * Find zero or one Game that matches the filter.
+     * @param {gameFindUniqueArgs} args - Arguments to find a Game
+     * @example
+     * // Get one Game
+     * const game = await prisma.game.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends gameFindUniqueArgs>(args: SelectSubset<T, gameFindUniqueArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Game that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {gameFindUniqueOrThrowArgs} args - Arguments to find a Game
+     * @example
+     * // Get one Game
+     * const game = await prisma.game.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends gameFindUniqueOrThrowArgs>(args: SelectSubset<T, gameFindUniqueOrThrowArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Game that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gameFindFirstArgs} args - Arguments to find a Game
+     * @example
+     * // Get one Game
+     * const game = await prisma.game.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends gameFindFirstArgs>(args?: SelectSubset<T, gameFindFirstArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Game that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gameFindFirstOrThrowArgs} args - Arguments to find a Game
+     * @example
+     * // Get one Game
+     * const game = await prisma.game.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends gameFindFirstOrThrowArgs>(args?: SelectSubset<T, gameFindFirstOrThrowArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Games that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gameFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Games
+     * const games = await prisma.game.findMany()
+     * 
+     * // Get first 10 Games
+     * const games = await prisma.game.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gameWithIdOnly = await prisma.game.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends gameFindManyArgs>(args?: SelectSubset<T, gameFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Game.
+     * @param {gameCreateArgs} args - Arguments to create a Game.
+     * @example
+     * // Create one Game
+     * const Game = await prisma.game.create({
+     *   data: {
+     *     // ... data to create a Game
+     *   }
+     * })
+     * 
+     */
+    create<T extends gameCreateArgs>(args: SelectSubset<T, gameCreateArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Games.
+     * @param {gameCreateManyArgs} args - Arguments to create many Games.
+     * @example
+     * // Create many Games
+     * const game = await prisma.game.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends gameCreateManyArgs>(args?: SelectSubset<T, gameCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Game.
+     * @param {gameDeleteArgs} args - Arguments to delete one Game.
+     * @example
+     * // Delete one Game
+     * const Game = await prisma.game.delete({
+     *   where: {
+     *     // ... filter to delete one Game
+     *   }
+     * })
+     * 
+     */
+    delete<T extends gameDeleteArgs>(args: SelectSubset<T, gameDeleteArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Game.
+     * @param {gameUpdateArgs} args - Arguments to update one Game.
+     * @example
+     * // Update one Game
+     * const game = await prisma.game.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends gameUpdateArgs>(args: SelectSubset<T, gameUpdateArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Games.
+     * @param {gameDeleteManyArgs} args - Arguments to filter Games to delete.
+     * @example
+     * // Delete a few Games
+     * const { count } = await prisma.game.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends gameDeleteManyArgs>(args?: SelectSubset<T, gameDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Games.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gameUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Games
+     * const game = await prisma.game.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends gameUpdateManyArgs>(args: SelectSubset<T, gameUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Game.
+     * @param {gameUpsertArgs} args - Arguments to update or create a Game.
+     * @example
+     * // Update or create a Game
+     * const game = await prisma.game.upsert({
+     *   create: {
+     *     // ... data to create a Game
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Game we want to update
+     *   }
+     * })
+     */
+    upsert<T extends gameUpsertArgs>(args: SelectSubset<T, gameUpsertArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Games.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gameCountArgs} args - Arguments to filter Games to count.
+     * @example
+     * // Count the number of Games
+     * const count = await prisma.game.count({
+     *   where: {
+     *     // ... the filter for the Games we want to count
+     *   }
+     * })
+    **/
+    count<T extends gameCountArgs>(
+      args?: Subset<T, gameCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GameCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Game.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GameAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GameAggregateArgs>(args: Subset<T, GameAggregateArgs>): Prisma.PrismaPromise<GetGameAggregateType<T>>
+
+    /**
+     * Group by Game.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gameGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends gameGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: gameGroupByArgs['orderBy'] }
+        : { orderBy?: gameGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, gameGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGameGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the game model
+   */
+  readonly fields: gameFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for game.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__gameClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    host<T extends userDefaultArgs<ExtArgs> = {}>(args?: Subset<T, userDefaultArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    notification<T extends game$notificationArgs<ExtArgs> = {}>(args?: Subset<T, game$notificationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invitation<T extends game$invitationArgs<ExtArgs> = {}>(args?: Subset<T, game$invitationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the game model
+   */
+  interface gameFieldRefs {
+    readonly id: FieldRef<"game", 'Int'>
+    readonly hostId: FieldRef<"game", 'Int'>
+    readonly name: FieldRef<"game", 'String'>
+    readonly location: FieldRef<"game", 'String'>
+    readonly startTime: FieldRef<"game", 'DateTime'>
+    readonly endTime: FieldRef<"game", 'DateTime'>
+    readonly feeType: FieldRef<"game", 'game_feeType'>
+    readonly minReliabilityScore: FieldRef<"game", 'Int'>
+    readonly status: FieldRef<"game", 'game_status'>
+    readonly createdAt: FieldRef<"game", 'DateTime'>
+    readonly updatedAt: FieldRef<"game", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * game findUnique
+   */
+  export type gameFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * Filter, which game to fetch.
+     */
+    where: gameWhereUniqueInput
+  }
+
+  /**
+   * game findUniqueOrThrow
+   */
+  export type gameFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * Filter, which game to fetch.
+     */
+    where: gameWhereUniqueInput
+  }
+
+  /**
+   * game findFirst
+   */
+  export type gameFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * Filter, which game to fetch.
+     */
+    where?: gameWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of games to fetch.
+     */
+    orderBy?: gameOrderByWithRelationInput | gameOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for games.
+     */
+    cursor?: gameWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` games from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` games.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of games.
+     */
+    distinct?: GameScalarFieldEnum | GameScalarFieldEnum[]
+  }
+
+  /**
+   * game findFirstOrThrow
+   */
+  export type gameFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * Filter, which game to fetch.
+     */
+    where?: gameWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of games to fetch.
+     */
+    orderBy?: gameOrderByWithRelationInput | gameOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for games.
+     */
+    cursor?: gameWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` games from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` games.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of games.
+     */
+    distinct?: GameScalarFieldEnum | GameScalarFieldEnum[]
+  }
+
+  /**
+   * game findMany
+   */
+  export type gameFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * Filter, which games to fetch.
+     */
+    where?: gameWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of games to fetch.
+     */
+    orderBy?: gameOrderByWithRelationInput | gameOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing games.
+     */
+    cursor?: gameWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` games from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` games.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of games.
+     */
+    distinct?: GameScalarFieldEnum | GameScalarFieldEnum[]
+  }
+
+  /**
+   * game create
+   */
+  export type gameCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * The data needed to create a game.
+     */
+    data: XOR<gameCreateInput, gameUncheckedCreateInput>
+  }
+
+  /**
+   * game createMany
+   */
+  export type gameCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many games.
+     */
+    data: gameCreateManyInput | gameCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * game update
+   */
+  export type gameUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * The data needed to update a game.
+     */
+    data: XOR<gameUpdateInput, gameUncheckedUpdateInput>
+    /**
+     * Choose, which game to update.
+     */
+    where: gameWhereUniqueInput
+  }
+
+  /**
+   * game updateMany
+   */
+  export type gameUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update games.
+     */
+    data: XOR<gameUpdateManyMutationInput, gameUncheckedUpdateManyInput>
+    /**
+     * Filter which games to update
+     */
+    where?: gameWhereInput
+    /**
+     * Limit how many games to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * game upsert
+   */
+  export type gameUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * The filter to search for the game to update in case it exists.
+     */
+    where: gameWhereUniqueInput
+    /**
+     * In case the game found by the `where` argument doesn't exist, create a new game with this data.
+     */
+    create: XOR<gameCreateInput, gameUncheckedCreateInput>
+    /**
+     * In case the game was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<gameUpdateInput, gameUncheckedUpdateInput>
+  }
+
+  /**
+   * game delete
+   */
+  export type gameDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    /**
+     * Filter which game to delete.
+     */
+    where: gameWhereUniqueInput
+  }
+
+  /**
+   * game deleteMany
+   */
+  export type gameDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which games to delete
+     */
+    where?: gameWhereInput
+    /**
+     * Limit how many games to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * game.notification
+   */
+  export type game$notificationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    where?: notificationWhereInput
+    orderBy?: notificationOrderByWithRelationInput | notificationOrderByWithRelationInput[]
+    cursor?: notificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * game.invitation
+   */
+  export type game$invitationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the invitation
+     */
+    select?: invitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the invitation
+     */
+    omit?: invitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invitationInclude<ExtArgs> | null
+    where?: invitationWhereInput
+    orderBy?: invitationOrderByWithRelationInput | invitationOrderByWithRelationInput[]
+    cursor?: invitationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
+  }
+
+  /**
+   * game without action
+   */
+  export type gameDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model notification
+   */
+
+  export type AggregateNotification = {
+    _count: NotificationCountAggregateOutputType | null
+    _avg: NotificationAvgAggregateOutputType | null
+    _sum: NotificationSumAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  export type NotificationAvgAggregateOutputType = {
+    id: number | null
+    recipientId: number | null
+    senderId: number | null
+    gameId: number | null
+  }
+
+  export type NotificationSumAggregateOutputType = {
+    id: number | null
+    recipientId: number | null
+    senderId: number | null
+    gameId: number | null
+  }
+
+  export type NotificationMinAggregateOutputType = {
+    id: number | null
+    recipientId: number | null
+    senderId: number | null
+    type: $Enums.notification_type | null
+    title: string | null
+    message: string | null
+    isRead: boolean | null
+    gameId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NotificationMaxAggregateOutputType = {
+    id: number | null
+    recipientId: number | null
+    senderId: number | null
+    type: $Enums.notification_type | null
+    title: string | null
+    message: string | null
+    isRead: boolean | null
+    gameId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NotificationCountAggregateOutputType = {
+    id: number
+    recipientId: number
+    senderId: number
+    type: number
+    title: number
+    message: number
+    isRead: number
+    gameId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type NotificationAvgAggregateInputType = {
+    id?: true
+    recipientId?: true
+    senderId?: true
+    gameId?: true
+  }
+
+  export type NotificationSumAggregateInputType = {
+    id?: true
+    recipientId?: true
+    senderId?: true
+    gameId?: true
+  }
+
+  export type NotificationMinAggregateInputType = {
+    id?: true
+    recipientId?: true
+    senderId?: true
+    type?: true
+    title?: true
+    message?: true
+    isRead?: true
+    gameId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NotificationMaxAggregateInputType = {
+    id?: true
+    recipientId?: true
+    senderId?: true
+    type?: true
+    title?: true
+    message?: true
+    isRead?: true
+    gameId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NotificationCountAggregateInputType = {
+    id?: true
+    recipientId?: true
+    senderId?: true
+    type?: true
+    title?: true
+    message?: true
+    isRead?: true
+    gameId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which notification to aggregate.
+     */
+    where?: notificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of notifications to fetch.
+     */
+    orderBy?: notificationOrderByWithRelationInput | notificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: notificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned notifications
+    **/
+    _count?: true | NotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NotificationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NotificationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotification[P]>
+      : GetScalarType<T[P], AggregateNotification[P]>
+  }
+
+
+
+
+  export type notificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: notificationWhereInput
+    orderBy?: notificationOrderByWithAggregationInput | notificationOrderByWithAggregationInput[]
+    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
+    having?: notificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationCountAggregateInputType | true
+    _avg?: NotificationAvgAggregateInputType
+    _sum?: NotificationSumAggregateInputType
+    _min?: NotificationMinAggregateInputType
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type NotificationGroupByOutputType = {
+    id: number
+    recipientId: number
+    senderId: number | null
+    type: $Enums.notification_type
+    title: string
+    message: string
+    isRead: boolean
+    gameId: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: NotificationCountAggregateOutputType | null
+    _avg: NotificationAvgAggregateOutputType | null
+    _sum: NotificationSumAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  type GetNotificationGroupByPayload<T extends notificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type notificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recipientId?: boolean
+    senderId?: boolean
+    type?: boolean
+    title?: boolean
+    message?: boolean
+    isRead?: boolean
+    gameId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    game?: boolean | notification$gameArgs<ExtArgs>
+    user_notification_recipientIdTouser?: boolean | userDefaultArgs<ExtArgs>
+    user_notification_senderIdTouser?: boolean | notification$user_notification_senderIdTouserArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+
+
+  export type notificationSelectScalar = {
+    id?: boolean
+    recipientId?: boolean
+    senderId?: boolean
+    type?: boolean
+    title?: boolean
+    message?: boolean
+    isRead?: boolean
+    gameId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type notificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "recipientId" | "senderId" | "type" | "title" | "message" | "isRead" | "gameId" | "createdAt" | "updatedAt", ExtArgs["result"]["notification"]>
+  export type notificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | notification$gameArgs<ExtArgs>
+    user_notification_recipientIdTouser?: boolean | userDefaultArgs<ExtArgs>
+    user_notification_senderIdTouser?: boolean | notification$user_notification_senderIdTouserArgs<ExtArgs>
+  }
+
+  export type $notificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "notification"
+    objects: {
+      game: Prisma.$gamePayload<ExtArgs> | null
+      user_notification_recipientIdTouser: Prisma.$userPayload<ExtArgs>
+      user_notification_senderIdTouser: Prisma.$userPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      recipientId: number
+      senderId: number | null
+      type: $Enums.notification_type
+      title: string
+      message: string
+      isRead: boolean
+      gameId: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["notification"]>
+    composites: {}
+  }
+
+  type notificationGetPayload<S extends boolean | null | undefined | notificationDefaultArgs> = $Result.GetResult<Prisma.$notificationPayload, S>
+
+  type notificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<notificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationCountAggregateInputType | true
+    }
+
+  export interface notificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['notification'], meta: { name: 'notification' } }
+    /**
+     * Find zero or one Notification that matches the filter.
+     * @param {notificationFindUniqueArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends notificationFindUniqueArgs>(args: SelectSubset<T, notificationFindUniqueArgs<ExtArgs>>): Prisma__notificationClient<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {notificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends notificationFindUniqueOrThrowArgs>(args: SelectSubset<T, notificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__notificationClient<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notificationFindFirstArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends notificationFindFirstArgs>(args?: SelectSubset<T, notificationFindFirstArgs<ExtArgs>>): Prisma__notificationClient<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends notificationFindFirstOrThrowArgs>(args?: SelectSubset<T, notificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__notificationClient<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notification.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends notificationFindManyArgs>(args?: SelectSubset<T, notificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notification.
+     * @param {notificationCreateArgs} args - Arguments to create a Notification.
+     * @example
+     * // Create one Notification
+     * const Notification = await prisma.notification.create({
+     *   data: {
+     *     // ... data to create a Notification
+     *   }
+     * })
+     * 
+     */
+    create<T extends notificationCreateArgs>(args: SelectSubset<T, notificationCreateArgs<ExtArgs>>): Prisma__notificationClient<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {notificationCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends notificationCreateManyArgs>(args?: SelectSubset<T, notificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Notification.
+     * @param {notificationDeleteArgs} args - Arguments to delete one Notification.
+     * @example
+     * // Delete one Notification
+     * const Notification = await prisma.notification.delete({
+     *   where: {
+     *     // ... filter to delete one Notification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends notificationDeleteArgs>(args: SelectSubset<T, notificationDeleteArgs<ExtArgs>>): Prisma__notificationClient<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notification.
+     * @param {notificationUpdateArgs} args - Arguments to update one Notification.
+     * @example
+     * // Update one Notification
+     * const notification = await prisma.notification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends notificationUpdateArgs>(args: SelectSubset<T, notificationUpdateArgs<ExtArgs>>): Prisma__notificationClient<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {notificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends notificationDeleteManyArgs>(args?: SelectSubset<T, notificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends notificationUpdateManyArgs>(args: SelectSubset<T, notificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Notification.
+     * @param {notificationUpsertArgs} args - Arguments to update or create a Notification.
+     * @example
+     * // Update or create a Notification
+     * const notification = await prisma.notification.upsert({
+     *   create: {
+     *     // ... data to create a Notification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends notificationUpsertArgs>(args: SelectSubset<T, notificationUpsertArgs<ExtArgs>>): Prisma__notificationClient<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notificationCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notification.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends notificationCountArgs>(
+      args?: Subset<T, notificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+
+    /**
+     * Group by Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {notificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends notificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: notificationGroupByArgs['orderBy'] }
+        : { orderBy?: notificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, notificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the notification model
+   */
+  readonly fields: notificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for notification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__notificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    game<T extends notification$gameArgs<ExtArgs> = {}>(args?: Subset<T, notification$gameArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user_notification_recipientIdTouser<T extends userDefaultArgs<ExtArgs> = {}>(args?: Subset<T, userDefaultArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user_notification_senderIdTouser<T extends notification$user_notification_senderIdTouserArgs<ExtArgs> = {}>(args?: Subset<T, notification$user_notification_senderIdTouserArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the notification model
+   */
+  interface notificationFieldRefs {
+    readonly id: FieldRef<"notification", 'Int'>
+    readonly recipientId: FieldRef<"notification", 'Int'>
+    readonly senderId: FieldRef<"notification", 'Int'>
+    readonly type: FieldRef<"notification", 'notification_type'>
+    readonly title: FieldRef<"notification", 'String'>
+    readonly message: FieldRef<"notification", 'String'>
+    readonly isRead: FieldRef<"notification", 'Boolean'>
+    readonly gameId: FieldRef<"notification", 'Int'>
+    readonly createdAt: FieldRef<"notification", 'DateTime'>
+    readonly updatedAt: FieldRef<"notification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * notification findUnique
+   */
+  export type notificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * Filter, which notification to fetch.
+     */
+    where: notificationWhereUniqueInput
+  }
+
+  /**
+   * notification findUniqueOrThrow
+   */
+  export type notificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * Filter, which notification to fetch.
+     */
+    where: notificationWhereUniqueInput
+  }
+
+  /**
+   * notification findFirst
+   */
+  export type notificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * Filter, which notification to fetch.
+     */
+    where?: notificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of notifications to fetch.
+     */
+    orderBy?: notificationOrderByWithRelationInput | notificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for notifications.
+     */
+    cursor?: notificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * notification findFirstOrThrow
+   */
+  export type notificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * Filter, which notification to fetch.
+     */
+    where?: notificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of notifications to fetch.
+     */
+    orderBy?: notificationOrderByWithRelationInput | notificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for notifications.
+     */
+    cursor?: notificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * notification findMany
+   */
+  export type notificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * Filter, which notifications to fetch.
+     */
+    where?: notificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of notifications to fetch.
+     */
+    orderBy?: notificationOrderByWithRelationInput | notificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing notifications.
+     */
+    cursor?: notificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * notification create
+   */
+  export type notificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a notification.
+     */
+    data: XOR<notificationCreateInput, notificationUncheckedCreateInput>
+  }
+
+  /**
+   * notification createMany
+   */
+  export type notificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many notifications.
+     */
+    data: notificationCreateManyInput | notificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * notification update
+   */
+  export type notificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a notification.
+     */
+    data: XOR<notificationUpdateInput, notificationUncheckedUpdateInput>
+    /**
+     * Choose, which notification to update.
+     */
+    where: notificationWhereUniqueInput
+  }
+
+  /**
+   * notification updateMany
+   */
+  export type notificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update notifications.
+     */
+    data: XOR<notificationUpdateManyMutationInput, notificationUncheckedUpdateManyInput>
+    /**
+     * Filter which notifications to update
+     */
+    where?: notificationWhereInput
+    /**
+     * Limit how many notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * notification upsert
+   */
+  export type notificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the notification to update in case it exists.
+     */
+    where: notificationWhereUniqueInput
+    /**
+     * In case the notification found by the `where` argument doesn't exist, create a new notification with this data.
+     */
+    create: XOR<notificationCreateInput, notificationUncheckedCreateInput>
+    /**
+     * In case the notification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<notificationUpdateInput, notificationUncheckedUpdateInput>
+  }
+
+  /**
+   * notification delete
+   */
+  export type notificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    /**
+     * Filter which notification to delete.
+     */
+    where: notificationWhereUniqueInput
+  }
+
+  /**
+   * notification deleteMany
+   */
+  export type notificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which notifications to delete
+     */
+    where?: notificationWhereInput
+    /**
+     * Limit how many notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * notification.game
+   */
+  export type notification$gameArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the game
+     */
+    select?: gameSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the game
+     */
+    omit?: gameOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: gameInclude<ExtArgs> | null
+    where?: gameWhereInput
+  }
+
+  /**
+   * notification.user_notification_senderIdTouser
+   */
+  export type notification$user_notification_senderIdTouserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the user
+     */
+    select?: userSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the user
+     */
+    omit?: userOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: userInclude<ExtArgs> | null
+    where?: userWhereInput
+  }
+
+  /**
+   * notification without action
+   */
+  export type notificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model user
    */
 
   export type AggregateUser = {
@@ -1245,37 +3552,37 @@ export namespace Prisma {
 
   export type UserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which User to aggregate.
+     * Filter which user to aggregate.
      */
-    where?: UserWhereInput
+    where?: userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Users to fetch.
+     * Determine the order of users to fetch.
      */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    orderBy?: userOrderByWithRelationInput | userOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: UserWhereUniqueInput
+    cursor?: userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Users from the position of the cursor.
+     * Take `±n` users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Users.
+     * Skip the first `n` users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Users
+     * Count returned users
     **/
     _count?: true | UserCountAggregateInputType
     /**
@@ -1315,11 +3622,11 @@ export namespace Prisma {
 
 
 
-  export type UserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithAggregationInput | UserOrderByWithAggregationInput[]
+  export type userGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: userWhereInput
+    orderBy?: userOrderByWithAggregationInput | userOrderByWithAggregationInput[]
     by: UserScalarFieldEnum[] | UserScalarFieldEnum
-    having?: UserScalarWhereWithAggregatesInput
+    having?: userScalarWhereWithAggregatesInput
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
@@ -1344,7 +3651,7 @@ export namespace Prisma {
     _max: UserMaxAggregateOutputType | null
   }
 
-  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+  type GetUserGroupByPayload<T extends userGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickEnumerable<UserGroupByOutputType, T['by']> &
         {
@@ -1358,7 +3665,7 @@ export namespace Prisma {
     >
 
 
-  export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type userSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     email?: boolean
@@ -1366,15 +3673,16 @@ export namespace Prisma {
     reliabilityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    hostedGames?: boolean | User$hostedGamesArgs<ExtArgs>
-    receivedNotifications?: boolean | User$receivedNotificationsArgs<ExtArgs>
-    sentNotifications?: boolean | User$sentNotificationsArgs<ExtArgs>
+    hostedGame?: boolean | user$hostedGameArgs<ExtArgs>
+    invitation?: boolean | user$invitationArgs<ExtArgs>
+    notification_notification_recipientIdTouser?: boolean | user$notification_notification_recipientIdTouserArgs<ExtArgs>
+    notification_notification_senderIdTouser?: boolean | user$notification_notification_senderIdTouserArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
 
 
-  export type UserSelectScalar = {
+  export type userSelectScalar = {
     id?: boolean
     name?: boolean
     email?: boolean
@@ -1384,20 +3692,22 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "reliabilityScore" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
-  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    hostedGames?: boolean | User$hostedGamesArgs<ExtArgs>
-    receivedNotifications?: boolean | User$receivedNotificationsArgs<ExtArgs>
-    sentNotifications?: boolean | User$sentNotificationsArgs<ExtArgs>
+  export type userOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "reliabilityScore" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type userInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    hostedGame?: boolean | user$hostedGameArgs<ExtArgs>
+    invitation?: boolean | user$invitationArgs<ExtArgs>
+    notification_notification_recipientIdTouser?: boolean | user$notification_notification_recipientIdTouserArgs<ExtArgs>
+    notification_notification_senderIdTouser?: boolean | user$notification_notification_senderIdTouserArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
-  export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "User"
+  export type $userPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "user"
     objects: {
-      hostedGames: Prisma.$GamePayload<ExtArgs>[]
-      receivedNotifications: Prisma.$NotificationPayload<ExtArgs>[]
-      sentNotifications: Prisma.$NotificationPayload<ExtArgs>[]
+      hostedGame: Prisma.$gamePayload<ExtArgs>[]
+      invitation: Prisma.$invitationPayload<ExtArgs>[]
+      notification_notification_recipientIdTouser: Prisma.$notificationPayload<ExtArgs>[]
+      notification_notification_senderIdTouser: Prisma.$notificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1411,18 +3721,18 @@ export namespace Prisma {
     composites: {}
   }
 
-  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
+  type userGetPayload<S extends boolean | null | undefined | userDefaultArgs> = $Result.GetResult<Prisma.$userPayload, S>
 
-  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  type userCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<userFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: UserCountAggregateInputType | true
     }
 
-  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
+  export interface userDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['user'], meta: { name: 'user' } }
     /**
      * Find zero or one User that matches the filter.
-     * @param {UserFindUniqueArgs} args - Arguments to find a User
+     * @param {userFindUniqueArgs} args - Arguments to find a User
      * @example
      * // Get one User
      * const user = await prisma.user.findUnique({
@@ -1431,12 +3741,12 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends userFindUniqueArgs>(args: SelectSubset<T, userFindUniqueArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one User that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
+     * @param {userFindUniqueOrThrowArgs} args - Arguments to find a User
      * @example
      * // Get one User
      * const user = await prisma.user.findUniqueOrThrow({
@@ -1445,13 +3755,13 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends userFindUniqueOrThrowArgs>(args: SelectSubset<T, userFindUniqueOrThrowArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first User that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstArgs} args - Arguments to find a User
+     * @param {userFindFirstArgs} args - Arguments to find a User
      * @example
      * // Get one User
      * const user = await prisma.user.findFirst({
@@ -1460,14 +3770,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends userFindFirstArgs>(args?: SelectSubset<T, userFindFirstArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first User that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
+     * @param {userFindFirstOrThrowArgs} args - Arguments to find a User
      * @example
      * // Get one User
      * const user = await prisma.user.findFirstOrThrow({
@@ -1476,13 +3786,13 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends userFindFirstOrThrowArgs>(args?: SelectSubset<T, userFindFirstOrThrowArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Users that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {userFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all Users
      * const users = await prisma.user.findMany()
@@ -1494,11 +3804,11 @@ export namespace Prisma {
      * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends userFindManyArgs>(args?: SelectSubset<T, userFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a User.
-     * @param {UserCreateArgs} args - Arguments to create a User.
+     * @param {userCreateArgs} args - Arguments to create a User.
      * @example
      * // Create one User
      * const User = await prisma.user.create({
@@ -1508,11 +3818,11 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends userCreateArgs>(args: SelectSubset<T, userCreateArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Users.
-     * @param {UserCreateManyArgs} args - Arguments to create many Users.
+     * @param {userCreateManyArgs} args - Arguments to create many Users.
      * @example
      * // Create many Users
      * const user = await prisma.user.createMany({
@@ -1522,11 +3832,11 @@ export namespace Prisma {
      * })
      *     
      */
-    createMany<T extends UserCreateManyArgs>(args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends userCreateManyArgs>(args?: SelectSubset<T, userCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a User.
-     * @param {UserDeleteArgs} args - Arguments to delete one User.
+     * @param {userDeleteArgs} args - Arguments to delete one User.
      * @example
      * // Delete one User
      * const User = await prisma.user.delete({
@@ -1536,11 +3846,11 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends userDeleteArgs>(args: SelectSubset<T, userDeleteArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one User.
-     * @param {UserUpdateArgs} args - Arguments to update one User.
+     * @param {userUpdateArgs} args - Arguments to update one User.
      * @example
      * // Update one User
      * const user = await prisma.user.update({
@@ -1553,11 +3863,11 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends userUpdateArgs>(args: SelectSubset<T, userUpdateArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Users.
-     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
+     * @param {userDeleteManyArgs} args - Arguments to filter Users to delete.
      * @example
      * // Delete a few Users
      * const { count } = await prisma.user.deleteMany({
@@ -1567,13 +3877,13 @@ export namespace Prisma {
      * })
      * 
      */
-    deleteMany<T extends UserDeleteManyArgs>(args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends userDeleteManyArgs>(args?: SelectSubset<T, userDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Users.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {userUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
      * // Update many Users
      * const user = await prisma.user.updateMany({
@@ -1586,11 +3896,11 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends userUpdateManyArgs>(args: SelectSubset<T, userUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one User.
-     * @param {UserUpsertArgs} args - Arguments to update or create a User.
+     * @param {userUpsertArgs} args - Arguments to update or create a User.
      * @example
      * // Update or create a User
      * const user = await prisma.user.upsert({
@@ -1605,14 +3915,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends userUpsertArgs>(args: SelectSubset<T, userUpsertArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
      * Count the number of Users.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserCountArgs} args - Arguments to filter Users to count.
+     * @param {userCountArgs} args - Arguments to filter Users to count.
      * @example
      * // Count the number of Users
      * const count = await prisma.user.count({
@@ -1621,8 +3931,8 @@ export namespace Prisma {
      *   }
      * })
     **/
-    count<T extends UserCountArgs>(
-      args?: Subset<T, UserCountArgs>,
+    count<T extends userCountArgs>(
+      args?: Subset<T, userCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
@@ -1661,7 +3971,7 @@ export namespace Prisma {
      * Group by User.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserGroupByArgs} args - Group by arguments.
+     * @param {userGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -1676,14 +3986,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends UserGroupByArgs,
+      T extends userGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserGroupByArgs['orderBy'] }
-        : { orderBy?: UserGroupByArgs['orderBy'] },
+        ? { orderBy: userGroupByArgs['orderBy'] }
+        : { orderBy?: userGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -1732,24 +4042,25 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, userGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the User model
+   * Fields of the user model
    */
-  readonly fields: UserFieldRefs;
+  readonly fields: userFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for User.
+   * The delegate class that acts as a "Promise-like" for user.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__userClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    hostedGames<T extends User$hostedGamesArgs<ExtArgs> = {}>(args?: Subset<T, User$hostedGamesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    receivedNotifications<T extends User$receivedNotificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sentNotifications<T extends User$sentNotificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$sentNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    hostedGame<T extends user$hostedGameArgs<ExtArgs> = {}>(args?: Subset<T, user$hostedGameArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invitation<T extends user$invitationArgs<ExtArgs> = {}>(args?: Subset<T, user$invitationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notification_notification_recipientIdTouser<T extends user$notification_notification_recipientIdTouserArgs<ExtArgs> = {}>(args?: Subset<T, user$notification_notification_recipientIdTouserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notification_notification_senderIdTouser<T extends user$notification_notification_senderIdTouserArgs<ExtArgs> = {}>(args?: Subset<T, user$notification_notification_senderIdTouserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$notificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1776,1958 +4087,873 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the User model
+   * Fields of the user model
    */
-  interface UserFieldRefs {
-    readonly id: FieldRef<"User", 'Int'>
-    readonly name: FieldRef<"User", 'String'>
-    readonly email: FieldRef<"User", 'String'>
-    readonly passwordHash: FieldRef<"User", 'String'>
-    readonly reliabilityScore: FieldRef<"User", 'Int'>
-    readonly createdAt: FieldRef<"User", 'DateTime'>
-    readonly updatedAt: FieldRef<"User", 'DateTime'>
+  interface userFieldRefs {
+    readonly id: FieldRef<"user", 'Int'>
+    readonly name: FieldRef<"user", 'String'>
+    readonly email: FieldRef<"user", 'String'>
+    readonly passwordHash: FieldRef<"user", 'String'>
+    readonly reliabilityScore: FieldRef<"user", 'Int'>
+    readonly createdAt: FieldRef<"user", 'DateTime'>
+    readonly updatedAt: FieldRef<"user", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * User findUnique
+   * user findUnique
    */
-  export type UserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * Filter, which User to fetch.
+     * Filter, which user to fetch.
      */
-    where: UserWhereUniqueInput
+    where: userWhereUniqueInput
   }
 
   /**
-   * User findUniqueOrThrow
+   * user findUniqueOrThrow
    */
-  export type UserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * Filter, which User to fetch.
+     * Filter, which user to fetch.
      */
-    where: UserWhereUniqueInput
+    where: userWhereUniqueInput
   }
 
   /**
-   * User findFirst
+   * user findFirst
    */
-  export type UserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * Filter, which User to fetch.
+     * Filter, which user to fetch.
      */
-    where?: UserWhereInput
+    where?: userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Users to fetch.
+     * Determine the order of users to fetch.
      */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    orderBy?: userOrderByWithRelationInput | userOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Users.
+     * Sets the position for searching for users.
      */
-    cursor?: UserWhereUniqueInput
+    cursor?: userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Users from the position of the cursor.
+     * Take `±n` users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Users.
+     * Skip the first `n` users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Users.
+     * Filter by unique combinations of users.
      */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
-   * User findFirstOrThrow
+   * user findFirstOrThrow
    */
-  export type UserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * Filter, which User to fetch.
+     * Filter, which user to fetch.
      */
-    where?: UserWhereInput
+    where?: userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Users to fetch.
+     * Determine the order of users to fetch.
      */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    orderBy?: userOrderByWithRelationInput | userOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Users.
+     * Sets the position for searching for users.
      */
-    cursor?: UserWhereUniqueInput
+    cursor?: userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Users from the position of the cursor.
+     * Take `±n` users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Users.
+     * Skip the first `n` users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Users.
+     * Filter by unique combinations of users.
      */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
-   * User findMany
+   * user findMany
    */
-  export type UserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * Filter, which Users to fetch.
+     * Filter, which users to fetch.
      */
-    where?: UserWhereInput
+    where?: userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Users to fetch.
+     * Determine the order of users to fetch.
      */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    orderBy?: userOrderByWithRelationInput | userOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Users.
+     * Sets the position for listing users.
      */
-    cursor?: UserWhereUniqueInput
+    cursor?: userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Users from the position of the cursor.
+     * Take `±n` users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Users.
+     * Skip the first `n` users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Users.
+     * Filter by unique combinations of users.
      */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
-   * User create
+   * user create
    */
-  export type UserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * The data needed to create a User.
+     * The data needed to create a user.
      */
-    data: XOR<UserCreateInput, UserUncheckedCreateInput>
+    data: XOR<userCreateInput, userUncheckedCreateInput>
   }
 
   /**
-   * User createMany
+   * user createMany
    */
-  export type UserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Users.
+     * The data used to create many users.
      */
-    data: UserCreateManyInput | UserCreateManyInput[]
+    data: userCreateManyInput | userCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * User update
+   * user update
    */
-  export type UserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * The data needed to update a User.
+     * The data needed to update a user.
      */
-    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    data: XOR<userUpdateInput, userUncheckedUpdateInput>
     /**
-     * Choose, which User to update.
+     * Choose, which user to update.
      */
-    where: UserWhereUniqueInput
+    where: userWhereUniqueInput
   }
 
   /**
-   * User updateMany
+   * user updateMany
    */
-  export type UserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Users.
+     * The data used to update users.
      */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    data: XOR<userUpdateManyMutationInput, userUncheckedUpdateManyInput>
     /**
-     * Filter which Users to update
+     * Filter which users to update
      */
-    where?: UserWhereInput
+    where?: userWhereInput
     /**
-     * Limit how many Users to update.
+     * Limit how many users to update.
      */
     limit?: number
   }
 
   /**
-   * User upsert
+   * user upsert
    */
-  export type UserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * The filter to search for the User to update in case it exists.
+     * The filter to search for the user to update in case it exists.
      */
-    where: UserWhereUniqueInput
+    where: userWhereUniqueInput
     /**
-     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
+     * In case the user found by the `where` argument doesn't exist, create a new user with this data.
      */
-    create: XOR<UserCreateInput, UserUncheckedCreateInput>
+    create: XOR<userCreateInput, userUncheckedCreateInput>
     /**
-     * In case the User was found with the provided `where` argument, update it with this data.
+     * In case the user was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    update: XOR<userUpdateInput, userUncheckedUpdateInput>
   }
 
   /**
-   * User delete
+   * user delete
    */
-  export type UserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
     /**
-     * Filter which User to delete.
+     * Filter which user to delete.
      */
-    where: UserWhereUniqueInput
+    where: userWhereUniqueInput
   }
 
   /**
-   * User deleteMany
+   * user deleteMany
    */
-  export type UserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Users to delete
+     * Filter which users to delete
      */
-    where?: UserWhereInput
+    where?: userWhereInput
     /**
-     * Limit how many Users to delete.
+     * Limit how many users to delete.
      */
     limit?: number
   }
 
   /**
-   * User.hostedGames
+   * user.hostedGame
    */
-  export type User$hostedGamesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type user$hostedGameArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Game
+     * Select specific fields to fetch from the game
      */
-    select?: GameSelect<ExtArgs> | null
+    select?: gameSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Game
+     * Omit specific fields from the game
      */
-    omit?: GameOmit<ExtArgs> | null
+    omit?: gameOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GameInclude<ExtArgs> | null
-    where?: GameWhereInput
-    orderBy?: GameOrderByWithRelationInput | GameOrderByWithRelationInput[]
-    cursor?: GameWhereUniqueInput
+    include?: gameInclude<ExtArgs> | null
+    where?: gameWhereInput
+    orderBy?: gameOrderByWithRelationInput | gameOrderByWithRelationInput[]
+    cursor?: gameWhereUniqueInput
     take?: number
     skip?: number
     distinct?: GameScalarFieldEnum | GameScalarFieldEnum[]
   }
 
   /**
-   * User.receivedNotifications
+   * user.invitation
    */
-  export type User$receivedNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type user$invitationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    cursor?: NotificationWhereUniqueInput
+    include?: invitationInclude<ExtArgs> | null
+    where?: invitationWhereInput
+    orderBy?: invitationOrderByWithRelationInput | invitationOrderByWithRelationInput[]
+    cursor?: invitationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
+  }
+
+  /**
+   * user.notification_notification_recipientIdTouser
+   */
+  export type user$notification_notification_recipientIdTouserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the notification
+     */
+    select?: notificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the notification
+     */
+    omit?: notificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: notificationInclude<ExtArgs> | null
+    where?: notificationWhereInput
+    orderBy?: notificationOrderByWithRelationInput | notificationOrderByWithRelationInput[]
+    cursor?: notificationWhereUniqueInput
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
   }
 
   /**
-   * User.sentNotifications
+   * user.notification_notification_senderIdTouser
    */
-  export type User$sentNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type user$notification_notification_senderIdTouserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the notification
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: notificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the notification
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: notificationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    cursor?: NotificationWhereUniqueInput
+    include?: notificationInclude<ExtArgs> | null
+    where?: notificationWhereInput
+    orderBy?: notificationOrderByWithRelationInput | notificationOrderByWithRelationInput[]
+    cursor?: notificationWhereUniqueInput
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
   }
 
   /**
-   * User without action
+   * user without action
    */
-  export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type userDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the user
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: userSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the user
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: userOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
+    include?: userInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model Game
+   * Model invitation
    */
 
-  export type AggregateGame = {
-    _count: GameCountAggregateOutputType | null
-    _avg: GameAvgAggregateOutputType | null
-    _sum: GameSumAggregateOutputType | null
-    _min: GameMinAggregateOutputType | null
-    _max: GameMaxAggregateOutputType | null
+  export type AggregateInvitation = {
+    _count: InvitationCountAggregateOutputType | null
+    _avg: InvitationAvgAggregateOutputType | null
+    _sum: InvitationSumAggregateOutputType | null
+    _min: InvitationMinAggregateOutputType | null
+    _max: InvitationMaxAggregateOutputType | null
   }
 
-  export type GameAvgAggregateOutputType = {
+  export type InvitationAvgAggregateOutputType = {
     id: number | null
-    hostId: number | null
-    minReliabilityScore: number | null
+    gameId: number | null
+    userId: number | null
   }
 
-  export type GameSumAggregateOutputType = {
+  export type InvitationSumAggregateOutputType = {
     id: number | null
-    hostId: number | null
-    minReliabilityScore: number | null
+    gameId: number | null
+    userId: number | null
   }
 
-  export type GameMinAggregateOutputType = {
+  export type InvitationMinAggregateOutputType = {
     id: number | null
-    hostId: number | null
-    name: string | null
-    location: string | null
-    startTime: Date | null
-    endTime: Date | null
-    feeType: $Enums.FeeType | null
-    minReliabilityScore: number | null
-    status: $Enums.GameStatus | null
+    gameId: number | null
+    userId: number | null
+    status: $Enums.invitation_status | null
+    attendanceStatus: $Enums.attendance_status | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type GameMaxAggregateOutputType = {
+  export type InvitationMaxAggregateOutputType = {
     id: number | null
-    hostId: number | null
-    name: string | null
-    location: string | null
-    startTime: Date | null
-    endTime: Date | null
-    feeType: $Enums.FeeType | null
-    minReliabilityScore: number | null
-    status: $Enums.GameStatus | null
+    gameId: number | null
+    userId: number | null
+    status: $Enums.invitation_status | null
+    attendanceStatus: $Enums.attendance_status | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type GameCountAggregateOutputType = {
+  export type InvitationCountAggregateOutputType = {
     id: number
-    hostId: number
-    name: number
-    location: number
-    startTime: number
-    endTime: number
-    feeType: number
-    minReliabilityScore: number
-    status: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type GameAvgAggregateInputType = {
-    id?: true
-    hostId?: true
-    minReliabilityScore?: true
-  }
-
-  export type GameSumAggregateInputType = {
-    id?: true
-    hostId?: true
-    minReliabilityScore?: true
-  }
-
-  export type GameMinAggregateInputType = {
-    id?: true
-    hostId?: true
-    name?: true
-    location?: true
-    startTime?: true
-    endTime?: true
-    feeType?: true
-    minReliabilityScore?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type GameMaxAggregateInputType = {
-    id?: true
-    hostId?: true
-    name?: true
-    location?: true
-    startTime?: true
-    endTime?: true
-    feeType?: true
-    minReliabilityScore?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type GameCountAggregateInputType = {
-    id?: true
-    hostId?: true
-    name?: true
-    location?: true
-    startTime?: true
-    endTime?: true
-    feeType?: true
-    minReliabilityScore?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type GameAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Game to aggregate.
-     */
-    where?: GameWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Games to fetch.
-     */
-    orderBy?: GameOrderByWithRelationInput | GameOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: GameWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Games from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Games.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Games
-    **/
-    _count?: true | GameCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: GameAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: GameSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: GameMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: GameMaxAggregateInputType
-  }
-
-  export type GetGameAggregateType<T extends GameAggregateArgs> = {
-        [P in keyof T & keyof AggregateGame]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateGame[P]>
-      : GetScalarType<T[P], AggregateGame[P]>
-  }
-
-
-
-
-  export type GameGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GameWhereInput
-    orderBy?: GameOrderByWithAggregationInput | GameOrderByWithAggregationInput[]
-    by: GameScalarFieldEnum[] | GameScalarFieldEnum
-    having?: GameScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: GameCountAggregateInputType | true
-    _avg?: GameAvgAggregateInputType
-    _sum?: GameSumAggregateInputType
-    _min?: GameMinAggregateInputType
-    _max?: GameMaxAggregateInputType
-  }
-
-  export type GameGroupByOutputType = {
-    id: number
-    hostId: number
-    name: string
-    location: string
-    startTime: Date
-    endTime: Date
-    feeType: $Enums.FeeType
-    minReliabilityScore: number
-    status: $Enums.GameStatus
-    createdAt: Date
-    updatedAt: Date
-    _count: GameCountAggregateOutputType | null
-    _avg: GameAvgAggregateOutputType | null
-    _sum: GameSumAggregateOutputType | null
-    _min: GameMinAggregateOutputType | null
-    _max: GameMaxAggregateOutputType | null
-  }
-
-  type GetGameGroupByPayload<T extends GameGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<GameGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof GameGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], GameGroupByOutputType[P]>
-            : GetScalarType<T[P], GameGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type GameSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    hostId?: boolean
-    name?: boolean
-    location?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    feeType?: boolean
-    minReliabilityScore?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    notifications?: boolean | Game$notificationsArgs<ExtArgs>
-    host?: boolean | UserDefaultArgs<ExtArgs>
-    _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["game"]>
-
-
-
-  export type GameSelectScalar = {
-    id?: boolean
-    hostId?: boolean
-    name?: boolean
-    location?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    feeType?: boolean
-    minReliabilityScore?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type GameOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hostId" | "name" | "location" | "startTime" | "endTime" | "feeType" | "minReliabilityScore" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["game"]>
-  export type GameInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    notifications?: boolean | Game$notificationsArgs<ExtArgs>
-    host?: boolean | UserDefaultArgs<ExtArgs>
-    _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $GamePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Game"
-    objects: {
-      notifications: Prisma.$NotificationPayload<ExtArgs>[]
-      host: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      hostId: number
-      name: string
-      location: string
-      startTime: Date
-      endTime: Date
-      feeType: $Enums.FeeType
-      minReliabilityScore: number
-      status: $Enums.GameStatus
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["game"]>
-    composites: {}
-  }
-
-  type GameGetPayload<S extends boolean | null | undefined | GameDefaultArgs> = $Result.GetResult<Prisma.$GamePayload, S>
-
-  type GameCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<GameFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: GameCountAggregateInputType | true
-    }
-
-  export interface GameDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Game'], meta: { name: 'Game' } }
-    /**
-     * Find zero or one Game that matches the filter.
-     * @param {GameFindUniqueArgs} args - Arguments to find a Game
-     * @example
-     * // Get one Game
-     * const game = await prisma.game.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends GameFindUniqueArgs>(args: SelectSubset<T, GameFindUniqueArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Game that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {GameFindUniqueOrThrowArgs} args - Arguments to find a Game
-     * @example
-     * // Get one Game
-     * const game = await prisma.game.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends GameFindUniqueOrThrowArgs>(args: SelectSubset<T, GameFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Game that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GameFindFirstArgs} args - Arguments to find a Game
-     * @example
-     * // Get one Game
-     * const game = await prisma.game.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends GameFindFirstArgs>(args?: SelectSubset<T, GameFindFirstArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Game that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GameFindFirstOrThrowArgs} args - Arguments to find a Game
-     * @example
-     * // Get one Game
-     * const game = await prisma.game.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends GameFindFirstOrThrowArgs>(args?: SelectSubset<T, GameFindFirstOrThrowArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Games that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GameFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Games
-     * const games = await prisma.game.findMany()
-     * 
-     * // Get first 10 Games
-     * const games = await prisma.game.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const gameWithIdOnly = await prisma.game.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends GameFindManyArgs>(args?: SelectSubset<T, GameFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Game.
-     * @param {GameCreateArgs} args - Arguments to create a Game.
-     * @example
-     * // Create one Game
-     * const Game = await prisma.game.create({
-     *   data: {
-     *     // ... data to create a Game
-     *   }
-     * })
-     * 
-     */
-    create<T extends GameCreateArgs>(args: SelectSubset<T, GameCreateArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Games.
-     * @param {GameCreateManyArgs} args - Arguments to create many Games.
-     * @example
-     * // Create many Games
-     * const game = await prisma.game.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends GameCreateManyArgs>(args?: SelectSubset<T, GameCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Game.
-     * @param {GameDeleteArgs} args - Arguments to delete one Game.
-     * @example
-     * // Delete one Game
-     * const Game = await prisma.game.delete({
-     *   where: {
-     *     // ... filter to delete one Game
-     *   }
-     * })
-     * 
-     */
-    delete<T extends GameDeleteArgs>(args: SelectSubset<T, GameDeleteArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Game.
-     * @param {GameUpdateArgs} args - Arguments to update one Game.
-     * @example
-     * // Update one Game
-     * const game = await prisma.game.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends GameUpdateArgs>(args: SelectSubset<T, GameUpdateArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Games.
-     * @param {GameDeleteManyArgs} args - Arguments to filter Games to delete.
-     * @example
-     * // Delete a few Games
-     * const { count } = await prisma.game.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends GameDeleteManyArgs>(args?: SelectSubset<T, GameDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Games.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GameUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Games
-     * const game = await prisma.game.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends GameUpdateManyArgs>(args: SelectSubset<T, GameUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Game.
-     * @param {GameUpsertArgs} args - Arguments to update or create a Game.
-     * @example
-     * // Update or create a Game
-     * const game = await prisma.game.upsert({
-     *   create: {
-     *     // ... data to create a Game
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Game we want to update
-     *   }
-     * })
-     */
-    upsert<T extends GameUpsertArgs>(args: SelectSubset<T, GameUpsertArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Games.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GameCountArgs} args - Arguments to filter Games to count.
-     * @example
-     * // Count the number of Games
-     * const count = await prisma.game.count({
-     *   where: {
-     *     // ... the filter for the Games we want to count
-     *   }
-     * })
-    **/
-    count<T extends GameCountArgs>(
-      args?: Subset<T, GameCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], GameCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Game.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GameAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends GameAggregateArgs>(args: Subset<T, GameAggregateArgs>): Prisma.PrismaPromise<GetGameAggregateType<T>>
-
-    /**
-     * Group by Game.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GameGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends GameGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: GameGroupByArgs['orderBy'] }
-        : { orderBy?: GameGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, GameGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGameGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Game model
-   */
-  readonly fields: GameFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Game.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__GameClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    notifications<T extends Game$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Game$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    host<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Game model
-   */
-  interface GameFieldRefs {
-    readonly id: FieldRef<"Game", 'Int'>
-    readonly hostId: FieldRef<"Game", 'Int'>
-    readonly name: FieldRef<"Game", 'String'>
-    readonly location: FieldRef<"Game", 'String'>
-    readonly startTime: FieldRef<"Game", 'DateTime'>
-    readonly endTime: FieldRef<"Game", 'DateTime'>
-    readonly feeType: FieldRef<"Game", 'FeeType'>
-    readonly minReliabilityScore: FieldRef<"Game", 'Int'>
-    readonly status: FieldRef<"Game", 'GameStatus'>
-    readonly createdAt: FieldRef<"Game", 'DateTime'>
-    readonly updatedAt: FieldRef<"Game", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Game findUnique
-   */
-  export type GameFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * Filter, which Game to fetch.
-     */
-    where: GameWhereUniqueInput
-  }
-
-  /**
-   * Game findUniqueOrThrow
-   */
-  export type GameFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * Filter, which Game to fetch.
-     */
-    where: GameWhereUniqueInput
-  }
-
-  /**
-   * Game findFirst
-   */
-  export type GameFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * Filter, which Game to fetch.
-     */
-    where?: GameWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Games to fetch.
-     */
-    orderBy?: GameOrderByWithRelationInput | GameOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Games.
-     */
-    cursor?: GameWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Games from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Games.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Games.
-     */
-    distinct?: GameScalarFieldEnum | GameScalarFieldEnum[]
-  }
-
-  /**
-   * Game findFirstOrThrow
-   */
-  export type GameFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * Filter, which Game to fetch.
-     */
-    where?: GameWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Games to fetch.
-     */
-    orderBy?: GameOrderByWithRelationInput | GameOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Games.
-     */
-    cursor?: GameWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Games from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Games.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Games.
-     */
-    distinct?: GameScalarFieldEnum | GameScalarFieldEnum[]
-  }
-
-  /**
-   * Game findMany
-   */
-  export type GameFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * Filter, which Games to fetch.
-     */
-    where?: GameWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Games to fetch.
-     */
-    orderBy?: GameOrderByWithRelationInput | GameOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Games.
-     */
-    cursor?: GameWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Games from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Games.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Games.
-     */
-    distinct?: GameScalarFieldEnum | GameScalarFieldEnum[]
-  }
-
-  /**
-   * Game create
-   */
-  export type GameCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Game.
-     */
-    data: XOR<GameCreateInput, GameUncheckedCreateInput>
-  }
-
-  /**
-   * Game createMany
-   */
-  export type GameCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Games.
-     */
-    data: GameCreateManyInput | GameCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Game update
-   */
-  export type GameUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Game.
-     */
-    data: XOR<GameUpdateInput, GameUncheckedUpdateInput>
-    /**
-     * Choose, which Game to update.
-     */
-    where: GameWhereUniqueInput
-  }
-
-  /**
-   * Game updateMany
-   */
-  export type GameUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Games.
-     */
-    data: XOR<GameUpdateManyMutationInput, GameUncheckedUpdateManyInput>
-    /**
-     * Filter which Games to update
-     */
-    where?: GameWhereInput
-    /**
-     * Limit how many Games to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Game upsert
-   */
-  export type GameUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Game to update in case it exists.
-     */
-    where: GameWhereUniqueInput
-    /**
-     * In case the Game found by the `where` argument doesn't exist, create a new Game with this data.
-     */
-    create: XOR<GameCreateInput, GameUncheckedCreateInput>
-    /**
-     * In case the Game was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<GameUpdateInput, GameUncheckedUpdateInput>
-  }
-
-  /**
-   * Game delete
-   */
-  export type GameDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    /**
-     * Filter which Game to delete.
-     */
-    where: GameWhereUniqueInput
-  }
-
-  /**
-   * Game deleteMany
-   */
-  export type GameDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Games to delete
-     */
-    where?: GameWhereInput
-    /**
-     * Limit how many Games to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Game.notifications
-   */
-  export type Game$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    cursor?: NotificationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
-  }
-
-  /**
-   * Game without action
-   */
-  export type GameDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Notification
-   */
-
-  export type AggregateNotification = {
-    _count: NotificationCountAggregateOutputType | null
-    _avg: NotificationAvgAggregateOutputType | null
-    _sum: NotificationSumAggregateOutputType | null
-    _min: NotificationMinAggregateOutputType | null
-    _max: NotificationMaxAggregateOutputType | null
-  }
-
-  export type NotificationAvgAggregateOutputType = {
-    id: number | null
-    recipientId: number | null
-    senderId: number | null
-    gameId: number | null
-  }
-
-  export type NotificationSumAggregateOutputType = {
-    id: number | null
-    recipientId: number | null
-    senderId: number | null
-    gameId: number | null
-  }
-
-  export type NotificationMinAggregateOutputType = {
-    id: number | null
-    recipientId: number | null
-    senderId: number | null
-    type: $Enums.NotificationType | null
-    title: string | null
-    message: string | null
-    isRead: boolean | null
-    gameId: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type NotificationMaxAggregateOutputType = {
-    id: number | null
-    recipientId: number | null
-    senderId: number | null
-    type: $Enums.NotificationType | null
-    title: string | null
-    message: string | null
-    isRead: boolean | null
-    gameId: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type NotificationCountAggregateOutputType = {
-    id: number
-    recipientId: number
-    senderId: number
-    type: number
-    title: number
-    message: number
-    isRead: number
     gameId: number
+    userId: number
+    status: number
+    attendanceStatus: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type NotificationAvgAggregateInputType = {
+  export type InvitationAvgAggregateInputType = {
     id?: true
-    recipientId?: true
-    senderId?: true
     gameId?: true
+    userId?: true
   }
 
-  export type NotificationSumAggregateInputType = {
+  export type InvitationSumAggregateInputType = {
     id?: true
-    recipientId?: true
-    senderId?: true
     gameId?: true
+    userId?: true
   }
 
-  export type NotificationMinAggregateInputType = {
+  export type InvitationMinAggregateInputType = {
     id?: true
-    recipientId?: true
-    senderId?: true
-    type?: true
-    title?: true
-    message?: true
-    isRead?: true
     gameId?: true
+    userId?: true
+    status?: true
+    attendanceStatus?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type NotificationMaxAggregateInputType = {
+  export type InvitationMaxAggregateInputType = {
     id?: true
-    recipientId?: true
-    senderId?: true
-    type?: true
-    title?: true
-    message?: true
-    isRead?: true
     gameId?: true
+    userId?: true
+    status?: true
+    attendanceStatus?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type NotificationCountAggregateInputType = {
+  export type InvitationCountAggregateInputType = {
     id?: true
-    recipientId?: true
-    senderId?: true
-    type?: true
-    title?: true
-    message?: true
-    isRead?: true
     gameId?: true
+    userId?: true
+    status?: true
+    attendanceStatus?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
   }
 
-  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InvitationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Notification to aggregate.
+     * Filter which invitation to aggregate.
      */
-    where?: NotificationWhereInput
+    where?: invitationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Notifications to fetch.
+     * Determine the order of invitations to fetch.
      */
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    orderBy?: invitationOrderByWithRelationInput | invitationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: NotificationWhereUniqueInput
+    cursor?: invitationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Notifications from the position of the cursor.
+     * Take `±n` invitations from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Notifications.
+     * Skip the first `n` invitations.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Notifications
+     * Count returned invitations
     **/
-    _count?: true | NotificationCountAggregateInputType
+    _count?: true | InvitationCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: NotificationAvgAggregateInputType
+    _avg?: InvitationAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: NotificationSumAggregateInputType
+    _sum?: InvitationSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: NotificationMinAggregateInputType
+    _min?: InvitationMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: NotificationMaxAggregateInputType
+    _max?: InvitationMaxAggregateInputType
   }
 
-  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
-        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+  export type GetInvitationAggregateType<T extends InvitationAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvitation]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateNotification[P]>
-      : GetScalarType<T[P], AggregateNotification[P]>
+        : GetScalarType<T[P], AggregateInvitation[P]>
+      : GetScalarType<T[P], AggregateInvitation[P]>
   }
 
 
 
 
-  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
-    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
-    having?: NotificationScalarWhereWithAggregatesInput
+  export type invitationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: invitationWhereInput
+    orderBy?: invitationOrderByWithAggregationInput | invitationOrderByWithAggregationInput[]
+    by: InvitationScalarFieldEnum[] | InvitationScalarFieldEnum
+    having?: invitationScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: NotificationCountAggregateInputType | true
-    _avg?: NotificationAvgAggregateInputType
-    _sum?: NotificationSumAggregateInputType
-    _min?: NotificationMinAggregateInputType
-    _max?: NotificationMaxAggregateInputType
+    _count?: InvitationCountAggregateInputType | true
+    _avg?: InvitationAvgAggregateInputType
+    _sum?: InvitationSumAggregateInputType
+    _min?: InvitationMinAggregateInputType
+    _max?: InvitationMaxAggregateInputType
   }
 
-  export type NotificationGroupByOutputType = {
+  export type InvitationGroupByOutputType = {
     id: number
-    recipientId: number
-    senderId: number | null
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead: boolean
-    gameId: number | null
+    gameId: number
+    userId: number
+    status: $Enums.invitation_status
+    attendanceStatus: $Enums.attendance_status | null
     createdAt: Date
     updatedAt: Date
-    _count: NotificationCountAggregateOutputType | null
-    _avg: NotificationAvgAggregateOutputType | null
-    _sum: NotificationSumAggregateOutputType | null
-    _min: NotificationMinAggregateOutputType | null
-    _max: NotificationMaxAggregateOutputType | null
+    _count: InvitationCountAggregateOutputType | null
+    _avg: InvitationAvgAggregateOutputType | null
+    _sum: InvitationSumAggregateOutputType | null
+    _min: InvitationMinAggregateOutputType | null
+    _max: InvitationMaxAggregateOutputType | null
   }
 
-  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
+  type GetInvitationGroupByPayload<T extends invitationGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+      PickEnumerable<InvitationGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof InvitationGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
-            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+              : GetScalarType<T[P], InvitationGroupByOutputType[P]>
+            : GetScalarType<T[P], InvitationGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type invitationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    recipientId?: boolean
-    senderId?: boolean
-    type?: boolean
-    title?: boolean
-    message?: boolean
-    isRead?: boolean
     gameId?: boolean
+    userId?: boolean
+    status?: boolean
+    attendanceStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    recipient?: boolean | UserDefaultArgs<ExtArgs>
-    sender?: boolean | Notification$senderArgs<ExtArgs>
-    game?: boolean | Notification$gameArgs<ExtArgs>
-  }, ExtArgs["result"]["notification"]>
+    game?: boolean | gameDefaultArgs<ExtArgs>
+    user?: boolean | userDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invitation"]>
 
 
 
-  export type NotificationSelectScalar = {
+  export type invitationSelectScalar = {
     id?: boolean
-    recipientId?: boolean
-    senderId?: boolean
-    type?: boolean
-    title?: boolean
-    message?: boolean
-    isRead?: boolean
     gameId?: boolean
+    userId?: boolean
+    status?: boolean
+    attendanceStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "recipientId" | "senderId" | "type" | "title" | "message" | "isRead" | "gameId" | "createdAt" | "updatedAt", ExtArgs["result"]["notification"]>
-  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    recipient?: boolean | UserDefaultArgs<ExtArgs>
-    sender?: boolean | Notification$senderArgs<ExtArgs>
-    game?: boolean | Notification$gameArgs<ExtArgs>
+  export type invitationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "gameId" | "userId" | "status" | "attendanceStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["invitation"]>
+  export type invitationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | gameDefaultArgs<ExtArgs>
+    user?: boolean | userDefaultArgs<ExtArgs>
   }
 
-  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Notification"
+  export type $invitationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "invitation"
     objects: {
-      recipient: Prisma.$UserPayload<ExtArgs>
-      sender: Prisma.$UserPayload<ExtArgs> | null
-      game: Prisma.$GamePayload<ExtArgs> | null
+      game: Prisma.$gamePayload<ExtArgs>
+      user: Prisma.$userPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      recipientId: number
-      senderId: number | null
-      type: $Enums.NotificationType
-      title: string
-      message: string
-      isRead: boolean
-      gameId: number | null
+      gameId: number
+      userId: number
+      status: $Enums.invitation_status
+      attendanceStatus: $Enums.attendance_status | null
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["notification"]>
+    }, ExtArgs["result"]["invitation"]>
     composites: {}
   }
 
-  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
+  type invitationGetPayload<S extends boolean | null | undefined | invitationDefaultArgs> = $Result.GetResult<Prisma.$invitationPayload, S>
 
-  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: NotificationCountAggregateInputType | true
+  type invitationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<invitationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvitationCountAggregateInputType | true
     }
 
-  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
+  export interface invitationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['invitation'], meta: { name: 'invitation' } }
     /**
-     * Find zero or one Notification that matches the filter.
-     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
+     * Find zero or one Invitation that matches the filter.
+     * @param {invitationFindUniqueArgs} args - Arguments to find a Invitation
      * @example
-     * // Get one Notification
-     * const notification = await prisma.notification.findUnique({
+     * // Get one Invitation
+     * const invitation = await prisma.invitation.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends invitationFindUniqueArgs>(args: SelectSubset<T, invitationFindUniqueArgs<ExtArgs>>): Prisma__invitationClient<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Invitation that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @param {invitationFindUniqueOrThrowArgs} args - Arguments to find a Invitation
      * @example
-     * // Get one Notification
-     * const notification = await prisma.notification.findUniqueOrThrow({
+     * // Get one Invitation
+     * const invitation = await prisma.invitation.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends invitationFindUniqueOrThrowArgs>(args: SelectSubset<T, invitationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__invitationClient<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Notification that matches the filter.
+     * Find the first Invitation that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
+     * @param {invitationFindFirstArgs} args - Arguments to find a Invitation
      * @example
-     * // Get one Notification
-     * const notification = await prisma.notification.findFirst({
+     * // Get one Invitation
+     * const invitation = await prisma.invitation.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends invitationFindFirstArgs>(args?: SelectSubset<T, invitationFindFirstArgs<ExtArgs>>): Prisma__invitationClient<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Notification that matches the filter or
+     * Find the first Invitation that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @param {invitationFindFirstOrThrowArgs} args - Arguments to find a Invitation
      * @example
-     * // Get one Notification
-     * const notification = await prisma.notification.findFirstOrThrow({
+     * // Get one Invitation
+     * const invitation = await prisma.invitation.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends invitationFindFirstOrThrowArgs>(args?: SelectSubset<T, invitationFindFirstOrThrowArgs<ExtArgs>>): Prisma__invitationClient<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Notifications that matches the filter.
+     * Find zero or more Invitations that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {invitationFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Notifications
-     * const notifications = await prisma.notification.findMany()
+     * // Get all Invitations
+     * const invitations = await prisma.invitation.findMany()
      * 
-     * // Get first 10 Notifications
-     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * // Get first 10 Invitations
+     * const invitations = await prisma.invitation.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * const invitationWithIdOnly = await prisma.invitation.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends invitationFindManyArgs>(args?: SelectSubset<T, invitationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Notification.
-     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
+     * Create a Invitation.
+     * @param {invitationCreateArgs} args - Arguments to create a Invitation.
      * @example
-     * // Create one Notification
-     * const Notification = await prisma.notification.create({
+     * // Create one Invitation
+     * const Invitation = await prisma.invitation.create({
      *   data: {
-     *     // ... data to create a Notification
+     *     // ... data to create a Invitation
      *   }
      * })
      * 
      */
-    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends invitationCreateArgs>(args: SelectSubset<T, invitationCreateArgs<ExtArgs>>): Prisma__invitationClient<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Notifications.
-     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
+     * Create many Invitations.
+     * @param {invitationCreateManyArgs} args - Arguments to create many Invitations.
      * @example
-     * // Create many Notifications
-     * const notification = await prisma.notification.createMany({
+     * // Create many Invitations
+     * const invitation = await prisma.invitation.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends invitationCreateManyArgs>(args?: SelectSubset<T, invitationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a Notification.
-     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
+     * Delete a Invitation.
+     * @param {invitationDeleteArgs} args - Arguments to delete one Invitation.
      * @example
-     * // Delete one Notification
-     * const Notification = await prisma.notification.delete({
+     * // Delete one Invitation
+     * const Invitation = await prisma.invitation.delete({
      *   where: {
-     *     // ... filter to delete one Notification
+     *     // ... filter to delete one Invitation
      *   }
      * })
      * 
      */
-    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends invitationDeleteArgs>(args: SelectSubset<T, invitationDeleteArgs<ExtArgs>>): Prisma__invitationClient<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Notification.
-     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
+     * Update one Invitation.
+     * @param {invitationUpdateArgs} args - Arguments to update one Invitation.
      * @example
-     * // Update one Notification
-     * const notification = await prisma.notification.update({
+     * // Update one Invitation
+     * const invitation = await prisma.invitation.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3737,30 +4963,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends invitationUpdateArgs>(args: SelectSubset<T, invitationUpdateArgs<ExtArgs>>): Prisma__invitationClient<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Notifications.
-     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * Delete zero or more Invitations.
+     * @param {invitationDeleteManyArgs} args - Arguments to filter Invitations to delete.
      * @example
-     * // Delete a few Notifications
-     * const { count } = await prisma.notification.deleteMany({
+     * // Delete a few Invitations
+     * const { count } = await prisma.invitation.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends invitationDeleteManyArgs>(args?: SelectSubset<T, invitationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Notifications.
+     * Update zero or more Invitations.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {invitationUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Notifications
-     * const notification = await prisma.notification.updateMany({
+     * // Update many Invitations
+     * const invitation = await prisma.invitation.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3770,56 +4996,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends invitationUpdateManyArgs>(args: SelectSubset<T, invitationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one Notification.
-     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
+     * Create or update one Invitation.
+     * @param {invitationUpsertArgs} args - Arguments to update or create a Invitation.
      * @example
-     * // Update or create a Notification
-     * const notification = await prisma.notification.upsert({
+     * // Update or create a Invitation
+     * const invitation = await prisma.invitation.upsert({
      *   create: {
-     *     // ... data to create a Notification
+     *     // ... data to create a Invitation
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Notification we want to update
+     *     // ... the filter for the Invitation we want to update
      *   }
      * })
      */
-    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends invitationUpsertArgs>(args: SelectSubset<T, invitationUpsertArgs<ExtArgs>>): Prisma__invitationClient<$Result.GetResult<Prisma.$invitationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Notifications.
+     * Count the number of Invitations.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
+     * @param {invitationCountArgs} args - Arguments to filter Invitations to count.
      * @example
-     * // Count the number of Notifications
-     * const count = await prisma.notification.count({
+     * // Count the number of Invitations
+     * const count = await prisma.invitation.count({
      *   where: {
-     *     // ... the filter for the Notifications we want to count
+     *     // ... the filter for the Invitations we want to count
      *   }
      * })
     **/
-    count<T extends NotificationCountArgs>(
-      args?: Subset<T, NotificationCountArgs>,
+    count<T extends invitationCountArgs>(
+      args?: Subset<T, invitationCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+          : GetScalarType<T['select'], InvitationCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Notification.
+     * Allows you to perform aggregations operations on a Invitation.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {InvitationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -3839,13 +5065,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+    aggregate<T extends InvitationAggregateArgs>(args: Subset<T, InvitationAggregateArgs>): Prisma.PrismaPromise<GetInvitationAggregateType<T>>
 
     /**
-     * Group by Notification.
+     * Group by Invitation.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationGroupByArgs} args - Group by arguments.
+     * @param {invitationGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -3860,14 +5086,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends NotificationGroupByArgs,
+      T extends invitationGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: NotificationGroupByArgs['orderBy'] }
-        : { orderBy?: NotificationGroupByArgs['orderBy'] },
+        ? { orderBy: invitationGroupByArgs['orderBy'] }
+        : { orderBy?: invitationGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -3916,24 +5142,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, invitationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvitationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Notification model
+   * Fields of the invitation model
    */
-  readonly fields: NotificationFieldRefs;
+  readonly fields: invitationFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Notification.
+   * The delegate class that acts as a "Promise-like" for invitation.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__invitationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    recipient<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    sender<T extends Notification$senderArgs<ExtArgs> = {}>(args?: Subset<T, Notification$senderArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    game<T extends Notification$gameArgs<ExtArgs> = {}>(args?: Subset<T, Notification$gameArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    game<T extends gameDefaultArgs<ExtArgs> = {}>(args?: Subset<T, gameDefaultArgs<ExtArgs>>): Prisma__gameClient<$Result.GetResult<Prisma.$gamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends userDefaultArgs<ExtArgs> = {}>(args?: Subset<T, userDefaultArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3960,420 +5185,379 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Notification model
+   * Fields of the invitation model
    */
-  interface NotificationFieldRefs {
-    readonly id: FieldRef<"Notification", 'Int'>
-    readonly recipientId: FieldRef<"Notification", 'Int'>
-    readonly senderId: FieldRef<"Notification", 'Int'>
-    readonly type: FieldRef<"Notification", 'NotificationType'>
-    readonly title: FieldRef<"Notification", 'String'>
-    readonly message: FieldRef<"Notification", 'String'>
-    readonly isRead: FieldRef<"Notification", 'Boolean'>
-    readonly gameId: FieldRef<"Notification", 'Int'>
-    readonly createdAt: FieldRef<"Notification", 'DateTime'>
-    readonly updatedAt: FieldRef<"Notification", 'DateTime'>
+  interface invitationFieldRefs {
+    readonly id: FieldRef<"invitation", 'Int'>
+    readonly gameId: FieldRef<"invitation", 'Int'>
+    readonly userId: FieldRef<"invitation", 'Int'>
+    readonly status: FieldRef<"invitation", 'invitation_status'>
+    readonly attendanceStatus: FieldRef<"invitation", 'attendance_status'>
+    readonly createdAt: FieldRef<"invitation", 'DateTime'>
+    readonly updatedAt: FieldRef<"invitation", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Notification findUnique
+   * invitation findUnique
    */
-  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * Filter, which Notification to fetch.
+     * Filter, which invitation to fetch.
      */
-    where: NotificationWhereUniqueInput
+    where: invitationWhereUniqueInput
   }
 
   /**
-   * Notification findUniqueOrThrow
+   * invitation findUniqueOrThrow
    */
-  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * Filter, which Notification to fetch.
+     * Filter, which invitation to fetch.
      */
-    where: NotificationWhereUniqueInput
+    where: invitationWhereUniqueInput
   }
 
   /**
-   * Notification findFirst
+   * invitation findFirst
    */
-  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * Filter, which Notification to fetch.
+     * Filter, which invitation to fetch.
      */
-    where?: NotificationWhereInput
+    where?: invitationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Notifications to fetch.
+     * Determine the order of invitations to fetch.
      */
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    orderBy?: invitationOrderByWithRelationInput | invitationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Notifications.
+     * Sets the position for searching for invitations.
      */
-    cursor?: NotificationWhereUniqueInput
+    cursor?: invitationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Notifications from the position of the cursor.
+     * Take `±n` invitations from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Notifications.
+     * Skip the first `n` invitations.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Notifications.
+     * Filter by unique combinations of invitations.
      */
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
   }
 
   /**
-   * Notification findFirstOrThrow
+   * invitation findFirstOrThrow
    */
-  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * Filter, which Notification to fetch.
+     * Filter, which invitation to fetch.
      */
-    where?: NotificationWhereInput
+    where?: invitationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Notifications to fetch.
+     * Determine the order of invitations to fetch.
      */
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    orderBy?: invitationOrderByWithRelationInput | invitationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Notifications.
+     * Sets the position for searching for invitations.
      */
-    cursor?: NotificationWhereUniqueInput
+    cursor?: invitationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Notifications from the position of the cursor.
+     * Take `±n` invitations from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Notifications.
+     * Skip the first `n` invitations.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Notifications.
+     * Filter by unique combinations of invitations.
      */
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
   }
 
   /**
-   * Notification findMany
+   * invitation findMany
    */
-  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * Filter, which Notifications to fetch.
+     * Filter, which invitations to fetch.
      */
-    where?: NotificationWhereInput
+    where?: invitationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Notifications to fetch.
+     * Determine the order of invitations to fetch.
      */
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    orderBy?: invitationOrderByWithRelationInput | invitationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Notifications.
+     * Sets the position for listing invitations.
      */
-    cursor?: NotificationWhereUniqueInput
+    cursor?: invitationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Notifications from the position of the cursor.
+     * Take `±n` invitations from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Notifications.
+     * Skip the first `n` invitations.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Notifications.
+     * Filter by unique combinations of invitations.
      */
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
   }
 
   /**
-   * Notification create
+   * invitation create
    */
-  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * The data needed to create a Notification.
+     * The data needed to create a invitation.
      */
-    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    data: XOR<invitationCreateInput, invitationUncheckedCreateInput>
   }
 
   /**
-   * Notification createMany
+   * invitation createMany
    */
-  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Notifications.
+     * The data used to create many invitations.
      */
-    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    data: invitationCreateManyInput | invitationCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Notification update
+   * invitation update
    */
-  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * The data needed to update a Notification.
+     * The data needed to update a invitation.
      */
-    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    data: XOR<invitationUpdateInput, invitationUncheckedUpdateInput>
     /**
-     * Choose, which Notification to update.
+     * Choose, which invitation to update.
      */
-    where: NotificationWhereUniqueInput
+    where: invitationWhereUniqueInput
   }
 
   /**
-   * Notification updateMany
+   * invitation updateMany
    */
-  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Notifications.
+     * The data used to update invitations.
      */
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    data: XOR<invitationUpdateManyMutationInput, invitationUncheckedUpdateManyInput>
     /**
-     * Filter which Notifications to update
+     * Filter which invitations to update
      */
-    where?: NotificationWhereInput
+    where?: invitationWhereInput
     /**
-     * Limit how many Notifications to update.
+     * Limit how many invitations to update.
      */
     limit?: number
   }
 
   /**
-   * Notification upsert
+   * invitation upsert
    */
-  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * The filter to search for the Notification to update in case it exists.
+     * The filter to search for the invitation to update in case it exists.
      */
-    where: NotificationWhereUniqueInput
+    where: invitationWhereUniqueInput
     /**
-     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
+     * In case the invitation found by the `where` argument doesn't exist, create a new invitation with this data.
      */
-    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    create: XOR<invitationCreateInput, invitationUncheckedCreateInput>
     /**
-     * In case the Notification was found with the provided `where` argument, update it with this data.
+     * In case the invitation was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    update: XOR<invitationUpdateInput, invitationUncheckedUpdateInput>
   }
 
   /**
-   * Notification delete
+   * invitation delete
    */
-  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the invitation
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the invitation
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
     /**
-     * Filter which Notification to delete.
+     * Filter which invitation to delete.
      */
-    where: NotificationWhereUniqueInput
+    where: invitationWhereUniqueInput
   }
 
   /**
-   * Notification deleteMany
+   * invitation deleteMany
    */
-  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Notifications to delete
+     * Filter which invitations to delete
      */
-    where?: NotificationWhereInput
+    where?: invitationWhereInput
     /**
-     * Limit how many Notifications to delete.
+     * Limit how many invitations to delete.
      */
     limit?: number
   }
 
   /**
-   * Notification.sender
+   * invitation without action
    */
-  export type Notification$senderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type invitationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the invitation
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: invitationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the invitation
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: invitationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
-   * Notification.game
-   */
-  export type Notification$gameArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Game
-     */
-    select?: GameSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Game
-     */
-    omit?: GameOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GameInclude<ExtArgs> | null
-    where?: GameWhereInput
-  }
-
-  /**
-   * Notification without action
-   */
-  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
+    include?: invitationInclude<ExtArgs> | null
   }
 
 
@@ -4389,19 +5573,6 @@ export namespace Prisma {
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
-  export const UserScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    email: 'email',
-    passwordHash: 'passwordHash',
-    reliabilityScore: 'reliabilityScore',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
   export const GameScalarFieldEnum: {
@@ -4437,6 +5608,32 @@ export namespace Prisma {
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+  export const UserScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    passwordHash: 'passwordHash',
+    reliabilityScore: 'reliabilityScore',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const InvitationScalarFieldEnum: {
+    id: 'id',
+    gameId: 'gameId',
+    userId: 'userId',
+    status: 'status',
+    attendanceStatus: 'attendanceStatus',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InvitationScalarFieldEnum = (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -4445,21 +5642,12 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const UserOrderByRelevanceFieldEnum: {
-    name: 'name',
-    email: 'email',
-    passwordHash: 'passwordHash'
-  };
-
-  export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
-
-
-  export const GameOrderByRelevanceFieldEnum: {
+  export const gameOrderByRelevanceFieldEnum: {
     name: 'name',
     location: 'location'
   };
 
-  export type GameOrderByRelevanceFieldEnum = (typeof GameOrderByRelevanceFieldEnum)[keyof typeof GameOrderByRelevanceFieldEnum]
+  export type gameOrderByRelevanceFieldEnum = (typeof gameOrderByRelevanceFieldEnum)[keyof typeof gameOrderByRelevanceFieldEnum]
 
 
   export const NullsOrder: {
@@ -4470,12 +5658,21 @@ export namespace Prisma {
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-  export const NotificationOrderByRelevanceFieldEnum: {
+  export const notificationOrderByRelevanceFieldEnum: {
     title: 'title',
     message: 'message'
   };
 
-  export type NotificationOrderByRelevanceFieldEnum = (typeof NotificationOrderByRelevanceFieldEnum)[keyof typeof NotificationOrderByRelevanceFieldEnum]
+  export type notificationOrderByRelevanceFieldEnum = (typeof notificationOrderByRelevanceFieldEnum)[keyof typeof notificationOrderByRelevanceFieldEnum]
+
+
+  export const userOrderByRelevanceFieldEnum: {
+    name: 'name',
+    email: 'email',
+    passwordHash: 'passwordHash'
+  };
+
+  export type userOrderByRelevanceFieldEnum = (typeof userOrderByRelevanceFieldEnum)[keyof typeof userOrderByRelevanceFieldEnum]
 
 
   /**
@@ -4505,23 +5702,23 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'FeeType'
+   * Reference to a field of type 'game_feeType'
    */
-  export type EnumFeeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FeeType'>
+  export type Enumgame_feeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'game_feeType'>
     
 
 
   /**
-   * Reference to a field of type 'GameStatus'
+   * Reference to a field of type 'game_status'
    */
-  export type EnumGameStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GameStatus'>
+  export type Enumgame_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'game_status'>
     
 
 
   /**
-   * Reference to a field of type 'NotificationType'
+   * Reference to a field of type 'notification_type'
    */
-  export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
+  export type Enumnotification_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_type'>
     
 
 
@@ -4529,6 +5726,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'invitation_status'
+   */
+  export type Enuminvitation_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'invitation_status'>
+    
+
+
+  /**
+   * Reference to a field of type 'attendance_status'
+   */
+  export type Enumattendance_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'attendance_status'>
     
 
 
@@ -4542,23 +5753,207 @@ export namespace Prisma {
    */
 
 
-  export type UserWhereInput = {
-    AND?: UserWhereInput | UserWhereInput[]
-    OR?: UserWhereInput[]
-    NOT?: UserWhereInput | UserWhereInput[]
-    id?: IntFilter<"User"> | number
-    name?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    passwordHash?: StringFilter<"User"> | string
-    reliabilityScore?: IntFilter<"User"> | number
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    hostedGames?: GameListRelationFilter
-    receivedNotifications?: NotificationListRelationFilter
-    sentNotifications?: NotificationListRelationFilter
+  export type gameWhereInput = {
+    AND?: gameWhereInput | gameWhereInput[]
+    OR?: gameWhereInput[]
+    NOT?: gameWhereInput | gameWhereInput[]
+    id?: IntFilter<"game"> | number
+    hostId?: IntFilter<"game"> | number
+    name?: StringFilter<"game"> | string
+    location?: StringFilter<"game"> | string
+    startTime?: DateTimeFilter<"game"> | Date | string
+    endTime?: DateTimeFilter<"game"> | Date | string
+    feeType?: Enumgame_feeTypeFilter<"game"> | $Enums.game_feeType
+    minReliabilityScore?: IntFilter<"game"> | number
+    status?: Enumgame_statusFilter<"game"> | $Enums.game_status
+    createdAt?: DateTimeFilter<"game"> | Date | string
+    updatedAt?: DateTimeFilter<"game"> | Date | string
+    host?: XOR<UserScalarRelationFilter, userWhereInput>
+    notification?: NotificationListRelationFilter
+    invitation?: InvitationListRelationFilter
   }
 
-  export type UserOrderByWithRelationInput = {
+  export type gameOrderByWithRelationInput = {
+    id?: SortOrder
+    hostId?: SortOrder
+    name?: SortOrder
+    location?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    feeType?: SortOrder
+    minReliabilityScore?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    host?: userOrderByWithRelationInput
+    notification?: notificationOrderByRelationAggregateInput
+    invitation?: invitationOrderByRelationAggregateInput
+    _relevance?: gameOrderByRelevanceInput
+  }
+
+  export type gameWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: gameWhereInput | gameWhereInput[]
+    OR?: gameWhereInput[]
+    NOT?: gameWhereInput | gameWhereInput[]
+    hostId?: IntFilter<"game"> | number
+    name?: StringFilter<"game"> | string
+    location?: StringFilter<"game"> | string
+    startTime?: DateTimeFilter<"game"> | Date | string
+    endTime?: DateTimeFilter<"game"> | Date | string
+    feeType?: Enumgame_feeTypeFilter<"game"> | $Enums.game_feeType
+    minReliabilityScore?: IntFilter<"game"> | number
+    status?: Enumgame_statusFilter<"game"> | $Enums.game_status
+    createdAt?: DateTimeFilter<"game"> | Date | string
+    updatedAt?: DateTimeFilter<"game"> | Date | string
+    host?: XOR<UserScalarRelationFilter, userWhereInput>
+    notification?: NotificationListRelationFilter
+    invitation?: InvitationListRelationFilter
+  }, "id">
+
+  export type gameOrderByWithAggregationInput = {
+    id?: SortOrder
+    hostId?: SortOrder
+    name?: SortOrder
+    location?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    feeType?: SortOrder
+    minReliabilityScore?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: gameCountOrderByAggregateInput
+    _avg?: gameAvgOrderByAggregateInput
+    _max?: gameMaxOrderByAggregateInput
+    _min?: gameMinOrderByAggregateInput
+    _sum?: gameSumOrderByAggregateInput
+  }
+
+  export type gameScalarWhereWithAggregatesInput = {
+    AND?: gameScalarWhereWithAggregatesInput | gameScalarWhereWithAggregatesInput[]
+    OR?: gameScalarWhereWithAggregatesInput[]
+    NOT?: gameScalarWhereWithAggregatesInput | gameScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"game"> | number
+    hostId?: IntWithAggregatesFilter<"game"> | number
+    name?: StringWithAggregatesFilter<"game"> | string
+    location?: StringWithAggregatesFilter<"game"> | string
+    startTime?: DateTimeWithAggregatesFilter<"game"> | Date | string
+    endTime?: DateTimeWithAggregatesFilter<"game"> | Date | string
+    feeType?: Enumgame_feeTypeWithAggregatesFilter<"game"> | $Enums.game_feeType
+    minReliabilityScore?: IntWithAggregatesFilter<"game"> | number
+    status?: Enumgame_statusWithAggregatesFilter<"game"> | $Enums.game_status
+    createdAt?: DateTimeWithAggregatesFilter<"game"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"game"> | Date | string
+  }
+
+  export type notificationWhereInput = {
+    AND?: notificationWhereInput | notificationWhereInput[]
+    OR?: notificationWhereInput[]
+    NOT?: notificationWhereInput | notificationWhereInput[]
+    id?: IntFilter<"notification"> | number
+    recipientId?: IntFilter<"notification"> | number
+    senderId?: IntNullableFilter<"notification"> | number | null
+    type?: Enumnotification_typeFilter<"notification"> | $Enums.notification_type
+    title?: StringFilter<"notification"> | string
+    message?: StringFilter<"notification"> | string
+    isRead?: BoolFilter<"notification"> | boolean
+    gameId?: IntNullableFilter<"notification"> | number | null
+    createdAt?: DateTimeFilter<"notification"> | Date | string
+    updatedAt?: DateTimeFilter<"notification"> | Date | string
+    game?: XOR<GameNullableScalarRelationFilter, gameWhereInput> | null
+    user_notification_recipientIdTouser?: XOR<UserScalarRelationFilter, userWhereInput>
+    user_notification_senderIdTouser?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
+  }
+
+  export type notificationOrderByWithRelationInput = {
+    id?: SortOrder
+    recipientId?: SortOrder
+    senderId?: SortOrderInput | SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    gameId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    game?: gameOrderByWithRelationInput
+    user_notification_recipientIdTouser?: userOrderByWithRelationInput
+    user_notification_senderIdTouser?: userOrderByWithRelationInput
+    _relevance?: notificationOrderByRelevanceInput
+  }
+
+  export type notificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: notificationWhereInput | notificationWhereInput[]
+    OR?: notificationWhereInput[]
+    NOT?: notificationWhereInput | notificationWhereInput[]
+    recipientId?: IntFilter<"notification"> | number
+    senderId?: IntNullableFilter<"notification"> | number | null
+    type?: Enumnotification_typeFilter<"notification"> | $Enums.notification_type
+    title?: StringFilter<"notification"> | string
+    message?: StringFilter<"notification"> | string
+    isRead?: BoolFilter<"notification"> | boolean
+    gameId?: IntNullableFilter<"notification"> | number | null
+    createdAt?: DateTimeFilter<"notification"> | Date | string
+    updatedAt?: DateTimeFilter<"notification"> | Date | string
+    game?: XOR<GameNullableScalarRelationFilter, gameWhereInput> | null
+    user_notification_recipientIdTouser?: XOR<UserScalarRelationFilter, userWhereInput>
+    user_notification_senderIdTouser?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
+  }, "id">
+
+  export type notificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    recipientId?: SortOrder
+    senderId?: SortOrderInput | SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    gameId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: notificationCountOrderByAggregateInput
+    _avg?: notificationAvgOrderByAggregateInput
+    _max?: notificationMaxOrderByAggregateInput
+    _min?: notificationMinOrderByAggregateInput
+    _sum?: notificationSumOrderByAggregateInput
+  }
+
+  export type notificationScalarWhereWithAggregatesInput = {
+    AND?: notificationScalarWhereWithAggregatesInput | notificationScalarWhereWithAggregatesInput[]
+    OR?: notificationScalarWhereWithAggregatesInput[]
+    NOT?: notificationScalarWhereWithAggregatesInput | notificationScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"notification"> | number
+    recipientId?: IntWithAggregatesFilter<"notification"> | number
+    senderId?: IntNullableWithAggregatesFilter<"notification"> | number | null
+    type?: Enumnotification_typeWithAggregatesFilter<"notification"> | $Enums.notification_type
+    title?: StringWithAggregatesFilter<"notification"> | string
+    message?: StringWithAggregatesFilter<"notification"> | string
+    isRead?: BoolWithAggregatesFilter<"notification"> | boolean
+    gameId?: IntNullableWithAggregatesFilter<"notification"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"notification"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"notification"> | Date | string
+  }
+
+  export type userWhereInput = {
+    AND?: userWhereInput | userWhereInput[]
+    OR?: userWhereInput[]
+    NOT?: userWhereInput | userWhereInput[]
+    id?: IntFilter<"user"> | number
+    name?: StringFilter<"user"> | string
+    email?: StringFilter<"user"> | string
+    passwordHash?: StringFilter<"user"> | string
+    reliabilityScore?: IntFilter<"user"> | number
+    createdAt?: DateTimeFilter<"user"> | Date | string
+    updatedAt?: DateTimeFilter<"user"> | Date | string
+    hostedGame?: GameListRelationFilter
+    invitation?: InvitationListRelationFilter
+    notification_notification_recipientIdTouser?: NotificationListRelationFilter
+    notification_notification_senderIdTouser?: NotificationListRelationFilter
+  }
+
+  export type userOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
@@ -4566,29 +5961,31 @@ export namespace Prisma {
     reliabilityScore?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    hostedGames?: GameOrderByRelationAggregateInput
-    receivedNotifications?: NotificationOrderByRelationAggregateInput
-    sentNotifications?: NotificationOrderByRelationAggregateInput
-    _relevance?: UserOrderByRelevanceInput
+    hostedGame?: gameOrderByRelationAggregateInput
+    invitation?: invitationOrderByRelationAggregateInput
+    notification_notification_recipientIdTouser?: notificationOrderByRelationAggregateInput
+    notification_notification_senderIdTouser?: notificationOrderByRelationAggregateInput
+    _relevance?: userOrderByRelevanceInput
   }
 
-  export type UserWhereUniqueInput = Prisma.AtLeast<{
+  export type userWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     email?: string
-    AND?: UserWhereInput | UserWhereInput[]
-    OR?: UserWhereInput[]
-    NOT?: UserWhereInput | UserWhereInput[]
-    name?: StringFilter<"User"> | string
-    passwordHash?: StringFilter<"User"> | string
-    reliabilityScore?: IntFilter<"User"> | number
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    hostedGames?: GameListRelationFilter
-    receivedNotifications?: NotificationListRelationFilter
-    sentNotifications?: NotificationListRelationFilter
+    AND?: userWhereInput | userWhereInput[]
+    OR?: userWhereInput[]
+    NOT?: userWhereInput | userWhereInput[]
+    name?: StringFilter<"user"> | string
+    passwordHash?: StringFilter<"user"> | string
+    reliabilityScore?: IntFilter<"user"> | number
+    createdAt?: DateTimeFilter<"user"> | Date | string
+    updatedAt?: DateTimeFilter<"user"> | Date | string
+    hostedGame?: GameListRelationFilter
+    invitation?: InvitationListRelationFilter
+    notification_notification_recipientIdTouser?: NotificationListRelationFilter
+    notification_notification_senderIdTouser?: NotificationListRelationFilter
   }, "id" | "email">
 
-  export type UserOrderByWithAggregationInput = {
+  export type userOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
@@ -4596,425 +5993,241 @@ export namespace Prisma {
     reliabilityScore?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: UserCountOrderByAggregateInput
-    _avg?: UserAvgOrderByAggregateInput
-    _max?: UserMaxOrderByAggregateInput
-    _min?: UserMinOrderByAggregateInput
-    _sum?: UserSumOrderByAggregateInput
+    _count?: userCountOrderByAggregateInput
+    _avg?: userAvgOrderByAggregateInput
+    _max?: userMaxOrderByAggregateInput
+    _min?: userMinOrderByAggregateInput
+    _sum?: userSumOrderByAggregateInput
   }
 
-  export type UserScalarWhereWithAggregatesInput = {
-    AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    OR?: UserScalarWhereWithAggregatesInput[]
-    NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"User"> | number
-    name?: StringWithAggregatesFilter<"User"> | string
-    email?: StringWithAggregatesFilter<"User"> | string
-    passwordHash?: StringWithAggregatesFilter<"User"> | string
-    reliabilityScore?: IntWithAggregatesFilter<"User"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  export type userScalarWhereWithAggregatesInput = {
+    AND?: userScalarWhereWithAggregatesInput | userScalarWhereWithAggregatesInput[]
+    OR?: userScalarWhereWithAggregatesInput[]
+    NOT?: userScalarWhereWithAggregatesInput | userScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"user"> | number
+    name?: StringWithAggregatesFilter<"user"> | string
+    email?: StringWithAggregatesFilter<"user"> | string
+    passwordHash?: StringWithAggregatesFilter<"user"> | string
+    reliabilityScore?: IntWithAggregatesFilter<"user"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"user"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"user"> | Date | string
   }
 
-  export type GameWhereInput = {
-    AND?: GameWhereInput | GameWhereInput[]
-    OR?: GameWhereInput[]
-    NOT?: GameWhereInput | GameWhereInput[]
-    id?: IntFilter<"Game"> | number
-    hostId?: IntFilter<"Game"> | number
-    name?: StringFilter<"Game"> | string
-    location?: StringFilter<"Game"> | string
-    startTime?: DateTimeFilter<"Game"> | Date | string
-    endTime?: DateTimeFilter<"Game"> | Date | string
-    feeType?: EnumFeeTypeFilter<"Game"> | $Enums.FeeType
-    minReliabilityScore?: IntFilter<"Game"> | number
-    status?: EnumGameStatusFilter<"Game"> | $Enums.GameStatus
-    createdAt?: DateTimeFilter<"Game"> | Date | string
-    updatedAt?: DateTimeFilter<"Game"> | Date | string
-    notifications?: NotificationListRelationFilter
-    host?: XOR<UserScalarRelationFilter, UserWhereInput>
+  export type invitationWhereInput = {
+    AND?: invitationWhereInput | invitationWhereInput[]
+    OR?: invitationWhereInput[]
+    NOT?: invitationWhereInput | invitationWhereInput[]
+    id?: IntFilter<"invitation"> | number
+    gameId?: IntFilter<"invitation"> | number
+    userId?: IntFilter<"invitation"> | number
+    status?: Enuminvitation_statusFilter<"invitation"> | $Enums.invitation_status
+    attendanceStatus?: Enumattendance_statusNullableFilter<"invitation"> | $Enums.attendance_status | null
+    createdAt?: DateTimeFilter<"invitation"> | Date | string
+    updatedAt?: DateTimeFilter<"invitation"> | Date | string
+    game?: XOR<GameScalarRelationFilter, gameWhereInput>
+    user?: XOR<UserScalarRelationFilter, userWhereInput>
   }
 
-  export type GameOrderByWithRelationInput = {
+  export type invitationOrderByWithRelationInput = {
     id?: SortOrder
-    hostId?: SortOrder
-    name?: SortOrder
-    location?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    feeType?: SortOrder
-    minReliabilityScore?: SortOrder
+    gameId?: SortOrder
+    userId?: SortOrder
     status?: SortOrder
+    attendanceStatus?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    notifications?: NotificationOrderByRelationAggregateInput
-    host?: UserOrderByWithRelationInput
-    _relevance?: GameOrderByRelevanceInput
+    game?: gameOrderByWithRelationInput
+    user?: userOrderByWithRelationInput
   }
 
-  export type GameWhereUniqueInput = Prisma.AtLeast<{
+  export type invitationWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    AND?: GameWhereInput | GameWhereInput[]
-    OR?: GameWhereInput[]
-    NOT?: GameWhereInput | GameWhereInput[]
-    hostId?: IntFilter<"Game"> | number
-    name?: StringFilter<"Game"> | string
-    location?: StringFilter<"Game"> | string
-    startTime?: DateTimeFilter<"Game"> | Date | string
-    endTime?: DateTimeFilter<"Game"> | Date | string
-    feeType?: EnumFeeTypeFilter<"Game"> | $Enums.FeeType
-    minReliabilityScore?: IntFilter<"Game"> | number
-    status?: EnumGameStatusFilter<"Game"> | $Enums.GameStatus
-    createdAt?: DateTimeFilter<"Game"> | Date | string
-    updatedAt?: DateTimeFilter<"Game"> | Date | string
-    notifications?: NotificationListRelationFilter
-    host?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+    gameId_userId?: invitationGameIdUserIdCompoundUniqueInput
+    AND?: invitationWhereInput | invitationWhereInput[]
+    OR?: invitationWhereInput[]
+    NOT?: invitationWhereInput | invitationWhereInput[]
+    gameId?: IntFilter<"invitation"> | number
+    userId?: IntFilter<"invitation"> | number
+    status?: Enuminvitation_statusFilter<"invitation"> | $Enums.invitation_status
+    attendanceStatus?: Enumattendance_statusNullableFilter<"invitation"> | $Enums.attendance_status | null
+    createdAt?: DateTimeFilter<"invitation"> | Date | string
+    updatedAt?: DateTimeFilter<"invitation"> | Date | string
+    game?: XOR<GameScalarRelationFilter, gameWhereInput>
+    user?: XOR<UserScalarRelationFilter, userWhereInput>
+  }, "id" | "gameId_userId">
 
-  export type GameOrderByWithAggregationInput = {
+  export type invitationOrderByWithAggregationInput = {
     id?: SortOrder
-    hostId?: SortOrder
-    name?: SortOrder
-    location?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    feeType?: SortOrder
-    minReliabilityScore?: SortOrder
+    gameId?: SortOrder
+    userId?: SortOrder
     status?: SortOrder
+    attendanceStatus?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: GameCountOrderByAggregateInput
-    _avg?: GameAvgOrderByAggregateInput
-    _max?: GameMaxOrderByAggregateInput
-    _min?: GameMinOrderByAggregateInput
-    _sum?: GameSumOrderByAggregateInput
+    _count?: invitationCountOrderByAggregateInput
+    _avg?: invitationAvgOrderByAggregateInput
+    _max?: invitationMaxOrderByAggregateInput
+    _min?: invitationMinOrderByAggregateInput
+    _sum?: invitationSumOrderByAggregateInput
   }
 
-  export type GameScalarWhereWithAggregatesInput = {
-    AND?: GameScalarWhereWithAggregatesInput | GameScalarWhereWithAggregatesInput[]
-    OR?: GameScalarWhereWithAggregatesInput[]
-    NOT?: GameScalarWhereWithAggregatesInput | GameScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Game"> | number
-    hostId?: IntWithAggregatesFilter<"Game"> | number
-    name?: StringWithAggregatesFilter<"Game"> | string
-    location?: StringWithAggregatesFilter<"Game"> | string
-    startTime?: DateTimeWithAggregatesFilter<"Game"> | Date | string
-    endTime?: DateTimeWithAggregatesFilter<"Game"> | Date | string
-    feeType?: EnumFeeTypeWithAggregatesFilter<"Game"> | $Enums.FeeType
-    minReliabilityScore?: IntWithAggregatesFilter<"Game"> | number
-    status?: EnumGameStatusWithAggregatesFilter<"Game"> | $Enums.GameStatus
-    createdAt?: DateTimeWithAggregatesFilter<"Game"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Game"> | Date | string
+  export type invitationScalarWhereWithAggregatesInput = {
+    AND?: invitationScalarWhereWithAggregatesInput | invitationScalarWhereWithAggregatesInput[]
+    OR?: invitationScalarWhereWithAggregatesInput[]
+    NOT?: invitationScalarWhereWithAggregatesInput | invitationScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"invitation"> | number
+    gameId?: IntWithAggregatesFilter<"invitation"> | number
+    userId?: IntWithAggregatesFilter<"invitation"> | number
+    status?: Enuminvitation_statusWithAggregatesFilter<"invitation"> | $Enums.invitation_status
+    attendanceStatus?: Enumattendance_statusNullableWithAggregatesFilter<"invitation"> | $Enums.attendance_status | null
+    createdAt?: DateTimeWithAggregatesFilter<"invitation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"invitation"> | Date | string
   }
 
-  export type NotificationWhereInput = {
-    AND?: NotificationWhereInput | NotificationWhereInput[]
-    OR?: NotificationWhereInput[]
-    NOT?: NotificationWhereInput | NotificationWhereInput[]
-    id?: IntFilter<"Notification"> | number
-    recipientId?: IntFilter<"Notification"> | number
-    senderId?: IntNullableFilter<"Notification"> | number | null
-    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
-    title?: StringFilter<"Notification"> | string
-    message?: StringFilter<"Notification"> | string
-    isRead?: BoolFilter<"Notification"> | boolean
-    gameId?: IntNullableFilter<"Notification"> | number | null
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
-    updatedAt?: DateTimeFilter<"Notification"> | Date | string
-    recipient?: XOR<UserScalarRelationFilter, UserWhereInput>
-    sender?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    game?: XOR<GameNullableScalarRelationFilter, GameWhereInput> | null
-  }
-
-  export type NotificationOrderByWithRelationInput = {
-    id?: SortOrder
-    recipientId?: SortOrder
-    senderId?: SortOrderInput | SortOrder
-    type?: SortOrder
-    title?: SortOrder
-    message?: SortOrder
-    isRead?: SortOrder
-    gameId?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    recipient?: UserOrderByWithRelationInput
-    sender?: UserOrderByWithRelationInput
-    game?: GameOrderByWithRelationInput
-    _relevance?: NotificationOrderByRelevanceInput
-  }
-
-  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: NotificationWhereInput | NotificationWhereInput[]
-    OR?: NotificationWhereInput[]
-    NOT?: NotificationWhereInput | NotificationWhereInput[]
-    recipientId?: IntFilter<"Notification"> | number
-    senderId?: IntNullableFilter<"Notification"> | number | null
-    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
-    title?: StringFilter<"Notification"> | string
-    message?: StringFilter<"Notification"> | string
-    isRead?: BoolFilter<"Notification"> | boolean
-    gameId?: IntNullableFilter<"Notification"> | number | null
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
-    updatedAt?: DateTimeFilter<"Notification"> | Date | string
-    recipient?: XOR<UserScalarRelationFilter, UserWhereInput>
-    sender?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    game?: XOR<GameNullableScalarRelationFilter, GameWhereInput> | null
-  }, "id">
-
-  export type NotificationOrderByWithAggregationInput = {
-    id?: SortOrder
-    recipientId?: SortOrder
-    senderId?: SortOrderInput | SortOrder
-    type?: SortOrder
-    title?: SortOrder
-    message?: SortOrder
-    isRead?: SortOrder
-    gameId?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: NotificationCountOrderByAggregateInput
-    _avg?: NotificationAvgOrderByAggregateInput
-    _max?: NotificationMaxOrderByAggregateInput
-    _min?: NotificationMinOrderByAggregateInput
-    _sum?: NotificationSumOrderByAggregateInput
-  }
-
-  export type NotificationScalarWhereWithAggregatesInput = {
-    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
-    OR?: NotificationScalarWhereWithAggregatesInput[]
-    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Notification"> | number
-    recipientId?: IntWithAggregatesFilter<"Notification"> | number
-    senderId?: IntNullableWithAggregatesFilter<"Notification"> | number | null
-    type?: EnumNotificationTypeWithAggregatesFilter<"Notification"> | $Enums.NotificationType
-    title?: StringWithAggregatesFilter<"Notification"> | string
-    message?: StringWithAggregatesFilter<"Notification"> | string
-    isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
-    gameId?: IntNullableWithAggregatesFilter<"Notification"> | number | null
-    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
-  }
-
-  export type UserCreateInput = {
-    name: string
-    email: string
-    passwordHash: string
-    reliabilityScore?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    hostedGames?: GameCreateNestedManyWithoutHostInput
-    receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
-  }
-
-  export type UserUncheckedCreateInput = {
-    id?: number
-    name: string
-    email: string
-    passwordHash: string
-    reliabilityScore?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    hostedGames?: GameUncheckedCreateNestedManyWithoutHostInput
-    receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
-  }
-
-  export type UserUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    reliabilityScore?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    hostedGames?: GameUpdateManyWithoutHostNestedInput
-    receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
-  }
-
-  export type UserUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    reliabilityScore?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    hostedGames?: GameUncheckedUpdateManyWithoutHostNestedInput
-    receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
-  }
-
-  export type UserCreateManyInput = {
-    id?: number
-    name: string
-    email: string
-    passwordHash: string
-    reliabilityScore?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    reliabilityScore?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    reliabilityScore?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GameCreateInput = {
+  export type gameCreateInput = {
     name: string
     location: string
     startTime: Date | string
     endTime: Date | string
-    feeType?: $Enums.FeeType
+    feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.GameStatus
+    status?: $Enums.game_status
     createdAt?: Date | string
     updatedAt?: Date | string
-    notifications?: NotificationCreateNestedManyWithoutGameInput
-    host: UserCreateNestedOneWithoutHostedGamesInput
+    host: userCreateNestedOneWithoutHostedGameInput
+    notification?: notificationCreateNestedManyWithoutGameInput
+    invitation?: invitationCreateNestedManyWithoutGameInput
   }
 
-  export type GameUncheckedCreateInput = {
+  export type gameUncheckedCreateInput = {
     id?: number
     hostId: number
     name: string
     location: string
     startTime: Date | string
     endTime: Date | string
-    feeType?: $Enums.FeeType
+    feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.GameStatus
+    status?: $Enums.game_status
     createdAt?: Date | string
     updatedAt?: Date | string
-    notifications?: NotificationUncheckedCreateNestedManyWithoutGameInput
+    notification?: notificationUncheckedCreateNestedManyWithoutGameInput
+    invitation?: invitationUncheckedCreateNestedManyWithoutGameInput
   }
 
-  export type GameUpdateInput = {
+  export type gameUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    notifications?: NotificationUpdateManyWithoutGameNestedInput
-    host?: UserUpdateOneRequiredWithoutHostedGamesNestedInput
+    host?: userUpdateOneRequiredWithoutHostedGameNestedInput
+    notification?: notificationUpdateManyWithoutGameNestedInput
+    invitation?: invitationUpdateManyWithoutGameNestedInput
   }
 
-  export type GameUncheckedUpdateInput = {
+  export type gameUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     hostId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    notifications?: NotificationUncheckedUpdateManyWithoutGameNestedInput
+    notification?: notificationUncheckedUpdateManyWithoutGameNestedInput
+    invitation?: invitationUncheckedUpdateManyWithoutGameNestedInput
   }
 
-  export type GameCreateManyInput = {
+  export type gameCreateManyInput = {
     id?: number
     hostId: number
     name: string
     location: string
     startTime: Date | string
     endTime: Date | string
-    feeType?: $Enums.FeeType
+    feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.GameStatus
+    status?: $Enums.game_status
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type GameUpdateManyMutationInput = {
+  export type gameUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GameUncheckedUpdateManyInput = {
+  export type gameUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     hostId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationCreateInput = {
-    type: $Enums.NotificationType
+  export type notificationCreateInput = {
+    type: $Enums.notification_type
     title: string
     message: string
     isRead?: boolean
     createdAt?: Date | string
-    updatedAt?: Date | string
-    recipient: UserCreateNestedOneWithoutReceivedNotificationsInput
-    sender?: UserCreateNestedOneWithoutSentNotificationsInput
-    game?: GameCreateNestedOneWithoutNotificationsInput
+    updatedAt: Date | string
+    game?: gameCreateNestedOneWithoutNotificationInput
+    user_notification_recipientIdTouser: userCreateNestedOneWithoutNotification_notification_recipientIdTouserInput
+    user_notification_senderIdTouser?: userCreateNestedOneWithoutNotification_notification_senderIdTouserInput
   }
 
-  export type NotificationUncheckedCreateInput = {
+  export type notificationUncheckedCreateInput = {
     id?: number
     recipientId: number
     senderId?: number | null
-    type: $Enums.NotificationType
+    type: $Enums.notification_type
     title: string
     message: string
     isRead?: boolean
     gameId?: number | null
     createdAt?: Date | string
-    updatedAt?: Date | string
+    updatedAt: Date | string
   }
 
-  export type NotificationUpdateInput = {
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+  export type notificationUpdateInput = {
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    recipient?: UserUpdateOneRequiredWithoutReceivedNotificationsNestedInput
-    sender?: UserUpdateOneWithoutSentNotificationsNestedInput
-    game?: GameUpdateOneWithoutNotificationsNestedInput
+    game?: gameUpdateOneWithoutNotificationNestedInput
+    user_notification_recipientIdTouser?: userUpdateOneRequiredWithoutNotification_notification_recipientIdTouserNestedInput
+    user_notification_senderIdTouser?: userUpdateOneWithoutNotification_notification_senderIdTouserNestedInput
   }
 
-  export type NotificationUncheckedUpdateInput = {
+  export type notificationUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     recipientId?: IntFieldUpdateOperationsInput | number
     senderId?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
@@ -5023,21 +6236,21 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationCreateManyInput = {
+  export type notificationCreateManyInput = {
     id?: number
     recipientId: number
     senderId?: number | null
-    type: $Enums.NotificationType
+    type: $Enums.notification_type
     title: string
     message: string
     isRead?: boolean
     gameId?: number | null
     createdAt?: Date | string
-    updatedAt?: Date | string
+    updatedAt: Date | string
   }
 
-  export type NotificationUpdateManyMutationInput = {
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+  export type notificationUpdateManyMutationInput = {
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
@@ -5045,15 +6258,163 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationUncheckedUpdateManyInput = {
+  export type notificationUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     recipientId?: IntFieldUpdateOperationsInput | number
     senderId?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
     gameId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type userCreateInput = {
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+    hostedGame?: gameCreateNestedManyWithoutHostInput
+    invitation?: invitationCreateNestedManyWithoutUserInput
+    notification_notification_recipientIdTouser?: notificationCreateNestedManyWithoutUser_notification_recipientIdTouserInput
+    notification_notification_senderIdTouser?: notificationCreateNestedManyWithoutUser_notification_senderIdTouserInput
+  }
+
+  export type userUncheckedCreateInput = {
+    id?: number
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+    hostedGame?: gameUncheckedCreateNestedManyWithoutHostInput
+    invitation?: invitationUncheckedCreateNestedManyWithoutUserInput
+    notification_notification_recipientIdTouser?: notificationUncheckedCreateNestedManyWithoutUser_notification_recipientIdTouserInput
+    notification_notification_senderIdTouser?: notificationUncheckedCreateNestedManyWithoutUser_notification_senderIdTouserInput
+  }
+
+  export type userUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostedGame?: gameUpdateManyWithoutHostNestedInput
+    invitation?: invitationUpdateManyWithoutUserNestedInput
+    notification_notification_recipientIdTouser?: notificationUpdateManyWithoutUser_notification_recipientIdTouserNestedInput
+    notification_notification_senderIdTouser?: notificationUpdateManyWithoutUser_notification_senderIdTouserNestedInput
+  }
+
+  export type userUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostedGame?: gameUncheckedUpdateManyWithoutHostNestedInput
+    invitation?: invitationUncheckedUpdateManyWithoutUserNestedInput
+    notification_notification_recipientIdTouser?: notificationUncheckedUpdateManyWithoutUser_notification_recipientIdTouserNestedInput
+    notification_notification_senderIdTouser?: notificationUncheckedUpdateManyWithoutUser_notification_senderIdTouserNestedInput
+  }
+
+  export type userCreateManyInput = {
+    id?: number
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type userUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type userUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitationCreateInput = {
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    game: gameCreateNestedOneWithoutInvitationInput
+    user: userCreateNestedOneWithoutInvitationInput
+  }
+
+  export type invitationUncheckedCreateInput = {
+    id?: number
+    gameId: number
+    userId: number
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type invitationUpdateInput = {
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    game?: gameUpdateOneRequiredWithoutInvitationNestedInput
+    user?: userUpdateOneRequiredWithoutInvitationNestedInput
+  }
+
+  export type invitationUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitationCreateManyInput = {
+    id?: number
+    gameId: number
+    userId: number
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type invitationUpdateManyMutationInput = {
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitationUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5095,70 +6456,103 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type GameListRelationFilter = {
-    every?: GameWhereInput
-    some?: GameWhereInput
-    none?: GameWhereInput
+  export type Enumgame_feeTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.game_feeType | Enumgame_feeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.game_feeType[]
+    notIn?: $Enums.game_feeType[]
+    not?: NestedEnumgame_feeTypeFilter<$PrismaModel> | $Enums.game_feeType
+  }
+
+  export type Enumgame_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.game_status | Enumgame_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.game_status[]
+    notIn?: $Enums.game_status[]
+    not?: NestedEnumgame_statusFilter<$PrismaModel> | $Enums.game_status
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: userWhereInput
+    isNot?: userWhereInput
   }
 
   export type NotificationListRelationFilter = {
-    every?: NotificationWhereInput
-    some?: NotificationWhereInput
-    none?: NotificationWhereInput
+    every?: notificationWhereInput
+    some?: notificationWhereInput
+    none?: notificationWhereInput
   }
 
-  export type GameOrderByRelationAggregateInput = {
+  export type InvitationListRelationFilter = {
+    every?: invitationWhereInput
+    some?: invitationWhereInput
+    none?: invitationWhereInput
+  }
+
+  export type notificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type NotificationOrderByRelationAggregateInput = {
+  export type invitationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type UserOrderByRelevanceInput = {
-    fields: UserOrderByRelevanceFieldEnum | UserOrderByRelevanceFieldEnum[]
+  export type gameOrderByRelevanceInput = {
+    fields: gameOrderByRelevanceFieldEnum | gameOrderByRelevanceFieldEnum[]
     sort: SortOrder
     search: string
   }
 
-  export type UserCountOrderByAggregateInput = {
+  export type gameCountOrderByAggregateInput = {
     id?: SortOrder
+    hostId?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    passwordHash?: SortOrder
-    reliabilityScore?: SortOrder
+    location?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    feeType?: SortOrder
+    minReliabilityScore?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type UserAvgOrderByAggregateInput = {
+  export type gameAvgOrderByAggregateInput = {
     id?: SortOrder
-    reliabilityScore?: SortOrder
+    hostId?: SortOrder
+    minReliabilityScore?: SortOrder
   }
 
-  export type UserMaxOrderByAggregateInput = {
+  export type gameMaxOrderByAggregateInput = {
     id?: SortOrder
+    hostId?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    passwordHash?: SortOrder
-    reliabilityScore?: SortOrder
+    location?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    feeType?: SortOrder
+    minReliabilityScore?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type UserMinOrderByAggregateInput = {
+  export type gameMinOrderByAggregateInput = {
     id?: SortOrder
+    hostId?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    passwordHash?: SortOrder
-    reliabilityScore?: SortOrder
+    location?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    feeType?: SortOrder
+    minReliabilityScore?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type UserSumOrderByAggregateInput = {
+  export type gameSumOrderByAggregateInput = {
     id?: SortOrder
-    reliabilityScore?: SortOrder
+    hostId?: SortOrder
+    minReliabilityScore?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -5209,103 +6603,24 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type EnumFeeTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.FeeType | EnumFeeTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FeeType[]
-    notIn?: $Enums.FeeType[]
-    not?: NestedEnumFeeTypeFilter<$PrismaModel> | $Enums.FeeType
-  }
-
-  export type EnumGameStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.GameStatus | EnumGameStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GameStatus[]
-    notIn?: $Enums.GameStatus[]
-    not?: NestedEnumGameStatusFilter<$PrismaModel> | $Enums.GameStatus
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
-  export type GameOrderByRelevanceInput = {
-    fields: GameOrderByRelevanceFieldEnum | GameOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
-  export type GameCountOrderByAggregateInput = {
-    id?: SortOrder
-    hostId?: SortOrder
-    name?: SortOrder
-    location?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    feeType?: SortOrder
-    minReliabilityScore?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type GameAvgOrderByAggregateInput = {
-    id?: SortOrder
-    hostId?: SortOrder
-    minReliabilityScore?: SortOrder
-  }
-
-  export type GameMaxOrderByAggregateInput = {
-    id?: SortOrder
-    hostId?: SortOrder
-    name?: SortOrder
-    location?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    feeType?: SortOrder
-    minReliabilityScore?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type GameMinOrderByAggregateInput = {
-    id?: SortOrder
-    hostId?: SortOrder
-    name?: SortOrder
-    location?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    feeType?: SortOrder
-    minReliabilityScore?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type GameSumOrderByAggregateInput = {
-    id?: SortOrder
-    hostId?: SortOrder
-    minReliabilityScore?: SortOrder
-  }
-
-  export type EnumFeeTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.FeeType | EnumFeeTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FeeType[]
-    notIn?: $Enums.FeeType[]
-    not?: NestedEnumFeeTypeWithAggregatesFilter<$PrismaModel> | $Enums.FeeType
+  export type Enumgame_feeTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.game_feeType | Enumgame_feeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.game_feeType[]
+    notIn?: $Enums.game_feeType[]
+    not?: NestedEnumgame_feeTypeWithAggregatesFilter<$PrismaModel> | $Enums.game_feeType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumFeeTypeFilter<$PrismaModel>
-    _max?: NestedEnumFeeTypeFilter<$PrismaModel>
+    _min?: NestedEnumgame_feeTypeFilter<$PrismaModel>
+    _max?: NestedEnumgame_feeTypeFilter<$PrismaModel>
   }
 
-  export type EnumGameStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.GameStatus | EnumGameStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GameStatus[]
-    notIn?: $Enums.GameStatus[]
-    not?: NestedEnumGameStatusWithAggregatesFilter<$PrismaModel> | $Enums.GameStatus
+  export type Enumgame_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.game_status | Enumgame_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.game_status[]
+    notIn?: $Enums.game_status[]
+    not?: NestedEnumgame_statusWithAggregatesFilter<$PrismaModel> | $Enums.game_status
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumGameStatusFilter<$PrismaModel>
-    _max?: NestedEnumGameStatusFilter<$PrismaModel>
+    _min?: NestedEnumgame_statusFilter<$PrismaModel>
+    _max?: NestedEnumgame_statusFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -5319,11 +6634,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type EnumNotificationTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.NotificationType[]
-    notIn?: $Enums.NotificationType[]
-    not?: NestedEnumNotificationTypeFilter<$PrismaModel> | $Enums.NotificationType
+  export type Enumnotification_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.notification_type | Enumnotification_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.notification_type[]
+    notIn?: $Enums.notification_type[]
+    not?: NestedEnumnotification_typeFilter<$PrismaModel> | $Enums.notification_type
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -5331,14 +6646,14 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
+  export type GameNullableScalarRelationFilter = {
+    is?: gameWhereInput | null
+    isNot?: gameWhereInput | null
   }
 
-  export type GameNullableScalarRelationFilter = {
-    is?: GameWhereInput | null
-    isNot?: GameWhereInput | null
+  export type UserNullableScalarRelationFilter = {
+    is?: userWhereInput | null
+    isNot?: userWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -5346,13 +6661,13 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type NotificationOrderByRelevanceInput = {
-    fields: NotificationOrderByRelevanceFieldEnum | NotificationOrderByRelevanceFieldEnum[]
+  export type notificationOrderByRelevanceInput = {
+    fields: notificationOrderByRelevanceFieldEnum | notificationOrderByRelevanceFieldEnum[]
     sort: SortOrder
     search: string
   }
 
-  export type NotificationCountOrderByAggregateInput = {
+  export type notificationCountOrderByAggregateInput = {
     id?: SortOrder
     recipientId?: SortOrder
     senderId?: SortOrder
@@ -5365,27 +6680,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type NotificationAvgOrderByAggregateInput = {
+  export type notificationAvgOrderByAggregateInput = {
     id?: SortOrder
     recipientId?: SortOrder
     senderId?: SortOrder
     gameId?: SortOrder
   }
 
-  export type NotificationMaxOrderByAggregateInput = {
-    id?: SortOrder
-    recipientId?: SortOrder
-    senderId?: SortOrder
-    type?: SortOrder
-    title?: SortOrder
-    message?: SortOrder
-    isRead?: SortOrder
-    gameId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type NotificationMinOrderByAggregateInput = {
+  export type notificationMaxOrderByAggregateInput = {
     id?: SortOrder
     recipientId?: SortOrder
     senderId?: SortOrder
@@ -5398,7 +6700,20 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type NotificationSumOrderByAggregateInput = {
+  export type notificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    recipientId?: SortOrder
+    senderId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    gameId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type notificationSumOrderByAggregateInput = {
     id?: SortOrder
     recipientId?: SortOrder
     senderId?: SortOrder
@@ -5421,14 +6736,14 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type EnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.NotificationType[]
-    notIn?: $Enums.NotificationType[]
-    not?: NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationType
+  export type Enumnotification_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.notification_type | Enumnotification_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.notification_type[]
+    notIn?: $Enums.notification_type[]
+    not?: NestedEnumnotification_typeWithAggregatesFilter<$PrismaModel> | $Enums.notification_type
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumNotificationTypeFilter<$PrismaModel>
-    _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
+    _min?: NestedEnumnotification_typeFilter<$PrismaModel>
+    _max?: NestedEnumnotification_typeFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -5439,50 +6754,192 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type GameCreateNestedManyWithoutHostInput = {
-    create?: XOR<GameCreateWithoutHostInput, GameUncheckedCreateWithoutHostInput> | GameCreateWithoutHostInput[] | GameUncheckedCreateWithoutHostInput[]
-    connectOrCreate?: GameCreateOrConnectWithoutHostInput | GameCreateOrConnectWithoutHostInput[]
-    createMany?: GameCreateManyHostInputEnvelope
-    connect?: GameWhereUniqueInput | GameWhereUniqueInput[]
+  export type GameListRelationFilter = {
+    every?: gameWhereInput
+    some?: gameWhereInput
+    none?: gameWhereInput
   }
 
-  export type NotificationCreateNestedManyWithoutRecipientInput = {
-    create?: XOR<NotificationCreateWithoutRecipientInput, NotificationUncheckedCreateWithoutRecipientInput> | NotificationCreateWithoutRecipientInput[] | NotificationUncheckedCreateWithoutRecipientInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutRecipientInput | NotificationCreateOrConnectWithoutRecipientInput[]
-    createMany?: NotificationCreateManyRecipientInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  export type gameOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type NotificationCreateNestedManyWithoutSenderInput = {
-    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
-    createMany?: NotificationCreateManySenderInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  export type userOrderByRelevanceInput = {
+    fields: userOrderByRelevanceFieldEnum | userOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
   }
 
-  export type GameUncheckedCreateNestedManyWithoutHostInput = {
-    create?: XOR<GameCreateWithoutHostInput, GameUncheckedCreateWithoutHostInput> | GameCreateWithoutHostInput[] | GameUncheckedCreateWithoutHostInput[]
-    connectOrCreate?: GameCreateOrConnectWithoutHostInput | GameCreateOrConnectWithoutHostInput[]
-    createMany?: GameCreateManyHostInputEnvelope
-    connect?: GameWhereUniqueInput | GameWhereUniqueInput[]
+  export type userCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    reliabilityScore?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type NotificationUncheckedCreateNestedManyWithoutRecipientInput = {
-    create?: XOR<NotificationCreateWithoutRecipientInput, NotificationUncheckedCreateWithoutRecipientInput> | NotificationCreateWithoutRecipientInput[] | NotificationUncheckedCreateWithoutRecipientInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutRecipientInput | NotificationCreateOrConnectWithoutRecipientInput[]
-    createMany?: NotificationCreateManyRecipientInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  export type userAvgOrderByAggregateInput = {
+    id?: SortOrder
+    reliabilityScore?: SortOrder
   }
 
-  export type NotificationUncheckedCreateNestedManyWithoutSenderInput = {
-    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
-    createMany?: NotificationCreateManySenderInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  export type userMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    reliabilityScore?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type userMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    reliabilityScore?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type userSumOrderByAggregateInput = {
+    id?: SortOrder
+    reliabilityScore?: SortOrder
+  }
+
+  export type Enuminvitation_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.invitation_status | Enuminvitation_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.invitation_status[]
+    notIn?: $Enums.invitation_status[]
+    not?: NestedEnuminvitation_statusFilter<$PrismaModel> | $Enums.invitation_status
+  }
+
+  export type Enumattendance_statusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.attendance_status | Enumattendance_statusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.attendance_status[] | null
+    notIn?: $Enums.attendance_status[] | null
+    not?: NestedEnumattendance_statusNullableFilter<$PrismaModel> | $Enums.attendance_status | null
+  }
+
+  export type GameScalarRelationFilter = {
+    is?: gameWhereInput
+    isNot?: gameWhereInput
+  }
+
+  export type invitationGameIdUserIdCompoundUniqueInput = {
+    gameId: number
+    userId: number
+  }
+
+  export type invitationCountOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    attendanceStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type invitationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type invitationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    attendanceStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type invitationMinOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    attendanceStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type invitationSumOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type Enuminvitation_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.invitation_status | Enuminvitation_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.invitation_status[]
+    notIn?: $Enums.invitation_status[]
+    not?: NestedEnuminvitation_statusWithAggregatesFilter<$PrismaModel> | $Enums.invitation_status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnuminvitation_statusFilter<$PrismaModel>
+    _max?: NestedEnuminvitation_statusFilter<$PrismaModel>
+  }
+
+  export type Enumattendance_statusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.attendance_status | Enumattendance_statusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.attendance_status[] | null
+    notIn?: $Enums.attendance_status[] | null
+    not?: NestedEnumattendance_statusNullableWithAggregatesFilter<$PrismaModel> | $Enums.attendance_status | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumattendance_statusNullableFilter<$PrismaModel>
+    _max?: NestedEnumattendance_statusNullableFilter<$PrismaModel>
+  }
+
+  export type userCreateNestedOneWithoutHostedGameInput = {
+    create?: XOR<userCreateWithoutHostedGameInput, userUncheckedCreateWithoutHostedGameInput>
+    connectOrCreate?: userCreateOrConnectWithoutHostedGameInput
+    connect?: userWhereUniqueInput
+  }
+
+  export type notificationCreateNestedManyWithoutGameInput = {
+    create?: XOR<notificationCreateWithoutGameInput, notificationUncheckedCreateWithoutGameInput> | notificationCreateWithoutGameInput[] | notificationUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutGameInput | notificationCreateOrConnectWithoutGameInput[]
+    createMany?: notificationCreateManyGameInputEnvelope
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+  }
+
+  export type invitationCreateNestedManyWithoutGameInput = {
+    create?: XOR<invitationCreateWithoutGameInput, invitationUncheckedCreateWithoutGameInput> | invitationCreateWithoutGameInput[] | invitationUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: invitationCreateOrConnectWithoutGameInput | invitationCreateOrConnectWithoutGameInput[]
+    createMany?: invitationCreateManyGameInputEnvelope
+    connect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+  }
+
+  export type notificationUncheckedCreateNestedManyWithoutGameInput = {
+    create?: XOR<notificationCreateWithoutGameInput, notificationUncheckedCreateWithoutGameInput> | notificationCreateWithoutGameInput[] | notificationUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutGameInput | notificationCreateOrConnectWithoutGameInput[]
+    createMany?: notificationCreateManyGameInputEnvelope
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+  }
+
+  export type invitationUncheckedCreateNestedManyWithoutGameInput = {
+    create?: XOR<invitationCreateWithoutGameInput, invitationUncheckedCreateWithoutGameInput> | invitationCreateWithoutGameInput[] | invitationUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: invitationCreateOrConnectWithoutGameInput | invitationCreateOrConnectWithoutGameInput[]
+    createMany?: invitationCreateManyGameInputEnvelope
+    connect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type Enumgame_feeTypeFieldUpdateOperationsInput = {
+    set?: $Enums.game_feeType
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -5493,210 +6950,126 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type Enumgame_statusFieldUpdateOperationsInput = {
+    set?: $Enums.game_status
   }
 
-  export type GameUpdateManyWithoutHostNestedInput = {
-    create?: XOR<GameCreateWithoutHostInput, GameUncheckedCreateWithoutHostInput> | GameCreateWithoutHostInput[] | GameUncheckedCreateWithoutHostInput[]
-    connectOrCreate?: GameCreateOrConnectWithoutHostInput | GameCreateOrConnectWithoutHostInput[]
-    upsert?: GameUpsertWithWhereUniqueWithoutHostInput | GameUpsertWithWhereUniqueWithoutHostInput[]
-    createMany?: GameCreateManyHostInputEnvelope
-    set?: GameWhereUniqueInput | GameWhereUniqueInput[]
-    disconnect?: GameWhereUniqueInput | GameWhereUniqueInput[]
-    delete?: GameWhereUniqueInput | GameWhereUniqueInput[]
-    connect?: GameWhereUniqueInput | GameWhereUniqueInput[]
-    update?: GameUpdateWithWhereUniqueWithoutHostInput | GameUpdateWithWhereUniqueWithoutHostInput[]
-    updateMany?: GameUpdateManyWithWhereWithoutHostInput | GameUpdateManyWithWhereWithoutHostInput[]
-    deleteMany?: GameScalarWhereInput | GameScalarWhereInput[]
+  export type userUpdateOneRequiredWithoutHostedGameNestedInput = {
+    create?: XOR<userCreateWithoutHostedGameInput, userUncheckedCreateWithoutHostedGameInput>
+    connectOrCreate?: userCreateOrConnectWithoutHostedGameInput
+    upsert?: userUpsertWithoutHostedGameInput
+    connect?: userWhereUniqueInput
+    update?: XOR<XOR<userUpdateToOneWithWhereWithoutHostedGameInput, userUpdateWithoutHostedGameInput>, userUncheckedUpdateWithoutHostedGameInput>
   }
 
-  export type NotificationUpdateManyWithoutRecipientNestedInput = {
-    create?: XOR<NotificationCreateWithoutRecipientInput, NotificationUncheckedCreateWithoutRecipientInput> | NotificationCreateWithoutRecipientInput[] | NotificationUncheckedCreateWithoutRecipientInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutRecipientInput | NotificationCreateOrConnectWithoutRecipientInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutRecipientInput | NotificationUpsertWithWhereUniqueWithoutRecipientInput[]
-    createMany?: NotificationCreateManyRecipientInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutRecipientInput | NotificationUpdateWithWhereUniqueWithoutRecipientInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutRecipientInput | NotificationUpdateManyWithWhereWithoutRecipientInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  export type notificationUpdateManyWithoutGameNestedInput = {
+    create?: XOR<notificationCreateWithoutGameInput, notificationUncheckedCreateWithoutGameInput> | notificationCreateWithoutGameInput[] | notificationUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutGameInput | notificationCreateOrConnectWithoutGameInput[]
+    upsert?: notificationUpsertWithWhereUniqueWithoutGameInput | notificationUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: notificationCreateManyGameInputEnvelope
+    set?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    disconnect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    delete?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    update?: notificationUpdateWithWhereUniqueWithoutGameInput | notificationUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: notificationUpdateManyWithWhereWithoutGameInput | notificationUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: notificationScalarWhereInput | notificationScalarWhereInput[]
   }
 
-  export type NotificationUpdateManyWithoutSenderNestedInput = {
-    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutSenderInput | NotificationUpsertWithWhereUniqueWithoutSenderInput[]
-    createMany?: NotificationCreateManySenderInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutSenderInput | NotificationUpdateWithWhereUniqueWithoutSenderInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutSenderInput | NotificationUpdateManyWithWhereWithoutSenderInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  export type invitationUpdateManyWithoutGameNestedInput = {
+    create?: XOR<invitationCreateWithoutGameInput, invitationUncheckedCreateWithoutGameInput> | invitationCreateWithoutGameInput[] | invitationUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: invitationCreateOrConnectWithoutGameInput | invitationCreateOrConnectWithoutGameInput[]
+    upsert?: invitationUpsertWithWhereUniqueWithoutGameInput | invitationUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: invitationCreateManyGameInputEnvelope
+    set?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    disconnect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    delete?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    connect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    update?: invitationUpdateWithWhereUniqueWithoutGameInput | invitationUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: invitationUpdateManyWithWhereWithoutGameInput | invitationUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: invitationScalarWhereInput | invitationScalarWhereInput[]
   }
 
-  export type GameUncheckedUpdateManyWithoutHostNestedInput = {
-    create?: XOR<GameCreateWithoutHostInput, GameUncheckedCreateWithoutHostInput> | GameCreateWithoutHostInput[] | GameUncheckedCreateWithoutHostInput[]
-    connectOrCreate?: GameCreateOrConnectWithoutHostInput | GameCreateOrConnectWithoutHostInput[]
-    upsert?: GameUpsertWithWhereUniqueWithoutHostInput | GameUpsertWithWhereUniqueWithoutHostInput[]
-    createMany?: GameCreateManyHostInputEnvelope
-    set?: GameWhereUniqueInput | GameWhereUniqueInput[]
-    disconnect?: GameWhereUniqueInput | GameWhereUniqueInput[]
-    delete?: GameWhereUniqueInput | GameWhereUniqueInput[]
-    connect?: GameWhereUniqueInput | GameWhereUniqueInput[]
-    update?: GameUpdateWithWhereUniqueWithoutHostInput | GameUpdateWithWhereUniqueWithoutHostInput[]
-    updateMany?: GameUpdateManyWithWhereWithoutHostInput | GameUpdateManyWithWhereWithoutHostInput[]
-    deleteMany?: GameScalarWhereInput | GameScalarWhereInput[]
+  export type notificationUncheckedUpdateManyWithoutGameNestedInput = {
+    create?: XOR<notificationCreateWithoutGameInput, notificationUncheckedCreateWithoutGameInput> | notificationCreateWithoutGameInput[] | notificationUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutGameInput | notificationCreateOrConnectWithoutGameInput[]
+    upsert?: notificationUpsertWithWhereUniqueWithoutGameInput | notificationUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: notificationCreateManyGameInputEnvelope
+    set?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    disconnect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    delete?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    update?: notificationUpdateWithWhereUniqueWithoutGameInput | notificationUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: notificationUpdateManyWithWhereWithoutGameInput | notificationUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: notificationScalarWhereInput | notificationScalarWhereInput[]
   }
 
-  export type NotificationUncheckedUpdateManyWithoutRecipientNestedInput = {
-    create?: XOR<NotificationCreateWithoutRecipientInput, NotificationUncheckedCreateWithoutRecipientInput> | NotificationCreateWithoutRecipientInput[] | NotificationUncheckedCreateWithoutRecipientInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutRecipientInput | NotificationCreateOrConnectWithoutRecipientInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutRecipientInput | NotificationUpsertWithWhereUniqueWithoutRecipientInput[]
-    createMany?: NotificationCreateManyRecipientInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutRecipientInput | NotificationUpdateWithWhereUniqueWithoutRecipientInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutRecipientInput | NotificationUpdateManyWithWhereWithoutRecipientInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  export type invitationUncheckedUpdateManyWithoutGameNestedInput = {
+    create?: XOR<invitationCreateWithoutGameInput, invitationUncheckedCreateWithoutGameInput> | invitationCreateWithoutGameInput[] | invitationUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: invitationCreateOrConnectWithoutGameInput | invitationCreateOrConnectWithoutGameInput[]
+    upsert?: invitationUpsertWithWhereUniqueWithoutGameInput | invitationUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: invitationCreateManyGameInputEnvelope
+    set?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    disconnect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    delete?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    connect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    update?: invitationUpdateWithWhereUniqueWithoutGameInput | invitationUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: invitationUpdateManyWithWhereWithoutGameInput | invitationUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: invitationScalarWhereInput | invitationScalarWhereInput[]
   }
 
-  export type NotificationUncheckedUpdateManyWithoutSenderNestedInput = {
-    create?: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput> | NotificationCreateWithoutSenderInput[] | NotificationUncheckedCreateWithoutSenderInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSenderInput | NotificationCreateOrConnectWithoutSenderInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutSenderInput | NotificationUpsertWithWhereUniqueWithoutSenderInput[]
-    createMany?: NotificationCreateManySenderInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutSenderInput | NotificationUpdateWithWhereUniqueWithoutSenderInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutSenderInput | NotificationUpdateManyWithWhereWithoutSenderInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  export type gameCreateNestedOneWithoutNotificationInput = {
+    create?: XOR<gameCreateWithoutNotificationInput, gameUncheckedCreateWithoutNotificationInput>
+    connectOrCreate?: gameCreateOrConnectWithoutNotificationInput
+    connect?: gameWhereUniqueInput
   }
 
-  export type NotificationCreateNestedManyWithoutGameInput = {
-    create?: XOR<NotificationCreateWithoutGameInput, NotificationUncheckedCreateWithoutGameInput> | NotificationCreateWithoutGameInput[] | NotificationUncheckedCreateWithoutGameInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutGameInput | NotificationCreateOrConnectWithoutGameInput[]
-    createMany?: NotificationCreateManyGameInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  export type userCreateNestedOneWithoutNotification_notification_recipientIdTouserInput = {
+    create?: XOR<userCreateWithoutNotification_notification_recipientIdTouserInput, userUncheckedCreateWithoutNotification_notification_recipientIdTouserInput>
+    connectOrCreate?: userCreateOrConnectWithoutNotification_notification_recipientIdTouserInput
+    connect?: userWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutHostedGamesInput = {
-    create?: XOR<UserCreateWithoutHostedGamesInput, UserUncheckedCreateWithoutHostedGamesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutHostedGamesInput
-    connect?: UserWhereUniqueInput
+  export type userCreateNestedOneWithoutNotification_notification_senderIdTouserInput = {
+    create?: XOR<userCreateWithoutNotification_notification_senderIdTouserInput, userUncheckedCreateWithoutNotification_notification_senderIdTouserInput>
+    connectOrCreate?: userCreateOrConnectWithoutNotification_notification_senderIdTouserInput
+    connect?: userWhereUniqueInput
   }
 
-  export type NotificationUncheckedCreateNestedManyWithoutGameInput = {
-    create?: XOR<NotificationCreateWithoutGameInput, NotificationUncheckedCreateWithoutGameInput> | NotificationCreateWithoutGameInput[] | NotificationUncheckedCreateWithoutGameInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutGameInput | NotificationCreateOrConnectWithoutGameInput[]
-    createMany?: NotificationCreateManyGameInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
-  export type EnumFeeTypeFieldUpdateOperationsInput = {
-    set?: $Enums.FeeType
-  }
-
-  export type EnumGameStatusFieldUpdateOperationsInput = {
-    set?: $Enums.GameStatus
-  }
-
-  export type NotificationUpdateManyWithoutGameNestedInput = {
-    create?: XOR<NotificationCreateWithoutGameInput, NotificationUncheckedCreateWithoutGameInput> | NotificationCreateWithoutGameInput[] | NotificationUncheckedCreateWithoutGameInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutGameInput | NotificationCreateOrConnectWithoutGameInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutGameInput | NotificationUpsertWithWhereUniqueWithoutGameInput[]
-    createMany?: NotificationCreateManyGameInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutGameInput | NotificationUpdateWithWhereUniqueWithoutGameInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutGameInput | NotificationUpdateManyWithWhereWithoutGameInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type UserUpdateOneRequiredWithoutHostedGamesNestedInput = {
-    create?: XOR<UserCreateWithoutHostedGamesInput, UserUncheckedCreateWithoutHostedGamesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutHostedGamesInput
-    upsert?: UserUpsertWithoutHostedGamesInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHostedGamesInput, UserUpdateWithoutHostedGamesInput>, UserUncheckedUpdateWithoutHostedGamesInput>
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutGameNestedInput = {
-    create?: XOR<NotificationCreateWithoutGameInput, NotificationUncheckedCreateWithoutGameInput> | NotificationCreateWithoutGameInput[] | NotificationUncheckedCreateWithoutGameInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutGameInput | NotificationCreateOrConnectWithoutGameInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutGameInput | NotificationUpsertWithWhereUniqueWithoutGameInput[]
-    createMany?: NotificationCreateManyGameInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutGameInput | NotificationUpdateWithWhereUniqueWithoutGameInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutGameInput | NotificationUpdateManyWithWhereWithoutGameInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type UserCreateNestedOneWithoutReceivedNotificationsInput = {
-    create?: XOR<UserCreateWithoutReceivedNotificationsInput, UserUncheckedCreateWithoutReceivedNotificationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutReceivedNotificationsInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutSentNotificationsInput = {
-    create?: XOR<UserCreateWithoutSentNotificationsInput, UserUncheckedCreateWithoutSentNotificationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSentNotificationsInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type GameCreateNestedOneWithoutNotificationsInput = {
-    create?: XOR<GameCreateWithoutNotificationsInput, GameUncheckedCreateWithoutNotificationsInput>
-    connectOrCreate?: GameCreateOrConnectWithoutNotificationsInput
-    connect?: GameWhereUniqueInput
-  }
-
-  export type EnumNotificationTypeFieldUpdateOperationsInput = {
-    set?: $Enums.NotificationType
+  export type Enumnotification_typeFieldUpdateOperationsInput = {
+    set?: $Enums.notification_type
   }
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
 
-  export type UserUpdateOneRequiredWithoutReceivedNotificationsNestedInput = {
-    create?: XOR<UserCreateWithoutReceivedNotificationsInput, UserUncheckedCreateWithoutReceivedNotificationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutReceivedNotificationsInput
-    upsert?: UserUpsertWithoutReceivedNotificationsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedNotificationsInput, UserUpdateWithoutReceivedNotificationsInput>, UserUncheckedUpdateWithoutReceivedNotificationsInput>
+  export type gameUpdateOneWithoutNotificationNestedInput = {
+    create?: XOR<gameCreateWithoutNotificationInput, gameUncheckedCreateWithoutNotificationInput>
+    connectOrCreate?: gameCreateOrConnectWithoutNotificationInput
+    upsert?: gameUpsertWithoutNotificationInput
+    disconnect?: gameWhereInput | boolean
+    delete?: gameWhereInput | boolean
+    connect?: gameWhereUniqueInput
+    update?: XOR<XOR<gameUpdateToOneWithWhereWithoutNotificationInput, gameUpdateWithoutNotificationInput>, gameUncheckedUpdateWithoutNotificationInput>
   }
 
-  export type UserUpdateOneWithoutSentNotificationsNestedInput = {
-    create?: XOR<UserCreateWithoutSentNotificationsInput, UserUncheckedCreateWithoutSentNotificationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSentNotificationsInput
-    upsert?: UserUpsertWithoutSentNotificationsInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSentNotificationsInput, UserUpdateWithoutSentNotificationsInput>, UserUncheckedUpdateWithoutSentNotificationsInput>
+  export type userUpdateOneRequiredWithoutNotification_notification_recipientIdTouserNestedInput = {
+    create?: XOR<userCreateWithoutNotification_notification_recipientIdTouserInput, userUncheckedCreateWithoutNotification_notification_recipientIdTouserInput>
+    connectOrCreate?: userCreateOrConnectWithoutNotification_notification_recipientIdTouserInput
+    upsert?: userUpsertWithoutNotification_notification_recipientIdTouserInput
+    connect?: userWhereUniqueInput
+    update?: XOR<XOR<userUpdateToOneWithWhereWithoutNotification_notification_recipientIdTouserInput, userUpdateWithoutNotification_notification_recipientIdTouserInput>, userUncheckedUpdateWithoutNotification_notification_recipientIdTouserInput>
   }
 
-  export type GameUpdateOneWithoutNotificationsNestedInput = {
-    create?: XOR<GameCreateWithoutNotificationsInput, GameUncheckedCreateWithoutNotificationsInput>
-    connectOrCreate?: GameCreateOrConnectWithoutNotificationsInput
-    upsert?: GameUpsertWithoutNotificationsInput
-    disconnect?: GameWhereInput | boolean
-    delete?: GameWhereInput | boolean
-    connect?: GameWhereUniqueInput
-    update?: XOR<XOR<GameUpdateToOneWithWhereWithoutNotificationsInput, GameUpdateWithoutNotificationsInput>, GameUncheckedUpdateWithoutNotificationsInput>
+  export type userUpdateOneWithoutNotification_notification_senderIdTouserNestedInput = {
+    create?: XOR<userCreateWithoutNotification_notification_senderIdTouserInput, userUncheckedCreateWithoutNotification_notification_senderIdTouserInput>
+    connectOrCreate?: userCreateOrConnectWithoutNotification_notification_senderIdTouserInput
+    upsert?: userUpsertWithoutNotification_notification_senderIdTouserInput
+    disconnect?: userWhereInput | boolean
+    delete?: userWhereInput | boolean
+    connect?: userWhereUniqueInput
+    update?: XOR<XOR<userUpdateToOneWithWhereWithoutNotification_notification_senderIdTouserInput, userUpdateWithoutNotification_notification_senderIdTouserInput>, userUncheckedUpdateWithoutNotification_notification_senderIdTouserInput>
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -5705,6 +7078,210 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type gameCreateNestedManyWithoutHostInput = {
+    create?: XOR<gameCreateWithoutHostInput, gameUncheckedCreateWithoutHostInput> | gameCreateWithoutHostInput[] | gameUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: gameCreateOrConnectWithoutHostInput | gameCreateOrConnectWithoutHostInput[]
+    createMany?: gameCreateManyHostInputEnvelope
+    connect?: gameWhereUniqueInput | gameWhereUniqueInput[]
+  }
+
+  export type invitationCreateNestedManyWithoutUserInput = {
+    create?: XOR<invitationCreateWithoutUserInput, invitationUncheckedCreateWithoutUserInput> | invitationCreateWithoutUserInput[] | invitationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: invitationCreateOrConnectWithoutUserInput | invitationCreateOrConnectWithoutUserInput[]
+    createMany?: invitationCreateManyUserInputEnvelope
+    connect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+  }
+
+  export type notificationCreateNestedManyWithoutUser_notification_recipientIdTouserInput = {
+    create?: XOR<notificationCreateWithoutUser_notification_recipientIdTouserInput, notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput> | notificationCreateWithoutUser_notification_recipientIdTouserInput[] | notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput | notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput[]
+    createMany?: notificationCreateManyUser_notification_recipientIdTouserInputEnvelope
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+  }
+
+  export type notificationCreateNestedManyWithoutUser_notification_senderIdTouserInput = {
+    create?: XOR<notificationCreateWithoutUser_notification_senderIdTouserInput, notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput> | notificationCreateWithoutUser_notification_senderIdTouserInput[] | notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput | notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput[]
+    createMany?: notificationCreateManyUser_notification_senderIdTouserInputEnvelope
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+  }
+
+  export type gameUncheckedCreateNestedManyWithoutHostInput = {
+    create?: XOR<gameCreateWithoutHostInput, gameUncheckedCreateWithoutHostInput> | gameCreateWithoutHostInput[] | gameUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: gameCreateOrConnectWithoutHostInput | gameCreateOrConnectWithoutHostInput[]
+    createMany?: gameCreateManyHostInputEnvelope
+    connect?: gameWhereUniqueInput | gameWhereUniqueInput[]
+  }
+
+  export type invitationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<invitationCreateWithoutUserInput, invitationUncheckedCreateWithoutUserInput> | invitationCreateWithoutUserInput[] | invitationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: invitationCreateOrConnectWithoutUserInput | invitationCreateOrConnectWithoutUserInput[]
+    createMany?: invitationCreateManyUserInputEnvelope
+    connect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+  }
+
+  export type notificationUncheckedCreateNestedManyWithoutUser_notification_recipientIdTouserInput = {
+    create?: XOR<notificationCreateWithoutUser_notification_recipientIdTouserInput, notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput> | notificationCreateWithoutUser_notification_recipientIdTouserInput[] | notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput | notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput[]
+    createMany?: notificationCreateManyUser_notification_recipientIdTouserInputEnvelope
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+  }
+
+  export type notificationUncheckedCreateNestedManyWithoutUser_notification_senderIdTouserInput = {
+    create?: XOR<notificationCreateWithoutUser_notification_senderIdTouserInput, notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput> | notificationCreateWithoutUser_notification_senderIdTouserInput[] | notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput | notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput[]
+    createMany?: notificationCreateManyUser_notification_senderIdTouserInputEnvelope
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+  }
+
+  export type gameUpdateManyWithoutHostNestedInput = {
+    create?: XOR<gameCreateWithoutHostInput, gameUncheckedCreateWithoutHostInput> | gameCreateWithoutHostInput[] | gameUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: gameCreateOrConnectWithoutHostInput | gameCreateOrConnectWithoutHostInput[]
+    upsert?: gameUpsertWithWhereUniqueWithoutHostInput | gameUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: gameCreateManyHostInputEnvelope
+    set?: gameWhereUniqueInput | gameWhereUniqueInput[]
+    disconnect?: gameWhereUniqueInput | gameWhereUniqueInput[]
+    delete?: gameWhereUniqueInput | gameWhereUniqueInput[]
+    connect?: gameWhereUniqueInput | gameWhereUniqueInput[]
+    update?: gameUpdateWithWhereUniqueWithoutHostInput | gameUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: gameUpdateManyWithWhereWithoutHostInput | gameUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: gameScalarWhereInput | gameScalarWhereInput[]
+  }
+
+  export type invitationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<invitationCreateWithoutUserInput, invitationUncheckedCreateWithoutUserInput> | invitationCreateWithoutUserInput[] | invitationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: invitationCreateOrConnectWithoutUserInput | invitationCreateOrConnectWithoutUserInput[]
+    upsert?: invitationUpsertWithWhereUniqueWithoutUserInput | invitationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: invitationCreateManyUserInputEnvelope
+    set?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    disconnect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    delete?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    connect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    update?: invitationUpdateWithWhereUniqueWithoutUserInput | invitationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: invitationUpdateManyWithWhereWithoutUserInput | invitationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: invitationScalarWhereInput | invitationScalarWhereInput[]
+  }
+
+  export type notificationUpdateManyWithoutUser_notification_recipientIdTouserNestedInput = {
+    create?: XOR<notificationCreateWithoutUser_notification_recipientIdTouserInput, notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput> | notificationCreateWithoutUser_notification_recipientIdTouserInput[] | notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput | notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput[]
+    upsert?: notificationUpsertWithWhereUniqueWithoutUser_notification_recipientIdTouserInput | notificationUpsertWithWhereUniqueWithoutUser_notification_recipientIdTouserInput[]
+    createMany?: notificationCreateManyUser_notification_recipientIdTouserInputEnvelope
+    set?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    disconnect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    delete?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    update?: notificationUpdateWithWhereUniqueWithoutUser_notification_recipientIdTouserInput | notificationUpdateWithWhereUniqueWithoutUser_notification_recipientIdTouserInput[]
+    updateMany?: notificationUpdateManyWithWhereWithoutUser_notification_recipientIdTouserInput | notificationUpdateManyWithWhereWithoutUser_notification_recipientIdTouserInput[]
+    deleteMany?: notificationScalarWhereInput | notificationScalarWhereInput[]
+  }
+
+  export type notificationUpdateManyWithoutUser_notification_senderIdTouserNestedInput = {
+    create?: XOR<notificationCreateWithoutUser_notification_senderIdTouserInput, notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput> | notificationCreateWithoutUser_notification_senderIdTouserInput[] | notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput | notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput[]
+    upsert?: notificationUpsertWithWhereUniqueWithoutUser_notification_senderIdTouserInput | notificationUpsertWithWhereUniqueWithoutUser_notification_senderIdTouserInput[]
+    createMany?: notificationCreateManyUser_notification_senderIdTouserInputEnvelope
+    set?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    disconnect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    delete?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    update?: notificationUpdateWithWhereUniqueWithoutUser_notification_senderIdTouserInput | notificationUpdateWithWhereUniqueWithoutUser_notification_senderIdTouserInput[]
+    updateMany?: notificationUpdateManyWithWhereWithoutUser_notification_senderIdTouserInput | notificationUpdateManyWithWhereWithoutUser_notification_senderIdTouserInput[]
+    deleteMany?: notificationScalarWhereInput | notificationScalarWhereInput[]
+  }
+
+  export type gameUncheckedUpdateManyWithoutHostNestedInput = {
+    create?: XOR<gameCreateWithoutHostInput, gameUncheckedCreateWithoutHostInput> | gameCreateWithoutHostInput[] | gameUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: gameCreateOrConnectWithoutHostInput | gameCreateOrConnectWithoutHostInput[]
+    upsert?: gameUpsertWithWhereUniqueWithoutHostInput | gameUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: gameCreateManyHostInputEnvelope
+    set?: gameWhereUniqueInput | gameWhereUniqueInput[]
+    disconnect?: gameWhereUniqueInput | gameWhereUniqueInput[]
+    delete?: gameWhereUniqueInput | gameWhereUniqueInput[]
+    connect?: gameWhereUniqueInput | gameWhereUniqueInput[]
+    update?: gameUpdateWithWhereUniqueWithoutHostInput | gameUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: gameUpdateManyWithWhereWithoutHostInput | gameUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: gameScalarWhereInput | gameScalarWhereInput[]
+  }
+
+  export type invitationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<invitationCreateWithoutUserInput, invitationUncheckedCreateWithoutUserInput> | invitationCreateWithoutUserInput[] | invitationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: invitationCreateOrConnectWithoutUserInput | invitationCreateOrConnectWithoutUserInput[]
+    upsert?: invitationUpsertWithWhereUniqueWithoutUserInput | invitationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: invitationCreateManyUserInputEnvelope
+    set?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    disconnect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    delete?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    connect?: invitationWhereUniqueInput | invitationWhereUniqueInput[]
+    update?: invitationUpdateWithWhereUniqueWithoutUserInput | invitationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: invitationUpdateManyWithWhereWithoutUserInput | invitationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: invitationScalarWhereInput | invitationScalarWhereInput[]
+  }
+
+  export type notificationUncheckedUpdateManyWithoutUser_notification_recipientIdTouserNestedInput = {
+    create?: XOR<notificationCreateWithoutUser_notification_recipientIdTouserInput, notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput> | notificationCreateWithoutUser_notification_recipientIdTouserInput[] | notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput | notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput[]
+    upsert?: notificationUpsertWithWhereUniqueWithoutUser_notification_recipientIdTouserInput | notificationUpsertWithWhereUniqueWithoutUser_notification_recipientIdTouserInput[]
+    createMany?: notificationCreateManyUser_notification_recipientIdTouserInputEnvelope
+    set?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    disconnect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    delete?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    update?: notificationUpdateWithWhereUniqueWithoutUser_notification_recipientIdTouserInput | notificationUpdateWithWhereUniqueWithoutUser_notification_recipientIdTouserInput[]
+    updateMany?: notificationUpdateManyWithWhereWithoutUser_notification_recipientIdTouserInput | notificationUpdateManyWithWhereWithoutUser_notification_recipientIdTouserInput[]
+    deleteMany?: notificationScalarWhereInput | notificationScalarWhereInput[]
+  }
+
+  export type notificationUncheckedUpdateManyWithoutUser_notification_senderIdTouserNestedInput = {
+    create?: XOR<notificationCreateWithoutUser_notification_senderIdTouserInput, notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput> | notificationCreateWithoutUser_notification_senderIdTouserInput[] | notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput[]
+    connectOrCreate?: notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput | notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput[]
+    upsert?: notificationUpsertWithWhereUniqueWithoutUser_notification_senderIdTouserInput | notificationUpsertWithWhereUniqueWithoutUser_notification_senderIdTouserInput[]
+    createMany?: notificationCreateManyUser_notification_senderIdTouserInputEnvelope
+    set?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    disconnect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    delete?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    connect?: notificationWhereUniqueInput | notificationWhereUniqueInput[]
+    update?: notificationUpdateWithWhereUniqueWithoutUser_notification_senderIdTouserInput | notificationUpdateWithWhereUniqueWithoutUser_notification_senderIdTouserInput[]
+    updateMany?: notificationUpdateManyWithWhereWithoutUser_notification_senderIdTouserInput | notificationUpdateManyWithWhereWithoutUser_notification_senderIdTouserInput[]
+    deleteMany?: notificationScalarWhereInput | notificationScalarWhereInput[]
+  }
+
+  export type gameCreateNestedOneWithoutInvitationInput = {
+    create?: XOR<gameCreateWithoutInvitationInput, gameUncheckedCreateWithoutInvitationInput>
+    connectOrCreate?: gameCreateOrConnectWithoutInvitationInput
+    connect?: gameWhereUniqueInput
+  }
+
+  export type userCreateNestedOneWithoutInvitationInput = {
+    create?: XOR<userCreateWithoutInvitationInput, userUncheckedCreateWithoutInvitationInput>
+    connectOrCreate?: userCreateOrConnectWithoutInvitationInput
+    connect?: userWhereUniqueInput
+  }
+
+  export type Enuminvitation_statusFieldUpdateOperationsInput = {
+    set?: $Enums.invitation_status
+  }
+
+  export type NullableEnumattendance_statusFieldUpdateOperationsInput = {
+    set?: $Enums.attendance_status | null
+  }
+
+  export type gameUpdateOneRequiredWithoutInvitationNestedInput = {
+    create?: XOR<gameCreateWithoutInvitationInput, gameUncheckedCreateWithoutInvitationInput>
+    connectOrCreate?: gameCreateOrConnectWithoutInvitationInput
+    upsert?: gameUpsertWithoutInvitationInput
+    connect?: gameWhereUniqueInput
+    update?: XOR<XOR<gameUpdateToOneWithWhereWithoutInvitationInput, gameUpdateWithoutInvitationInput>, gameUncheckedUpdateWithoutInvitationInput>
+  }
+
+  export type userUpdateOneRequiredWithoutInvitationNestedInput = {
+    create?: XOR<userCreateWithoutInvitationInput, userUncheckedCreateWithoutInvitationInput>
+    connectOrCreate?: userCreateOrConnectWithoutInvitationInput
+    upsert?: userUpsertWithoutInvitationInput
+    connect?: userWhereUniqueInput
+    update?: XOR<XOR<userUpdateToOneWithWhereWithoutInvitationInput, userUpdateWithoutInvitationInput>, userUncheckedUpdateWithoutInvitationInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5742,6 +7319,20 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedEnumgame_feeTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.game_feeType | Enumgame_feeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.game_feeType[]
+    notIn?: $Enums.game_feeType[]
+    not?: NestedEnumgame_feeTypeFilter<$PrismaModel> | $Enums.game_feeType
+  }
+
+  export type NestedEnumgame_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.game_status | Enumgame_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.game_status[]
+    notIn?: $Enums.game_status[]
+    not?: NestedEnumgame_statusFilter<$PrismaModel> | $Enums.game_status
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -5803,38 +7394,24 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumFeeTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.FeeType | EnumFeeTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FeeType[]
-    notIn?: $Enums.FeeType[]
-    not?: NestedEnumFeeTypeFilter<$PrismaModel> | $Enums.FeeType
-  }
-
-  export type NestedEnumGameStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.GameStatus | EnumGameStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GameStatus[]
-    notIn?: $Enums.GameStatus[]
-    not?: NestedEnumGameStatusFilter<$PrismaModel> | $Enums.GameStatus
-  }
-
-  export type NestedEnumFeeTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.FeeType | EnumFeeTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FeeType[]
-    notIn?: $Enums.FeeType[]
-    not?: NestedEnumFeeTypeWithAggregatesFilter<$PrismaModel> | $Enums.FeeType
+  export type NestedEnumgame_feeTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.game_feeType | Enumgame_feeTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.game_feeType[]
+    notIn?: $Enums.game_feeType[]
+    not?: NestedEnumgame_feeTypeWithAggregatesFilter<$PrismaModel> | $Enums.game_feeType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumFeeTypeFilter<$PrismaModel>
-    _max?: NestedEnumFeeTypeFilter<$PrismaModel>
+    _min?: NestedEnumgame_feeTypeFilter<$PrismaModel>
+    _max?: NestedEnumgame_feeTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumGameStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.GameStatus | EnumGameStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GameStatus[]
-    notIn?: $Enums.GameStatus[]
-    not?: NestedEnumGameStatusWithAggregatesFilter<$PrismaModel> | $Enums.GameStatus
+  export type NestedEnumgame_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.game_status | Enumgame_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.game_status[]
+    notIn?: $Enums.game_status[]
+    not?: NestedEnumgame_statusWithAggregatesFilter<$PrismaModel> | $Enums.game_status
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumGameStatusFilter<$PrismaModel>
-    _max?: NestedEnumGameStatusFilter<$PrismaModel>
+    _min?: NestedEnumgame_statusFilter<$PrismaModel>
+    _max?: NestedEnumgame_statusFilter<$PrismaModel>
   }
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -5848,11 +7425,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.NotificationType[]
-    notIn?: $Enums.NotificationType[]
-    not?: NestedEnumNotificationTypeFilter<$PrismaModel> | $Enums.NotificationType
+  export type NestedEnumnotification_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.notification_type | Enumnotification_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.notification_type[]
+    notIn?: $Enums.notification_type[]
+    not?: NestedEnumnotification_typeFilter<$PrismaModel> | $Enums.notification_type
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -5887,14 +7464,14 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.NotificationType[]
-    notIn?: $Enums.NotificationType[]
-    not?: NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationType
+  export type NestedEnumnotification_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.notification_type | Enumnotification_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.notification_type[]
+    notIn?: $Enums.notification_type[]
+    not?: NestedEnumnotification_typeWithAggregatesFilter<$PrismaModel> | $Enums.notification_type
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumNotificationTypeFilter<$PrismaModel>
-    _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
+    _min?: NestedEnumnotification_typeFilter<$PrismaModel>
+    _max?: NestedEnumnotification_typeFilter<$PrismaModel>
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -5905,290 +7482,154 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type GameCreateWithoutHostInput = {
-    name: string
-    location: string
-    startTime: Date | string
-    endTime: Date | string
-    feeType?: $Enums.FeeType
-    minReliabilityScore?: number
-    status?: $Enums.GameStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    notifications?: NotificationCreateNestedManyWithoutGameInput
+  export type NestedEnuminvitation_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.invitation_status | Enuminvitation_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.invitation_status[]
+    notIn?: $Enums.invitation_status[]
+    not?: NestedEnuminvitation_statusFilter<$PrismaModel> | $Enums.invitation_status
   }
 
-  export type GameUncheckedCreateWithoutHostInput = {
-    id?: number
-    name: string
-    location: string
-    startTime: Date | string
-    endTime: Date | string
-    feeType?: $Enums.FeeType
-    minReliabilityScore?: number
-    status?: $Enums.GameStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    notifications?: NotificationUncheckedCreateNestedManyWithoutGameInput
+  export type NestedEnumattendance_statusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.attendance_status | Enumattendance_statusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.attendance_status[] | null
+    notIn?: $Enums.attendance_status[] | null
+    not?: NestedEnumattendance_statusNullableFilter<$PrismaModel> | $Enums.attendance_status | null
   }
 
-  export type GameCreateOrConnectWithoutHostInput = {
-    where: GameWhereUniqueInput
-    create: XOR<GameCreateWithoutHostInput, GameUncheckedCreateWithoutHostInput>
+  export type NestedEnuminvitation_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.invitation_status | Enuminvitation_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.invitation_status[]
+    notIn?: $Enums.invitation_status[]
+    not?: NestedEnuminvitation_statusWithAggregatesFilter<$PrismaModel> | $Enums.invitation_status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnuminvitation_statusFilter<$PrismaModel>
+    _max?: NestedEnuminvitation_statusFilter<$PrismaModel>
   }
 
-  export type GameCreateManyHostInputEnvelope = {
-    data: GameCreateManyHostInput | GameCreateManyHostInput[]
-    skipDuplicates?: boolean
+  export type NestedEnumattendance_statusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.attendance_status | Enumattendance_statusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.attendance_status[] | null
+    notIn?: $Enums.attendance_status[] | null
+    not?: NestedEnumattendance_statusNullableWithAggregatesFilter<$PrismaModel> | $Enums.attendance_status | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumattendance_statusNullableFilter<$PrismaModel>
+    _max?: NestedEnumattendance_statusNullableFilter<$PrismaModel>
   }
 
-  export type NotificationCreateWithoutRecipientInput = {
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sender?: UserCreateNestedOneWithoutSentNotificationsInput
-    game?: GameCreateNestedOneWithoutNotificationsInput
-  }
-
-  export type NotificationUncheckedCreateWithoutRecipientInput = {
-    id?: number
-    senderId?: number | null
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead?: boolean
-    gameId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationCreateOrConnectWithoutRecipientInput = {
-    where: NotificationWhereUniqueInput
-    create: XOR<NotificationCreateWithoutRecipientInput, NotificationUncheckedCreateWithoutRecipientInput>
-  }
-
-  export type NotificationCreateManyRecipientInputEnvelope = {
-    data: NotificationCreateManyRecipientInput | NotificationCreateManyRecipientInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type NotificationCreateWithoutSenderInput = {
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    recipient: UserCreateNestedOneWithoutReceivedNotificationsInput
-    game?: GameCreateNestedOneWithoutNotificationsInput
-  }
-
-  export type NotificationUncheckedCreateWithoutSenderInput = {
-    id?: number
-    recipientId: number
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead?: boolean
-    gameId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationCreateOrConnectWithoutSenderInput = {
-    where: NotificationWhereUniqueInput
-    create: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput>
-  }
-
-  export type NotificationCreateManySenderInputEnvelope = {
-    data: NotificationCreateManySenderInput | NotificationCreateManySenderInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type GameUpsertWithWhereUniqueWithoutHostInput = {
-    where: GameWhereUniqueInput
-    update: XOR<GameUpdateWithoutHostInput, GameUncheckedUpdateWithoutHostInput>
-    create: XOR<GameCreateWithoutHostInput, GameUncheckedCreateWithoutHostInput>
-  }
-
-  export type GameUpdateWithWhereUniqueWithoutHostInput = {
-    where: GameWhereUniqueInput
-    data: XOR<GameUpdateWithoutHostInput, GameUncheckedUpdateWithoutHostInput>
-  }
-
-  export type GameUpdateManyWithWhereWithoutHostInput = {
-    where: GameScalarWhereInput
-    data: XOR<GameUpdateManyMutationInput, GameUncheckedUpdateManyWithoutHostInput>
-  }
-
-  export type GameScalarWhereInput = {
-    AND?: GameScalarWhereInput | GameScalarWhereInput[]
-    OR?: GameScalarWhereInput[]
-    NOT?: GameScalarWhereInput | GameScalarWhereInput[]
-    id?: IntFilter<"Game"> | number
-    hostId?: IntFilter<"Game"> | number
-    name?: StringFilter<"Game"> | string
-    location?: StringFilter<"Game"> | string
-    startTime?: DateTimeFilter<"Game"> | Date | string
-    endTime?: DateTimeFilter<"Game"> | Date | string
-    feeType?: EnumFeeTypeFilter<"Game"> | $Enums.FeeType
-    minReliabilityScore?: IntFilter<"Game"> | number
-    status?: EnumGameStatusFilter<"Game"> | $Enums.GameStatus
-    createdAt?: DateTimeFilter<"Game"> | Date | string
-    updatedAt?: DateTimeFilter<"Game"> | Date | string
-  }
-
-  export type NotificationUpsertWithWhereUniqueWithoutRecipientInput = {
-    where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutRecipientInput, NotificationUncheckedUpdateWithoutRecipientInput>
-    create: XOR<NotificationCreateWithoutRecipientInput, NotificationUncheckedCreateWithoutRecipientInput>
-  }
-
-  export type NotificationUpdateWithWhereUniqueWithoutRecipientInput = {
-    where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutRecipientInput, NotificationUncheckedUpdateWithoutRecipientInput>
-  }
-
-  export type NotificationUpdateManyWithWhereWithoutRecipientInput = {
-    where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutRecipientInput>
-  }
-
-  export type NotificationScalarWhereInput = {
-    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-    OR?: NotificationScalarWhereInput[]
-    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-    id?: IntFilter<"Notification"> | number
-    recipientId?: IntFilter<"Notification"> | number
-    senderId?: IntNullableFilter<"Notification"> | number | null
-    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
-    title?: StringFilter<"Notification"> | string
-    message?: StringFilter<"Notification"> | string
-    isRead?: BoolFilter<"Notification"> | boolean
-    gameId?: IntNullableFilter<"Notification"> | number | null
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
-    updatedAt?: DateTimeFilter<"Notification"> | Date | string
-  }
-
-  export type NotificationUpsertWithWhereUniqueWithoutSenderInput = {
-    where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutSenderInput, NotificationUncheckedUpdateWithoutSenderInput>
-    create: XOR<NotificationCreateWithoutSenderInput, NotificationUncheckedCreateWithoutSenderInput>
-  }
-
-  export type NotificationUpdateWithWhereUniqueWithoutSenderInput = {
-    where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutSenderInput, NotificationUncheckedUpdateWithoutSenderInput>
-  }
-
-  export type NotificationUpdateManyWithWhereWithoutSenderInput = {
-    where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutSenderInput>
-  }
-
-  export type NotificationCreateWithoutGameInput = {
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    recipient: UserCreateNestedOneWithoutReceivedNotificationsInput
-    sender?: UserCreateNestedOneWithoutSentNotificationsInput
-  }
-
-  export type NotificationUncheckedCreateWithoutGameInput = {
-    id?: number
-    recipientId: number
-    senderId?: number | null
-    type: $Enums.NotificationType
-    title: string
-    message: string
-    isRead?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationCreateOrConnectWithoutGameInput = {
-    where: NotificationWhereUniqueInput
-    create: XOR<NotificationCreateWithoutGameInput, NotificationUncheckedCreateWithoutGameInput>
-  }
-
-  export type NotificationCreateManyGameInputEnvelope = {
-    data: NotificationCreateManyGameInput | NotificationCreateManyGameInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserCreateWithoutHostedGamesInput = {
+  export type userCreateWithoutHostedGameInput = {
     name: string
     email: string
     passwordHash: string
     reliabilityScore?: number
     createdAt?: Date | string
-    updatedAt?: Date | string
-    receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+    updatedAt: Date | string
+    invitation?: invitationCreateNestedManyWithoutUserInput
+    notification_notification_recipientIdTouser?: notificationCreateNestedManyWithoutUser_notification_recipientIdTouserInput
+    notification_notification_senderIdTouser?: notificationCreateNestedManyWithoutUser_notification_senderIdTouserInput
   }
 
-  export type UserUncheckedCreateWithoutHostedGamesInput = {
+  export type userUncheckedCreateWithoutHostedGameInput = {
     id?: number
     name: string
     email: string
     passwordHash: string
     reliabilityScore?: number
     createdAt?: Date | string
+    updatedAt: Date | string
+    invitation?: invitationUncheckedCreateNestedManyWithoutUserInput
+    notification_notification_recipientIdTouser?: notificationUncheckedCreateNestedManyWithoutUser_notification_recipientIdTouserInput
+    notification_notification_senderIdTouser?: notificationUncheckedCreateNestedManyWithoutUser_notification_senderIdTouserInput
+  }
+
+  export type userCreateOrConnectWithoutHostedGameInput = {
+    where: userWhereUniqueInput
+    create: XOR<userCreateWithoutHostedGameInput, userUncheckedCreateWithoutHostedGameInput>
+  }
+
+  export type notificationCreateWithoutGameInput = {
+    type: $Enums.notification_type
+    title: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    user_notification_recipientIdTouser: userCreateNestedOneWithoutNotification_notification_recipientIdTouserInput
+    user_notification_senderIdTouser?: userCreateNestedOneWithoutNotification_notification_senderIdTouserInput
+  }
+
+  export type notificationUncheckedCreateWithoutGameInput = {
+    id?: number
+    recipientId: number
+    senderId?: number | null
+    type: $Enums.notification_type
+    title: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type notificationCreateOrConnectWithoutGameInput = {
+    where: notificationWhereUniqueInput
+    create: XOR<notificationCreateWithoutGameInput, notificationUncheckedCreateWithoutGameInput>
+  }
+
+  export type notificationCreateManyGameInputEnvelope = {
+    data: notificationCreateManyGameInput | notificationCreateManyGameInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type invitationCreateWithoutGameInput = {
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
+    createdAt?: Date | string
     updatedAt?: Date | string
-    receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+    user: userCreateNestedOneWithoutInvitationInput
   }
 
-  export type UserCreateOrConnectWithoutHostedGamesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutHostedGamesInput, UserUncheckedCreateWithoutHostedGamesInput>
+  export type invitationUncheckedCreateWithoutGameInput = {
+    id?: number
+    userId: number
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type NotificationUpsertWithWhereUniqueWithoutGameInput = {
-    where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutGameInput, NotificationUncheckedUpdateWithoutGameInput>
-    create: XOR<NotificationCreateWithoutGameInput, NotificationUncheckedCreateWithoutGameInput>
+  export type invitationCreateOrConnectWithoutGameInput = {
+    where: invitationWhereUniqueInput
+    create: XOR<invitationCreateWithoutGameInput, invitationUncheckedCreateWithoutGameInput>
   }
 
-  export type NotificationUpdateWithWhereUniqueWithoutGameInput = {
-    where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutGameInput, NotificationUncheckedUpdateWithoutGameInput>
+  export type invitationCreateManyGameInputEnvelope = {
+    data: invitationCreateManyGameInput | invitationCreateManyGameInput[]
+    skipDuplicates?: boolean
   }
 
-  export type NotificationUpdateManyWithWhereWithoutGameInput = {
-    where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutGameInput>
+  export type userUpsertWithoutHostedGameInput = {
+    update: XOR<userUpdateWithoutHostedGameInput, userUncheckedUpdateWithoutHostedGameInput>
+    create: XOR<userCreateWithoutHostedGameInput, userUncheckedCreateWithoutHostedGameInput>
+    where?: userWhereInput
   }
 
-  export type UserUpsertWithoutHostedGamesInput = {
-    update: XOR<UserUpdateWithoutHostedGamesInput, UserUncheckedUpdateWithoutHostedGamesInput>
-    create: XOR<UserCreateWithoutHostedGamesInput, UserUncheckedCreateWithoutHostedGamesInput>
-    where?: UserWhereInput
+  export type userUpdateToOneWithWhereWithoutHostedGameInput = {
+    where?: userWhereInput
+    data: XOR<userUpdateWithoutHostedGameInput, userUncheckedUpdateWithoutHostedGameInput>
   }
 
-  export type UserUpdateToOneWithWhereWithoutHostedGamesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutHostedGamesInput, UserUncheckedUpdateWithoutHostedGamesInput>
-  }
-
-  export type UserUpdateWithoutHostedGamesInput = {
+  export type userUpdateWithoutHostedGameInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     reliabilityScore?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+    invitation?: invitationUpdateManyWithoutUserNestedInput
+    notification_notification_recipientIdTouser?: notificationUpdateManyWithoutUser_notification_recipientIdTouserNestedInput
+    notification_notification_senderIdTouser?: notificationUpdateManyWithoutUser_notification_senderIdTouserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutHostedGamesInput = {
+  export type userUncheckedUpdateWithoutHostedGameInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -6196,379 +7637,668 @@ export namespace Prisma {
     reliabilityScore?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+    invitation?: invitationUncheckedUpdateManyWithoutUserNestedInput
+    notification_notification_recipientIdTouser?: notificationUncheckedUpdateManyWithoutUser_notification_recipientIdTouserNestedInput
+    notification_notification_senderIdTouser?: notificationUncheckedUpdateManyWithoutUser_notification_senderIdTouserNestedInput
   }
 
-  export type UserCreateWithoutReceivedNotificationsInput = {
-    name: string
-    email: string
-    passwordHash: string
-    reliabilityScore?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    hostedGames?: GameCreateNestedManyWithoutHostInput
-    sentNotifications?: NotificationCreateNestedManyWithoutSenderInput
+  export type notificationUpsertWithWhereUniqueWithoutGameInput = {
+    where: notificationWhereUniqueInput
+    update: XOR<notificationUpdateWithoutGameInput, notificationUncheckedUpdateWithoutGameInput>
+    create: XOR<notificationCreateWithoutGameInput, notificationUncheckedCreateWithoutGameInput>
   }
 
-  export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
-    id?: number
-    name: string
-    email: string
-    passwordHash: string
-    reliabilityScore?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    hostedGames?: GameUncheckedCreateNestedManyWithoutHostInput
-    sentNotifications?: NotificationUncheckedCreateNestedManyWithoutSenderInput
+  export type notificationUpdateWithWhereUniqueWithoutGameInput = {
+    where: notificationWhereUniqueInput
+    data: XOR<notificationUpdateWithoutGameInput, notificationUncheckedUpdateWithoutGameInput>
   }
 
-  export type UserCreateOrConnectWithoutReceivedNotificationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutReceivedNotificationsInput, UserUncheckedCreateWithoutReceivedNotificationsInput>
+  export type notificationUpdateManyWithWhereWithoutGameInput = {
+    where: notificationScalarWhereInput
+    data: XOR<notificationUpdateManyMutationInput, notificationUncheckedUpdateManyWithoutGameInput>
   }
 
-  export type UserCreateWithoutSentNotificationsInput = {
-    name: string
-    email: string
-    passwordHash: string
-    reliabilityScore?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    hostedGames?: GameCreateNestedManyWithoutHostInput
-    receivedNotifications?: NotificationCreateNestedManyWithoutRecipientInput
+  export type notificationScalarWhereInput = {
+    AND?: notificationScalarWhereInput | notificationScalarWhereInput[]
+    OR?: notificationScalarWhereInput[]
+    NOT?: notificationScalarWhereInput | notificationScalarWhereInput[]
+    id?: IntFilter<"notification"> | number
+    recipientId?: IntFilter<"notification"> | number
+    senderId?: IntNullableFilter<"notification"> | number | null
+    type?: Enumnotification_typeFilter<"notification"> | $Enums.notification_type
+    title?: StringFilter<"notification"> | string
+    message?: StringFilter<"notification"> | string
+    isRead?: BoolFilter<"notification"> | boolean
+    gameId?: IntNullableFilter<"notification"> | number | null
+    createdAt?: DateTimeFilter<"notification"> | Date | string
+    updatedAt?: DateTimeFilter<"notification"> | Date | string
   }
 
-  export type UserUncheckedCreateWithoutSentNotificationsInput = {
-    id?: number
-    name: string
-    email: string
-    passwordHash: string
-    reliabilityScore?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    hostedGames?: GameUncheckedCreateNestedManyWithoutHostInput
-    receivedNotifications?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  export type invitationUpsertWithWhereUniqueWithoutGameInput = {
+    where: invitationWhereUniqueInput
+    update: XOR<invitationUpdateWithoutGameInput, invitationUncheckedUpdateWithoutGameInput>
+    create: XOR<invitationCreateWithoutGameInput, invitationUncheckedCreateWithoutGameInput>
   }
 
-  export type UserCreateOrConnectWithoutSentNotificationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSentNotificationsInput, UserUncheckedCreateWithoutSentNotificationsInput>
+  export type invitationUpdateWithWhereUniqueWithoutGameInput = {
+    where: invitationWhereUniqueInput
+    data: XOR<invitationUpdateWithoutGameInput, invitationUncheckedUpdateWithoutGameInput>
   }
 
-  export type GameCreateWithoutNotificationsInput = {
+  export type invitationUpdateManyWithWhereWithoutGameInput = {
+    where: invitationScalarWhereInput
+    data: XOR<invitationUpdateManyMutationInput, invitationUncheckedUpdateManyWithoutGameInput>
+  }
+
+  export type invitationScalarWhereInput = {
+    AND?: invitationScalarWhereInput | invitationScalarWhereInput[]
+    OR?: invitationScalarWhereInput[]
+    NOT?: invitationScalarWhereInput | invitationScalarWhereInput[]
+    id?: IntFilter<"invitation"> | number
+    gameId?: IntFilter<"invitation"> | number
+    userId?: IntFilter<"invitation"> | number
+    status?: Enuminvitation_statusFilter<"invitation"> | $Enums.invitation_status
+    attendanceStatus?: Enumattendance_statusNullableFilter<"invitation"> | $Enums.attendance_status | null
+    createdAt?: DateTimeFilter<"invitation"> | Date | string
+    updatedAt?: DateTimeFilter<"invitation"> | Date | string
+  }
+
+  export type gameCreateWithoutNotificationInput = {
     name: string
     location: string
     startTime: Date | string
     endTime: Date | string
-    feeType?: $Enums.FeeType
+    feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.GameStatus
+    status?: $Enums.game_status
     createdAt?: Date | string
     updatedAt?: Date | string
-    host: UserCreateNestedOneWithoutHostedGamesInput
+    host: userCreateNestedOneWithoutHostedGameInput
+    invitation?: invitationCreateNestedManyWithoutGameInput
   }
 
-  export type GameUncheckedCreateWithoutNotificationsInput = {
+  export type gameUncheckedCreateWithoutNotificationInput = {
     id?: number
     hostId: number
     name: string
     location: string
     startTime: Date | string
     endTime: Date | string
-    feeType?: $Enums.FeeType
+    feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.GameStatus
+    status?: $Enums.game_status
     createdAt?: Date | string
     updatedAt?: Date | string
+    invitation?: invitationUncheckedCreateNestedManyWithoutGameInput
   }
 
-  export type GameCreateOrConnectWithoutNotificationsInput = {
-    where: GameWhereUniqueInput
-    create: XOR<GameCreateWithoutNotificationsInput, GameUncheckedCreateWithoutNotificationsInput>
+  export type gameCreateOrConnectWithoutNotificationInput = {
+    where: gameWhereUniqueInput
+    create: XOR<gameCreateWithoutNotificationInput, gameUncheckedCreateWithoutNotificationInput>
   }
 
-  export type UserUpsertWithoutReceivedNotificationsInput = {
-    update: XOR<UserUpdateWithoutReceivedNotificationsInput, UserUncheckedUpdateWithoutReceivedNotificationsInput>
-    create: XOR<UserCreateWithoutReceivedNotificationsInput, UserUncheckedCreateWithoutReceivedNotificationsInput>
-    where?: UserWhereInput
+  export type userCreateWithoutNotification_notification_recipientIdTouserInput = {
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+    hostedGame?: gameCreateNestedManyWithoutHostInput
+    invitation?: invitationCreateNestedManyWithoutUserInput
+    notification_notification_senderIdTouser?: notificationCreateNestedManyWithoutUser_notification_senderIdTouserInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutReceivedNotificationsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutReceivedNotificationsInput, UserUncheckedUpdateWithoutReceivedNotificationsInput>
+  export type userUncheckedCreateWithoutNotification_notification_recipientIdTouserInput = {
+    id?: number
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+    hostedGame?: gameUncheckedCreateNestedManyWithoutHostInput
+    invitation?: invitationUncheckedCreateNestedManyWithoutUserInput
+    notification_notification_senderIdTouser?: notificationUncheckedCreateNestedManyWithoutUser_notification_senderIdTouserInput
   }
 
-  export type UserUpdateWithoutReceivedNotificationsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    reliabilityScore?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    hostedGames?: GameUpdateManyWithoutHostNestedInput
-    sentNotifications?: NotificationUpdateManyWithoutSenderNestedInput
+  export type userCreateOrConnectWithoutNotification_notification_recipientIdTouserInput = {
+    where: userWhereUniqueInput
+    create: XOR<userCreateWithoutNotification_notification_recipientIdTouserInput, userUncheckedCreateWithoutNotification_notification_recipientIdTouserInput>
   }
 
-  export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    reliabilityScore?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    hostedGames?: GameUncheckedUpdateManyWithoutHostNestedInput
-    sentNotifications?: NotificationUncheckedUpdateManyWithoutSenderNestedInput
+  export type userCreateWithoutNotification_notification_senderIdTouserInput = {
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+    hostedGame?: gameCreateNestedManyWithoutHostInput
+    invitation?: invitationCreateNestedManyWithoutUserInput
+    notification_notification_recipientIdTouser?: notificationCreateNestedManyWithoutUser_notification_recipientIdTouserInput
   }
 
-  export type UserUpsertWithoutSentNotificationsInput = {
-    update: XOR<UserUpdateWithoutSentNotificationsInput, UserUncheckedUpdateWithoutSentNotificationsInput>
-    create: XOR<UserCreateWithoutSentNotificationsInput, UserUncheckedCreateWithoutSentNotificationsInput>
-    where?: UserWhereInput
+  export type userUncheckedCreateWithoutNotification_notification_senderIdTouserInput = {
+    id?: number
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+    hostedGame?: gameUncheckedCreateNestedManyWithoutHostInput
+    invitation?: invitationUncheckedCreateNestedManyWithoutUserInput
+    notification_notification_recipientIdTouser?: notificationUncheckedCreateNestedManyWithoutUser_notification_recipientIdTouserInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutSentNotificationsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSentNotificationsInput, UserUncheckedUpdateWithoutSentNotificationsInput>
+  export type userCreateOrConnectWithoutNotification_notification_senderIdTouserInput = {
+    where: userWhereUniqueInput
+    create: XOR<userCreateWithoutNotification_notification_senderIdTouserInput, userUncheckedCreateWithoutNotification_notification_senderIdTouserInput>
   }
 
-  export type UserUpdateWithoutSentNotificationsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    reliabilityScore?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    hostedGames?: GameUpdateManyWithoutHostNestedInput
-    receivedNotifications?: NotificationUpdateManyWithoutRecipientNestedInput
+  export type gameUpsertWithoutNotificationInput = {
+    update: XOR<gameUpdateWithoutNotificationInput, gameUncheckedUpdateWithoutNotificationInput>
+    create: XOR<gameCreateWithoutNotificationInput, gameUncheckedCreateWithoutNotificationInput>
+    where?: gameWhereInput
   }
 
-  export type UserUncheckedUpdateWithoutSentNotificationsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    reliabilityScore?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    hostedGames?: GameUncheckedUpdateManyWithoutHostNestedInput
-    receivedNotifications?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  export type gameUpdateToOneWithWhereWithoutNotificationInput = {
+    where?: gameWhereInput
+    data: XOR<gameUpdateWithoutNotificationInput, gameUncheckedUpdateWithoutNotificationInput>
   }
 
-  export type GameUpsertWithoutNotificationsInput = {
-    update: XOR<GameUpdateWithoutNotificationsInput, GameUncheckedUpdateWithoutNotificationsInput>
-    create: XOR<GameCreateWithoutNotificationsInput, GameUncheckedCreateWithoutNotificationsInput>
-    where?: GameWhereInput
-  }
-
-  export type GameUpdateToOneWithWhereWithoutNotificationsInput = {
-    where?: GameWhereInput
-    data: XOR<GameUpdateWithoutNotificationsInput, GameUncheckedUpdateWithoutNotificationsInput>
-  }
-
-  export type GameUpdateWithoutNotificationsInput = {
+  export type gameUpdateWithoutNotificationInput = {
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    host?: UserUpdateOneRequiredWithoutHostedGamesNestedInput
+    host?: userUpdateOneRequiredWithoutHostedGameNestedInput
+    invitation?: invitationUpdateManyWithoutGameNestedInput
   }
 
-  export type GameUncheckedUpdateWithoutNotificationsInput = {
+  export type gameUncheckedUpdateWithoutNotificationInput = {
     id?: IntFieldUpdateOperationsInput | number
     hostId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitation?: invitationUncheckedUpdateManyWithoutGameNestedInput
   }
 
-  export type GameCreateManyHostInput = {
+  export type userUpsertWithoutNotification_notification_recipientIdTouserInput = {
+    update: XOR<userUpdateWithoutNotification_notification_recipientIdTouserInput, userUncheckedUpdateWithoutNotification_notification_recipientIdTouserInput>
+    create: XOR<userCreateWithoutNotification_notification_recipientIdTouserInput, userUncheckedCreateWithoutNotification_notification_recipientIdTouserInput>
+    where?: userWhereInput
+  }
+
+  export type userUpdateToOneWithWhereWithoutNotification_notification_recipientIdTouserInput = {
+    where?: userWhereInput
+    data: XOR<userUpdateWithoutNotification_notification_recipientIdTouserInput, userUncheckedUpdateWithoutNotification_notification_recipientIdTouserInput>
+  }
+
+  export type userUpdateWithoutNotification_notification_recipientIdTouserInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostedGame?: gameUpdateManyWithoutHostNestedInput
+    invitation?: invitationUpdateManyWithoutUserNestedInput
+    notification_notification_senderIdTouser?: notificationUpdateManyWithoutUser_notification_senderIdTouserNestedInput
+  }
+
+  export type userUncheckedUpdateWithoutNotification_notification_recipientIdTouserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostedGame?: gameUncheckedUpdateManyWithoutHostNestedInput
+    invitation?: invitationUncheckedUpdateManyWithoutUserNestedInput
+    notification_notification_senderIdTouser?: notificationUncheckedUpdateManyWithoutUser_notification_senderIdTouserNestedInput
+  }
+
+  export type userUpsertWithoutNotification_notification_senderIdTouserInput = {
+    update: XOR<userUpdateWithoutNotification_notification_senderIdTouserInput, userUncheckedUpdateWithoutNotification_notification_senderIdTouserInput>
+    create: XOR<userCreateWithoutNotification_notification_senderIdTouserInput, userUncheckedCreateWithoutNotification_notification_senderIdTouserInput>
+    where?: userWhereInput
+  }
+
+  export type userUpdateToOneWithWhereWithoutNotification_notification_senderIdTouserInput = {
+    where?: userWhereInput
+    data: XOR<userUpdateWithoutNotification_notification_senderIdTouserInput, userUncheckedUpdateWithoutNotification_notification_senderIdTouserInput>
+  }
+
+  export type userUpdateWithoutNotification_notification_senderIdTouserInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostedGame?: gameUpdateManyWithoutHostNestedInput
+    invitation?: invitationUpdateManyWithoutUserNestedInput
+    notification_notification_recipientIdTouser?: notificationUpdateManyWithoutUser_notification_recipientIdTouserNestedInput
+  }
+
+  export type userUncheckedUpdateWithoutNotification_notification_senderIdTouserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostedGame?: gameUncheckedUpdateManyWithoutHostNestedInput
+    invitation?: invitationUncheckedUpdateManyWithoutUserNestedInput
+    notification_notification_recipientIdTouser?: notificationUncheckedUpdateManyWithoutUser_notification_recipientIdTouserNestedInput
+  }
+
+  export type gameCreateWithoutHostInput = {
+    name: string
+    location: string
+    startTime: Date | string
+    endTime: Date | string
+    feeType?: $Enums.game_feeType
+    minReliabilityScore?: number
+    status?: $Enums.game_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notification?: notificationCreateNestedManyWithoutGameInput
+    invitation?: invitationCreateNestedManyWithoutGameInput
+  }
+
+  export type gameUncheckedCreateWithoutHostInput = {
     id?: number
     name: string
     location: string
     startTime: Date | string
     endTime: Date | string
-    feeType?: $Enums.FeeType
+    feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.GameStatus
+    status?: $Enums.game_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notification?: notificationUncheckedCreateNestedManyWithoutGameInput
+    invitation?: invitationUncheckedCreateNestedManyWithoutGameInput
+  }
+
+  export type gameCreateOrConnectWithoutHostInput = {
+    where: gameWhereUniqueInput
+    create: XOR<gameCreateWithoutHostInput, gameUncheckedCreateWithoutHostInput>
+  }
+
+  export type gameCreateManyHostInputEnvelope = {
+    data: gameCreateManyHostInput | gameCreateManyHostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type invitationCreateWithoutUserInput = {
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    game: gameCreateNestedOneWithoutInvitationInput
+  }
+
+  export type invitationUncheckedCreateWithoutUserInput = {
+    id?: number
+    gameId: number
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type NotificationCreateManyRecipientInput = {
+  export type invitationCreateOrConnectWithoutUserInput = {
+    where: invitationWhereUniqueInput
+    create: XOR<invitationCreateWithoutUserInput, invitationUncheckedCreateWithoutUserInput>
+  }
+
+  export type invitationCreateManyUserInputEnvelope = {
+    data: invitationCreateManyUserInput | invitationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type notificationCreateWithoutUser_notification_recipientIdTouserInput = {
+    type: $Enums.notification_type
+    title: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    game?: gameCreateNestedOneWithoutNotificationInput
+    user_notification_senderIdTouser?: userCreateNestedOneWithoutNotification_notification_senderIdTouserInput
+  }
+
+  export type notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput = {
     id?: number
     senderId?: number | null
-    type: $Enums.NotificationType
+    type: $Enums.notification_type
     title: string
     message: string
     isRead?: boolean
     gameId?: number | null
     createdAt?: Date | string
-    updatedAt?: Date | string
+    updatedAt: Date | string
   }
 
-  export type NotificationCreateManySenderInput = {
+  export type notificationCreateOrConnectWithoutUser_notification_recipientIdTouserInput = {
+    where: notificationWhereUniqueInput
+    create: XOR<notificationCreateWithoutUser_notification_recipientIdTouserInput, notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput>
+  }
+
+  export type notificationCreateManyUser_notification_recipientIdTouserInputEnvelope = {
+    data: notificationCreateManyUser_notification_recipientIdTouserInput | notificationCreateManyUser_notification_recipientIdTouserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type notificationCreateWithoutUser_notification_senderIdTouserInput = {
+    type: $Enums.notification_type
+    title: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    game?: gameCreateNestedOneWithoutNotificationInput
+    user_notification_recipientIdTouser: userCreateNestedOneWithoutNotification_notification_recipientIdTouserInput
+  }
+
+  export type notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput = {
     id?: number
     recipientId: number
-    type: $Enums.NotificationType
+    type: $Enums.notification_type
     title: string
     message: string
     isRead?: boolean
     gameId?: number | null
     createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type notificationCreateOrConnectWithoutUser_notification_senderIdTouserInput = {
+    where: notificationWhereUniqueInput
+    create: XOR<notificationCreateWithoutUser_notification_senderIdTouserInput, notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput>
+  }
+
+  export type notificationCreateManyUser_notification_senderIdTouserInputEnvelope = {
+    data: notificationCreateManyUser_notification_senderIdTouserInput | notificationCreateManyUser_notification_senderIdTouserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type gameUpsertWithWhereUniqueWithoutHostInput = {
+    where: gameWhereUniqueInput
+    update: XOR<gameUpdateWithoutHostInput, gameUncheckedUpdateWithoutHostInput>
+    create: XOR<gameCreateWithoutHostInput, gameUncheckedCreateWithoutHostInput>
+  }
+
+  export type gameUpdateWithWhereUniqueWithoutHostInput = {
+    where: gameWhereUniqueInput
+    data: XOR<gameUpdateWithoutHostInput, gameUncheckedUpdateWithoutHostInput>
+  }
+
+  export type gameUpdateManyWithWhereWithoutHostInput = {
+    where: gameScalarWhereInput
+    data: XOR<gameUpdateManyMutationInput, gameUncheckedUpdateManyWithoutHostInput>
+  }
+
+  export type gameScalarWhereInput = {
+    AND?: gameScalarWhereInput | gameScalarWhereInput[]
+    OR?: gameScalarWhereInput[]
+    NOT?: gameScalarWhereInput | gameScalarWhereInput[]
+    id?: IntFilter<"game"> | number
+    hostId?: IntFilter<"game"> | number
+    name?: StringFilter<"game"> | string
+    location?: StringFilter<"game"> | string
+    startTime?: DateTimeFilter<"game"> | Date | string
+    endTime?: DateTimeFilter<"game"> | Date | string
+    feeType?: Enumgame_feeTypeFilter<"game"> | $Enums.game_feeType
+    minReliabilityScore?: IntFilter<"game"> | number
+    status?: Enumgame_statusFilter<"game"> | $Enums.game_status
+    createdAt?: DateTimeFilter<"game"> | Date | string
+    updatedAt?: DateTimeFilter<"game"> | Date | string
+  }
+
+  export type invitationUpsertWithWhereUniqueWithoutUserInput = {
+    where: invitationWhereUniqueInput
+    update: XOR<invitationUpdateWithoutUserInput, invitationUncheckedUpdateWithoutUserInput>
+    create: XOR<invitationCreateWithoutUserInput, invitationUncheckedCreateWithoutUserInput>
+  }
+
+  export type invitationUpdateWithWhereUniqueWithoutUserInput = {
+    where: invitationWhereUniqueInput
+    data: XOR<invitationUpdateWithoutUserInput, invitationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type invitationUpdateManyWithWhereWithoutUserInput = {
+    where: invitationScalarWhereInput
+    data: XOR<invitationUpdateManyMutationInput, invitationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type notificationUpsertWithWhereUniqueWithoutUser_notification_recipientIdTouserInput = {
+    where: notificationWhereUniqueInput
+    update: XOR<notificationUpdateWithoutUser_notification_recipientIdTouserInput, notificationUncheckedUpdateWithoutUser_notification_recipientIdTouserInput>
+    create: XOR<notificationCreateWithoutUser_notification_recipientIdTouserInput, notificationUncheckedCreateWithoutUser_notification_recipientIdTouserInput>
+  }
+
+  export type notificationUpdateWithWhereUniqueWithoutUser_notification_recipientIdTouserInput = {
+    where: notificationWhereUniqueInput
+    data: XOR<notificationUpdateWithoutUser_notification_recipientIdTouserInput, notificationUncheckedUpdateWithoutUser_notification_recipientIdTouserInput>
+  }
+
+  export type notificationUpdateManyWithWhereWithoutUser_notification_recipientIdTouserInput = {
+    where: notificationScalarWhereInput
+    data: XOR<notificationUpdateManyMutationInput, notificationUncheckedUpdateManyWithoutUser_notification_recipientIdTouserInput>
+  }
+
+  export type notificationUpsertWithWhereUniqueWithoutUser_notification_senderIdTouserInput = {
+    where: notificationWhereUniqueInput
+    update: XOR<notificationUpdateWithoutUser_notification_senderIdTouserInput, notificationUncheckedUpdateWithoutUser_notification_senderIdTouserInput>
+    create: XOR<notificationCreateWithoutUser_notification_senderIdTouserInput, notificationUncheckedCreateWithoutUser_notification_senderIdTouserInput>
+  }
+
+  export type notificationUpdateWithWhereUniqueWithoutUser_notification_senderIdTouserInput = {
+    where: notificationWhereUniqueInput
+    data: XOR<notificationUpdateWithoutUser_notification_senderIdTouserInput, notificationUncheckedUpdateWithoutUser_notification_senderIdTouserInput>
+  }
+
+  export type notificationUpdateManyWithWhereWithoutUser_notification_senderIdTouserInput = {
+    where: notificationScalarWhereInput
+    data: XOR<notificationUpdateManyMutationInput, notificationUncheckedUpdateManyWithoutUser_notification_senderIdTouserInput>
+  }
+
+  export type gameCreateWithoutInvitationInput = {
+    name: string
+    location: string
+    startTime: Date | string
+    endTime: Date | string
+    feeType?: $Enums.game_feeType
+    minReliabilityScore?: number
+    status?: $Enums.game_status
+    createdAt?: Date | string
     updatedAt?: Date | string
+    host: userCreateNestedOneWithoutHostedGameInput
+    notification?: notificationCreateNestedManyWithoutGameInput
   }
 
-  export type GameUpdateWithoutHostInput = {
+  export type gameUncheckedCreateWithoutInvitationInput = {
+    id?: number
+    hostId: number
+    name: string
+    location: string
+    startTime: Date | string
+    endTime: Date | string
+    feeType?: $Enums.game_feeType
+    minReliabilityScore?: number
+    status?: $Enums.game_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notification?: notificationUncheckedCreateNestedManyWithoutGameInput
+  }
+
+  export type gameCreateOrConnectWithoutInvitationInput = {
+    where: gameWhereUniqueInput
+    create: XOR<gameCreateWithoutInvitationInput, gameUncheckedCreateWithoutInvitationInput>
+  }
+
+  export type userCreateWithoutInvitationInput = {
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+    hostedGame?: gameCreateNestedManyWithoutHostInput
+    notification_notification_recipientIdTouser?: notificationCreateNestedManyWithoutUser_notification_recipientIdTouserInput
+    notification_notification_senderIdTouser?: notificationCreateNestedManyWithoutUser_notification_senderIdTouserInput
+  }
+
+  export type userUncheckedCreateWithoutInvitationInput = {
+    id?: number
+    name: string
+    email: string
+    passwordHash: string
+    reliabilityScore?: number
+    createdAt?: Date | string
+    updatedAt: Date | string
+    hostedGame?: gameUncheckedCreateNestedManyWithoutHostInput
+    notification_notification_recipientIdTouser?: notificationUncheckedCreateNestedManyWithoutUser_notification_recipientIdTouserInput
+    notification_notification_senderIdTouser?: notificationUncheckedCreateNestedManyWithoutUser_notification_senderIdTouserInput
+  }
+
+  export type userCreateOrConnectWithoutInvitationInput = {
+    where: userWhereUniqueInput
+    create: XOR<userCreateWithoutInvitationInput, userUncheckedCreateWithoutInvitationInput>
+  }
+
+  export type gameUpsertWithoutInvitationInput = {
+    update: XOR<gameUpdateWithoutInvitationInput, gameUncheckedUpdateWithoutInvitationInput>
+    create: XOR<gameCreateWithoutInvitationInput, gameUncheckedCreateWithoutInvitationInput>
+    where?: gameWhereInput
+  }
+
+  export type gameUpdateToOneWithWhereWithoutInvitationInput = {
+    where?: gameWhereInput
+    data: XOR<gameUpdateWithoutInvitationInput, gameUncheckedUpdateWithoutInvitationInput>
+  }
+
+  export type gameUpdateWithoutInvitationInput = {
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    notifications?: NotificationUpdateManyWithoutGameNestedInput
+    host?: userUpdateOneRequiredWithoutHostedGameNestedInput
+    notification?: notificationUpdateManyWithoutGameNestedInput
   }
 
-  export type GameUncheckedUpdateWithoutHostInput = {
+  export type gameUncheckedUpdateWithoutInvitationInput = {
     id?: IntFieldUpdateOperationsInput | number
+    hostId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    notifications?: NotificationUncheckedUpdateManyWithoutGameNestedInput
+    notification?: notificationUncheckedUpdateManyWithoutGameNestedInput
   }
 
-  export type GameUncheckedUpdateManyWithoutHostInput = {
+  export type userUpsertWithoutInvitationInput = {
+    update: XOR<userUpdateWithoutInvitationInput, userUncheckedUpdateWithoutInvitationInput>
+    create: XOR<userCreateWithoutInvitationInput, userUncheckedCreateWithoutInvitationInput>
+    where?: userWhereInput
+  }
+
+  export type userUpdateToOneWithWhereWithoutInvitationInput = {
+    where?: userWhereInput
+    data: XOR<userUpdateWithoutInvitationInput, userUncheckedUpdateWithoutInvitationInput>
+  }
+
+  export type userUpdateWithoutInvitationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostedGame?: gameUpdateManyWithoutHostNestedInput
+    notification_notification_recipientIdTouser?: notificationUpdateManyWithoutUser_notification_recipientIdTouserNestedInput
+    notification_notification_senderIdTouser?: notificationUpdateManyWithoutUser_notification_senderIdTouserNestedInput
+  }
+
+  export type userUncheckedUpdateWithoutInvitationInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    location?: StringFieldUpdateOperationsInput | string
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    feeType?: EnumFeeTypeFieldUpdateOperationsInput | $Enums.FeeType
-    minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    reliabilityScore?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostedGame?: gameUncheckedUpdateManyWithoutHostNestedInput
+    notification_notification_recipientIdTouser?: notificationUncheckedUpdateManyWithoutUser_notification_recipientIdTouserNestedInput
+    notification_notification_senderIdTouser?: notificationUncheckedUpdateManyWithoutUser_notification_senderIdTouserNestedInput
   }
 
-  export type NotificationUpdateWithoutRecipientInput = {
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sender?: UserUpdateOneWithoutSentNotificationsNestedInput
-    game?: GameUpdateOneWithoutNotificationsNestedInput
-  }
-
-  export type NotificationUncheckedUpdateWithoutRecipientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    senderId?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    gameId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutRecipientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    senderId?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    gameId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUpdateWithoutSenderInput = {
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    recipient?: UserUpdateOneRequiredWithoutReceivedNotificationsNestedInput
-    game?: GameUpdateOneWithoutNotificationsNestedInput
-  }
-
-  export type NotificationUncheckedUpdateWithoutSenderInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    recipientId?: IntFieldUpdateOperationsInput | number
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    gameId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutSenderInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    recipientId?: IntFieldUpdateOperationsInput | number
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    gameId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationCreateManyGameInput = {
+  export type notificationCreateManyGameInput = {
     id?: number
     recipientId: number
     senderId?: number | null
-    type: $Enums.NotificationType
+    type: $Enums.notification_type
     title: string
     message: string
     isRead?: boolean
     createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type invitationCreateManyGameInput = {
+    id?: number
+    userId: number
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type NotificationUpdateWithoutGameInput = {
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+  export type notificationUpdateWithoutGameInput = {
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    recipient?: UserUpdateOneRequiredWithoutReceivedNotificationsNestedInput
-    sender?: UserUpdateOneWithoutSentNotificationsNestedInput
+    user_notification_recipientIdTouser?: userUpdateOneRequiredWithoutNotification_notification_recipientIdTouserNestedInput
+    user_notification_senderIdTouser?: userUpdateOneWithoutNotification_notification_senderIdTouserNestedInput
   }
 
-  export type NotificationUncheckedUpdateWithoutGameInput = {
+  export type notificationUncheckedUpdateWithoutGameInput = {
     id?: IntFieldUpdateOperationsInput | number
     recipientId?: IntFieldUpdateOperationsInput | number
     senderId?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
@@ -6576,14 +8306,224 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationUncheckedUpdateManyWithoutGameInput = {
+  export type notificationUncheckedUpdateManyWithoutGameInput = {
     id?: IntFieldUpdateOperationsInput | number
     recipientId?: IntFieldUpdateOperationsInput | number
     senderId?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitationUpdateWithoutGameInput = {
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: userUpdateOneRequiredWithoutInvitationNestedInput
+  }
+
+  export type invitationUncheckedUpdateWithoutGameInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitationUncheckedUpdateManyWithoutGameInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type gameCreateManyHostInput = {
+    id?: number
+    name: string
+    location: string
+    startTime: Date | string
+    endTime: Date | string
+    feeType?: $Enums.game_feeType
+    minReliabilityScore?: number
+    status?: $Enums.game_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type invitationCreateManyUserInput = {
+    id?: number
+    gameId: number
+    status?: $Enums.invitation_status
+    attendanceStatus?: $Enums.attendance_status | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type notificationCreateManyUser_notification_recipientIdTouserInput = {
+    id?: number
+    senderId?: number | null
+    type: $Enums.notification_type
+    title: string
+    message: string
+    isRead?: boolean
+    gameId?: number | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type notificationCreateManyUser_notification_senderIdTouserInput = {
+    id?: number
+    recipientId: number
+    type: $Enums.notification_type
+    title: string
+    message: string
+    isRead?: boolean
+    gameId?: number | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type gameUpdateWithoutHostInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
+    minReliabilityScore?: IntFieldUpdateOperationsInput | number
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notification?: notificationUpdateManyWithoutGameNestedInput
+    invitation?: invitationUpdateManyWithoutGameNestedInput
+  }
+
+  export type gameUncheckedUpdateWithoutHostInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
+    minReliabilityScore?: IntFieldUpdateOperationsInput | number
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notification?: notificationUncheckedUpdateManyWithoutGameNestedInput
+    invitation?: invitationUncheckedUpdateManyWithoutGameNestedInput
+  }
+
+  export type gameUncheckedUpdateManyWithoutHostInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
+    minReliabilityScore?: IntFieldUpdateOperationsInput | number
+    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitationUpdateWithoutUserInput = {
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    game?: gameUpdateOneRequiredWithoutInvitationNestedInput
+  }
+
+  export type invitationUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitationUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    status?: Enuminvitation_statusFieldUpdateOperationsInput | $Enums.invitation_status
+    attendanceStatus?: NullableEnumattendance_statusFieldUpdateOperationsInput | $Enums.attendance_status | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type notificationUpdateWithoutUser_notification_recipientIdTouserInput = {
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    game?: gameUpdateOneWithoutNotificationNestedInput
+    user_notification_senderIdTouser?: userUpdateOneWithoutNotification_notification_senderIdTouserNestedInput
+  }
+
+  export type notificationUncheckedUpdateWithoutUser_notification_recipientIdTouserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    senderId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    gameId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type notificationUncheckedUpdateManyWithoutUser_notification_recipientIdTouserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    senderId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    gameId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type notificationUpdateWithoutUser_notification_senderIdTouserInput = {
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    game?: gameUpdateOneWithoutNotificationNestedInput
+    user_notification_recipientIdTouser?: userUpdateOneRequiredWithoutNotification_notification_recipientIdTouserNestedInput
+  }
+
+  export type notificationUncheckedUpdateWithoutUser_notification_senderIdTouserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recipientId?: IntFieldUpdateOperationsInput | number
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    gameId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type notificationUncheckedUpdateManyWithoutUser_notification_senderIdTouserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recipientId?: IntFieldUpdateOperationsInput | number
+    type?: Enumnotification_typeFieldUpdateOperationsInput | $Enums.notification_type
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    gameId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

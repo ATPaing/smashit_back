@@ -7,81 +7,103 @@ datasource db {
   provider = "mysql"
 }
 
-model User {
-  id               Int      @id @default(autoincrement())
-  name             String
-  email            String   @unique
-  passwordHash     String
-  reliabilityScore Int      @default(100)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  // Relations
-  hostedGames Game[]
-
-  receivedNotifications Notification[] @relation("NotificationRecipient")
-  sentNotifications     Notification[] @relation("NotificationSender")
-}
-
-model Game {
-  id                  Int        @id @default(autoincrement())
+model game {
+  id                  Int            @id @default(autoincrement())
   hostId              Int
   name                String
   location            String
   startTime           DateTime
   endTime             DateTime
-  feeType             FeeType    @default(FREE)
-  minReliabilityScore Int        @default(0)
-  status              GameStatus @default(SCHEDULED)
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime   @updatedAt
+  feeType             game_feeType   @default(FREE)
+  minReliabilityScore Int            @default(0)
+  status              game_status    @default(UPCOMING)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @default(now())
+  host                user           @relation(fields: [hostId], references: [id], map: "Game_hostId_fkey")
+  notification        notification[]
+  invitation          invitation[]
 
-  notifications Notification[]
-
-  // Relations
-  host User @relation(fields: [hostId], references: [id])
-
-  @@index([hostId])
+  @@index([hostId], map: "Game_hostId_idx")
 }
 
-enum FeeType {
+enum game_feeType {
   FREE
   SPLIT
 }
 
-enum GameStatus {
-  SCHEDULED
+enum game_status {
+  UPCOMING
   ONGOING
   COMPLETED
   CANCELLED
 }
 
-model Notification {
-  id          Int              @id @default(autoincrement())
-  recipientId Int
-  senderId    Int?
-  type        NotificationType
-  title       String
-  message     String
-  isRead      Boolean          @default(false)
+model notification {
+  id                                  Int               @id @default(autoincrement())
+  recipientId                         Int
+  senderId                            Int?
+  type                                notification_type
+  title                               String
+  message                             String
+  isRead                              Boolean           @default(false)
+  gameId                              Int?
+  createdAt                           DateTime          @default(now())
+  updatedAt                           DateTime
+  game                                game?             @relation(fields: [gameId], references: [id], map: "Notification_gameId_fkey")
+  user_notification_recipientIdTouser user              @relation("notification_recipientIdTouser", fields: [recipientId], references: [id], map: "Notification_recipientId_fkey")
+  user_notification_senderIdTouser    user?             @relation("notification_senderIdTouser", fields: [senderId], references: [id], map: "Notification_senderId_fkey")
 
-  gameId    Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  recipient User  @relation("NotificationRecipient", fields: [recipientId], references: [id])
-  sender    User? @relation("NotificationSender", fields: [senderId], references: [id])
-  game      Game? @relation(fields: [gameId], references: [id])
-
-  @@index([recipientId])
-  @@index([senderId])
-  @@index([gameId])
+  @@index([gameId], map: "Notification_gameId_idx")
+  @@index([recipientId], map: "Notification_recipientId_idx")
+  @@index([senderId], map: "Notification_senderId_idx")
 }
 
-enum NotificationType {
+enum notification_type {
   FRIEND_REQUEST
   INVITATION_RECEIVED
   MATCH_ACCEPTED
   GAME_CANCELLED
+}
+
+model user {
+  id                                          Int            @id @default(autoincrement())
+  name                                        String
+  email                                       String         @unique(map: "User_email_key")
+  passwordHash                                String
+  reliabilityScore                            Int            @default(100)
+  createdAt                                   DateTime       @default(now())
+  updatedAt                                   DateTime
+  hostedGame                                  game[]
+  invitation                                  invitation[]
+  notification_notification_recipientIdTouser notification[] @relation("notification_recipientIdTouser")
+  notification_notification_senderIdTouser    notification[] @relation("notification_senderIdTouser")
+}
+
+model invitation {
+  id               Int                @id @default(autoincrement())
+  gameId           Int
+  userId           Int
+  status           invitation_status  @default(PENDING)
+  attendanceStatus attendance_status?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  game game @relation(fields: [gameId], references: [id])
+  user user @relation(fields: [userId], references: [id])
+
+  @@unique([gameId, userId])
+  @@index([gameId])
+  @@index([userId])
+}
+
+enum invitation_status {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+enum attendance_status {
+  PRESENT
+  NO_SHOW
 }
