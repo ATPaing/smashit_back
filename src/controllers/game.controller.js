@@ -129,3 +129,58 @@ export const getAllGames = async (req, res) => {
     }
 };
 
+export const getGameById = async (req, res) => {
+    try {
+        const { gameId } = req.params;
+        console.log(req.params);
+        const userId = req.userId;
+        console.log("Fetching game by ID:", gameId, "for user:", userId);
+        const game = await gameService.getGameById(gameId, userId);
+
+        if (!game) {
+            return res.status(404).json({
+                message: "Game not found",
+            });
+        }
+
+        res.status(200).json({
+            game,
+        });
+    } catch (err) {
+        console.error(err);
+
+        res.status(500).json({
+            message: "Internal server error",
+        });
+    }
+};
+
+export const updateGameById = async (req, res) => {
+    try {
+        const { gameId } = req.params;
+        const hostId = req.userId;
+
+        const updatedGame = await gameService.updateGameById(
+            gameId,
+            hostId,
+            req.body,
+        );
+
+        if (!updatedGame) {
+            return res.status(404).json({
+                message: "Game not found or you are not the host",
+            });
+        }
+
+        res.status(200).json({
+            message: "Game updated successfully",
+            game: updatedGame,
+        });
+    } catch (err) {
+        console.error(err);
+
+        res.status(400).json({
+            message: err.message,
+        });
+    }
+};

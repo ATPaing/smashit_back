@@ -16,7 +16,7 @@ model game {
   endTime             DateTime
   feeType             game_feeType   @default(FREE)
   minReliabilityScore Int            @default(0)
-  status              game_status    @default(UPCOMING)
+  isCancelled Boolean @default(false)
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @default(now())
   host                user           @relation(fields: [hostId], references: [id], map: "Game_hostId_fkey")
@@ -32,12 +32,6 @@ enum game_feeType {
   SPLIT
 }
 
-enum game_status {
-  UPCOMING
-  ONGOING
-  COMPLETED
-  CANCELLED
-}
 
 model notification {
   id                                  Int               @id @default(autoincrement())

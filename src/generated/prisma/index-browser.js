@@ -129,7 +129,7 @@ exports.Prisma.GameScalarFieldEnum = {
   endTime: 'endTime',
   feeType: 'feeType',
   minReliabilityScore: 'minReliabilityScore',
-  status: 'status',
+  isCancelled: 'isCancelled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -195,13 +195,6 @@ exports.Prisma.userOrderByRelevanceFieldEnum = {
 exports.game_feeType = exports.$Enums.game_feeType = {
   FREE: 'FREE',
   SPLIT: 'SPLIT'
-};
-
-exports.game_status = exports.$Enums.game_status = {
-  UPCOMING: 'UPCOMING',
-  ONGOING: 'ONGOING',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
 };
 
 exports.notification_type = exports.$Enums.notification_type = {

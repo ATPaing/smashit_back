@@ -46,16 +46,6 @@ export namespace $Enums {
 export type game_feeType = (typeof game_feeType)[keyof typeof game_feeType]
 
 
-export const game_status: {
-  UPCOMING: 'UPCOMING',
-  ONGOING: 'ONGOING',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
-};
-
-export type game_status = (typeof game_status)[keyof typeof game_status]
-
-
 export const notification_type: {
   FRIEND_REQUEST: 'FRIEND_REQUEST',
   INVITATION_RECEIVED: 'INVITATION_RECEIVED',
@@ -87,10 +77,6 @@ export type attendance_status = (typeof attendance_status)[keyof typeof attendan
 export type game_feeType = $Enums.game_feeType
 
 export const game_feeType: typeof $Enums.game_feeType
-
-export type game_status = $Enums.game_status
-
-export const game_status: typeof $Enums.game_status
 
 export type notification_type = $Enums.notification_type
 
@@ -1307,7 +1293,7 @@ export namespace Prisma {
     endTime: Date | null
     feeType: $Enums.game_feeType | null
     minReliabilityScore: number | null
-    status: $Enums.game_status | null
+    isCancelled: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1321,7 +1307,7 @@ export namespace Prisma {
     endTime: Date | null
     feeType: $Enums.game_feeType | null
     minReliabilityScore: number | null
-    status: $Enums.game_status | null
+    isCancelled: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1335,7 +1321,7 @@ export namespace Prisma {
     endTime: number
     feeType: number
     minReliabilityScore: number
-    status: number
+    isCancelled: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1363,7 +1349,7 @@ export namespace Prisma {
     endTime?: true
     feeType?: true
     minReliabilityScore?: true
-    status?: true
+    isCancelled?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1377,7 +1363,7 @@ export namespace Prisma {
     endTime?: true
     feeType?: true
     minReliabilityScore?: true
-    status?: true
+    isCancelled?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1391,7 +1377,7 @@ export namespace Prisma {
     endTime?: true
     feeType?: true
     minReliabilityScore?: true
-    status?: true
+    isCancelled?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1492,7 +1478,7 @@ export namespace Prisma {
     endTime: Date
     feeType: $Enums.game_feeType
     minReliabilityScore: number
-    status: $Enums.game_status
+    isCancelled: boolean
     createdAt: Date
     updatedAt: Date
     _count: GameCountAggregateOutputType | null
@@ -1525,7 +1511,7 @@ export namespace Prisma {
     endTime?: boolean
     feeType?: boolean
     minReliabilityScore?: boolean
-    status?: boolean
+    isCancelled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     host?: boolean | userDefaultArgs<ExtArgs>
@@ -1545,12 +1531,12 @@ export namespace Prisma {
     endTime?: boolean
     feeType?: boolean
     minReliabilityScore?: boolean
-    status?: boolean
+    isCancelled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type gameOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hostId" | "name" | "location" | "startTime" | "endTime" | "feeType" | "minReliabilityScore" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["game"]>
+  export type gameOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hostId" | "name" | "location" | "startTime" | "endTime" | "feeType" | "minReliabilityScore" | "isCancelled" | "createdAt" | "updatedAt", ExtArgs["result"]["game"]>
   export type gameInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     host?: boolean | userDefaultArgs<ExtArgs>
     notification?: boolean | game$notificationArgs<ExtArgs>
@@ -1574,7 +1560,7 @@ export namespace Prisma {
       endTime: Date
       feeType: $Enums.game_feeType
       minReliabilityScore: number
-      status: $Enums.game_status
+      isCancelled: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["game"]>
@@ -1957,7 +1943,7 @@ export namespace Prisma {
     readonly endTime: FieldRef<"game", 'DateTime'>
     readonly feeType: FieldRef<"game", 'game_feeType'>
     readonly minReliabilityScore: FieldRef<"game", 'Int'>
-    readonly status: FieldRef<"game", 'game_status'>
+    readonly isCancelled: FieldRef<"game", 'Boolean'>
     readonly createdAt: FieldRef<"game", 'DateTime'>
     readonly updatedAt: FieldRef<"game", 'DateTime'>
   }
@@ -5584,7 +5570,7 @@ export namespace Prisma {
     endTime: 'endTime',
     feeType: 'feeType',
     minReliabilityScore: 'minReliabilityScore',
-    status: 'status',
+    isCancelled: 'isCancelled',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -5709,9 +5695,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'game_status'
+   * Reference to a field of type 'Boolean'
    */
-  export type Enumgame_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'game_status'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -5719,13 +5705,6 @@ export namespace Prisma {
    * Reference to a field of type 'notification_type'
    */
   export type Enumnotification_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_type'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -5765,7 +5744,7 @@ export namespace Prisma {
     endTime?: DateTimeFilter<"game"> | Date | string
     feeType?: Enumgame_feeTypeFilter<"game"> | $Enums.game_feeType
     minReliabilityScore?: IntFilter<"game"> | number
-    status?: Enumgame_statusFilter<"game"> | $Enums.game_status
+    isCancelled?: BoolFilter<"game"> | boolean
     createdAt?: DateTimeFilter<"game"> | Date | string
     updatedAt?: DateTimeFilter<"game"> | Date | string
     host?: XOR<UserScalarRelationFilter, userWhereInput>
@@ -5782,7 +5761,7 @@ export namespace Prisma {
     endTime?: SortOrder
     feeType?: SortOrder
     minReliabilityScore?: SortOrder
-    status?: SortOrder
+    isCancelled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     host?: userOrderByWithRelationInput
@@ -5803,7 +5782,7 @@ export namespace Prisma {
     endTime?: DateTimeFilter<"game"> | Date | string
     feeType?: Enumgame_feeTypeFilter<"game"> | $Enums.game_feeType
     minReliabilityScore?: IntFilter<"game"> | number
-    status?: Enumgame_statusFilter<"game"> | $Enums.game_status
+    isCancelled?: BoolFilter<"game"> | boolean
     createdAt?: DateTimeFilter<"game"> | Date | string
     updatedAt?: DateTimeFilter<"game"> | Date | string
     host?: XOR<UserScalarRelationFilter, userWhereInput>
@@ -5820,7 +5799,7 @@ export namespace Prisma {
     endTime?: SortOrder
     feeType?: SortOrder
     minReliabilityScore?: SortOrder
-    status?: SortOrder
+    isCancelled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: gameCountOrderByAggregateInput
@@ -5842,7 +5821,7 @@ export namespace Prisma {
     endTime?: DateTimeWithAggregatesFilter<"game"> | Date | string
     feeType?: Enumgame_feeTypeWithAggregatesFilter<"game"> | $Enums.game_feeType
     minReliabilityScore?: IntWithAggregatesFilter<"game"> | number
-    status?: Enumgame_statusWithAggregatesFilter<"game"> | $Enums.game_status
+    isCancelled?: BoolWithAggregatesFilter<"game"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"game"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"game"> | Date | string
   }
@@ -6091,7 +6070,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     host: userCreateNestedOneWithoutHostedGameInput
@@ -6108,7 +6087,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     notification?: notificationUncheckedCreateNestedManyWithoutGameInput
@@ -6122,7 +6101,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     host?: userUpdateOneRequiredWithoutHostedGameNestedInput
@@ -6139,7 +6118,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notification?: notificationUncheckedUpdateManyWithoutGameNestedInput
@@ -6155,7 +6134,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6167,7 +6146,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6181,7 +6160,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6463,11 +6442,9 @@ export namespace Prisma {
     not?: NestedEnumgame_feeTypeFilter<$PrismaModel> | $Enums.game_feeType
   }
 
-  export type Enumgame_statusFilter<$PrismaModel = never> = {
-    equals?: $Enums.game_status | Enumgame_statusFieldRefInput<$PrismaModel>
-    in?: $Enums.game_status[]
-    notIn?: $Enums.game_status[]
-    not?: NestedEnumgame_statusFilter<$PrismaModel> | $Enums.game_status
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type UserScalarRelationFilter = {
@@ -6510,7 +6487,7 @@ export namespace Prisma {
     endTime?: SortOrder
     feeType?: SortOrder
     minReliabilityScore?: SortOrder
-    status?: SortOrder
+    isCancelled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6530,7 +6507,7 @@ export namespace Prisma {
     endTime?: SortOrder
     feeType?: SortOrder
     minReliabilityScore?: SortOrder
-    status?: SortOrder
+    isCancelled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6544,7 +6521,7 @@ export namespace Prisma {
     endTime?: SortOrder
     feeType?: SortOrder
     minReliabilityScore?: SortOrder
-    status?: SortOrder
+    isCancelled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6613,14 +6590,12 @@ export namespace Prisma {
     _max?: NestedEnumgame_feeTypeFilter<$PrismaModel>
   }
 
-  export type Enumgame_statusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.game_status | Enumgame_statusFieldRefInput<$PrismaModel>
-    in?: $Enums.game_status[]
-    notIn?: $Enums.game_status[]
-    not?: NestedEnumgame_statusWithAggregatesFilter<$PrismaModel> | $Enums.game_status
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumgame_statusFilter<$PrismaModel>
-    _max?: NestedEnumgame_statusFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -6639,11 +6614,6 @@ export namespace Prisma {
     in?: $Enums.notification_type[]
     notIn?: $Enums.notification_type[]
     not?: NestedEnumnotification_typeFilter<$PrismaModel> | $Enums.notification_type
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type GameNullableScalarRelationFilter = {
@@ -6744,14 +6714,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumnotification_typeFilter<$PrismaModel>
     _max?: NestedEnumnotification_typeFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type GameListRelationFilter = {
@@ -6950,8 +6912,8 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type Enumgame_statusFieldUpdateOperationsInput = {
-    set?: $Enums.game_status
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type userUpdateOneRequiredWithoutHostedGameNestedInput = {
@@ -7038,10 +7000,6 @@ export namespace Prisma {
 
   export type Enumnotification_typeFieldUpdateOperationsInput = {
     set?: $Enums.notification_type
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type gameUpdateOneWithoutNotificationNestedInput = {
@@ -7328,11 +7286,9 @@ export namespace Prisma {
     not?: NestedEnumgame_feeTypeFilter<$PrismaModel> | $Enums.game_feeType
   }
 
-  export type NestedEnumgame_statusFilter<$PrismaModel = never> = {
-    equals?: $Enums.game_status | Enumgame_statusFieldRefInput<$PrismaModel>
-    in?: $Enums.game_status[]
-    notIn?: $Enums.game_status[]
-    not?: NestedEnumgame_statusFilter<$PrismaModel> | $Enums.game_status
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7404,14 +7360,12 @@ export namespace Prisma {
     _max?: NestedEnumgame_feeTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumgame_statusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.game_status | Enumgame_statusFieldRefInput<$PrismaModel>
-    in?: $Enums.game_status[]
-    notIn?: $Enums.game_status[]
-    not?: NestedEnumgame_statusWithAggregatesFilter<$PrismaModel> | $Enums.game_status
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumgame_statusFilter<$PrismaModel>
-    _max?: NestedEnumgame_statusFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -7430,11 +7384,6 @@ export namespace Prisma {
     in?: $Enums.notification_type[]
     notIn?: $Enums.notification_type[]
     not?: NestedEnumnotification_typeFilter<$PrismaModel> | $Enums.notification_type
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -7472,14 +7421,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumnotification_typeFilter<$PrismaModel>
     _max?: NestedEnumnotification_typeFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnuminvitation_statusFilter<$PrismaModel = never> = {
@@ -7710,7 +7651,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     host: userCreateNestedOneWithoutHostedGameInput
@@ -7726,7 +7667,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     invitation?: invitationUncheckedCreateNestedManyWithoutGameInput
@@ -7815,7 +7756,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     host?: userUpdateOneRequiredWithoutHostedGameNestedInput
@@ -7831,7 +7772,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invitation?: invitationUncheckedUpdateManyWithoutGameNestedInput
@@ -7916,7 +7857,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     notification?: notificationCreateNestedManyWithoutGameInput
@@ -7931,7 +7872,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     notification?: notificationUncheckedCreateNestedManyWithoutGameInput
@@ -8069,7 +8010,7 @@ export namespace Prisma {
     endTime?: DateTimeFilter<"game"> | Date | string
     feeType?: Enumgame_feeTypeFilter<"game"> | $Enums.game_feeType
     minReliabilityScore?: IntFilter<"game"> | number
-    status?: Enumgame_statusFilter<"game"> | $Enums.game_status
+    isCancelled?: BoolFilter<"game"> | boolean
     createdAt?: DateTimeFilter<"game"> | Date | string
     updatedAt?: DateTimeFilter<"game"> | Date | string
   }
@@ -8129,7 +8070,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     host: userCreateNestedOneWithoutHostedGameInput
@@ -8145,7 +8086,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     notification?: notificationUncheckedCreateNestedManyWithoutGameInput
@@ -8204,7 +8145,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     host?: userUpdateOneRequiredWithoutHostedGameNestedInput
@@ -8220,7 +8161,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notification?: notificationUncheckedUpdateManyWithoutGameNestedInput
@@ -8352,7 +8293,7 @@ export namespace Prisma {
     endTime: Date | string
     feeType?: $Enums.game_feeType
     minReliabilityScore?: number
-    status?: $Enums.game_status
+    isCancelled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8397,7 +8338,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notification?: notificationUpdateManyWithoutGameNestedInput
@@ -8412,7 +8353,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notification?: notificationUncheckedUpdateManyWithoutGameNestedInput
@@ -8427,7 +8368,7 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     feeType?: Enumgame_feeTypeFieldUpdateOperationsInput | $Enums.game_feeType
     minReliabilityScore?: IntFieldUpdateOperationsInput | number
-    status?: Enumgame_statusFieldUpdateOperationsInput | $Enums.game_status
+    isCancelled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
