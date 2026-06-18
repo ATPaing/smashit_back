@@ -5,7 +5,8 @@ import {
     getNextUpcomingGame,
     getAllGames,
     getGameById,
-    updateGameById
+    updateGameById,
+    cancelGameById
 } from '../controllers/game.controller.js';
 
 import { authMiddleware } from '../middlewares/auth.middleware.js';
@@ -21,5 +22,7 @@ router.get('/all', authMiddleware, getAllGames);
 router.get('/:gameId', authMiddleware, getGameById);
 
 router.put('/:gameId', authMiddleware, updateGameById);
+
+router.put("/:gameId/cancel", authMiddleware, cancelGameById);
 
 export default router;

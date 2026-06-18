@@ -24,13 +24,23 @@ export const createGame = async ({
     return game;
 }; 
 
-export const getNextUpcomingGame = async () => {
+export const getNextUpcomingGame = async (userId) => {
     const game = await prisma.game.findFirst({
         where: {
             startTime: {
                 gte: new Date(),
             },
             isCancelled: false,
+            OR: [
+                { hostId: userId },
+                {
+                    invitation: {
+                        some: {
+                            userId,
+                        },
+                    },
+                },
+            ],
         },
         orderBy: {
             startTime: "asc",
@@ -162,6 +172,7 @@ export const getGameById = async (gameId, userId) => {
             name: game.location,
             court: "",
         },
+        isCancelled: game.isCancelled,
         startTime: game.startTime,
         endTime: game.endTime,
         feeType: game.feeType === "FREE" ? "Free" : "Shared Cost",
@@ -262,4 +273,35 @@ export const updateGameById = async (gameId, hostId, data) => {
     });
 
     return updatedGame;
+};
+
+export const cancelGameById = async (gameId, hostId) => {
+    const game = await prisma.game.findFirst({
+        where: {
+            id: Number(gameId),
+            hostId,
+            isCancelled: false,
+        },
+    });
+
+    if (!game) {
+        return null;
+    }
+
+    const now = new Date();
+
+    if (game.startTime <= now) {
+        throw new Error("Only upcoming games can be cancelled");
+    }
+
+    const cancelledGame = await prisma.game.update({
+        where: {
+            id: Number(gameId),
+        },
+        data: {
+            isCancelled: true,
+        },
+    });
+
+    return cancelledGame;
 };

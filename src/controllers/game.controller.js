@@ -184,3 +184,33 @@ export const updateGameById = async (req, res) => {
         });
     }
 };
+
+export const cancelGameById = async (req, res) => {
+    try {
+        const { gameId } = req.params;
+        const hostId = req.userId;
+
+        const cancelledGame = await gameService.cancelGameById(gameId, hostId);
+
+        if (!cancelledGame) {
+            return res.status(404).json({
+                message: "Game not found or you are not the host",
+            });
+        }
+
+        sseService.sendEventToUser(hostId, "next-game-changed", {
+            reason: "game-cancelled",
+        });
+
+        res.status(200).json({
+            message: "Game cancelled successfully",
+            game: cancelledGame,
+        });
+    } catch (err) {
+        console.error(err);
+
+        res.status(400).json({
+            message: err.message,
+        });
+    }
+};
