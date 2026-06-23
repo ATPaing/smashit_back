@@ -167,6 +167,22 @@ exports.Prisma.InvitationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.Friend_requestScalarFieldEnum = {
+  id: 'id',
+  requesterId: 'requesterId',
+  recipientId: 'recipientId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FriendshipScalarFieldEnum = {
+  id: 'id',
+  userAId: 'userAId',
+  userBId: 'userBId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -199,6 +215,8 @@ exports.game_feeType = exports.$Enums.game_feeType = {
 
 exports.notification_type = exports.$Enums.notification_type = {
   FRIEND_REQUEST: 'FRIEND_REQUEST',
+  FRIEND_REQUEST_ACCEPTED: 'FRIEND_REQUEST_ACCEPTED',
+  FRIEND_REQUEST_DECLINED: 'FRIEND_REQUEST_DECLINED',
   INVITATION_RECEIVED: 'INVITATION_RECEIVED',
   MATCH_ACCEPTED: 'MATCH_ACCEPTED',
   GAME_CANCELLED: 'GAME_CANCELLED'
@@ -215,11 +233,19 @@ exports.attendance_status = exports.$Enums.attendance_status = {
   NO_SHOW: 'NO_SHOW'
 };
 
+exports.friend_request_status = exports.$Enums.friend_request_status = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED'
+};
+
 exports.Prisma.ModelName = {
   game: 'game',
   notification: 'notification',
   user: 'user',
-  invitation: 'invitation'
+  invitation: 'invitation',
+  friend_request: 'friend_request',
+  friendship: 'friendship'
 };
 
 /**

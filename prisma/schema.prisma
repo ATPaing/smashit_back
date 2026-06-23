@@ -43,7 +43,7 @@ model notification {
   isRead                              Boolean           @default(false)
   gameId                              Int?
   createdAt                           DateTime          @default(now())
-  updatedAt                           DateTime
+  updatedAt                           DateTime          @updatedAt
   game                                game?             @relation(fields: [gameId], references: [id], map: "Notification_gameId_fkey")
   user_notification_recipientIdTouser user              @relation("notification_recipientIdTouser", fields: [recipientId], references: [id], map: "Notification_recipientId_fkey")
   user_notification_senderIdTouser    user?             @relation("notification_senderIdTouser", fields: [senderId], references: [id], map: "Notification_senderId_fkey")
@@ -55,6 +55,8 @@ model notification {
 
 enum notification_type {
   FRIEND_REQUEST
+  FRIEND_REQUEST_ACCEPTED
+  FRIEND_REQUEST_DECLINED
   INVITATION_RECEIVED
   MATCH_ACCEPTED
   GAME_CANCELLED
@@ -67,11 +69,15 @@ model user {
   passwordHash                                String
   reliabilityScore                            Int            @default(100)
   createdAt                                   DateTime       @default(now())
-  updatedAt                                   DateTime
+  updatedAt                                   DateTime       @updatedAt
   hostedGame                                  game[]
   invitation                                  invitation[]
   notification_notification_recipientIdTouser notification[] @relation("notification_recipientIdTouser")
   notification_notification_senderIdTouser    notification[] @relation("notification_senderIdTouser")
+  sentFriendRequests                          friend_request[] @relation("sentFriendRequests")
+  receivedFriendRequests                      friend_request[] @relation("receivedFriendRequests")
+  friendshipsAsA                              friendship[]     @relation("friendship_userA")
+  friendshipsAsB                              friendship[]     @relation("friendship_userB")
 }
 
 model invitation {
@@ -103,7 +109,41 @@ enum attendance_status {
   NO_SHOW
 }
 
+model friend_request {
+  id          Int                   @id @default(autoincrement())
+  requesterId Int
+  recipientId Int
+  status      friend_request_status @default(PENDING)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
 
+  requester user @relation("sentFriendRequests", fields: [requesterId], references: [id])
+  recipient user @relation("receivedFriendRequests", fields: [recipientId], references: [id])
+
+  @@unique([requesterId, recipientId])
+  @@index([requesterId])
+  @@index([recipientId])
+}
+
+enum friend_request_status {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model friendship {
+  id        Int      @id @default(autoincrement())
+  userAId   Int
+  userBId   Int
+  createdAt DateTime @default(now())
+
+  userA user @relation("friendship_userA", fields: [userAId], references: [id])
+  userB user @relation("friendship_userB", fields: [userBId], references: [id])
+
+  @@unique([userAId, userBId])
+  @@index([userAId])
+  @@index([userBId])
+}
 
 
 
