@@ -1,6 +1,25 @@
 import prisma from "../config/prisma.js";
 import {getGameStatus} from "../utils/getGameStatus.js";
 
+const normalizeFriendshipIds = (userId1, userId2) => {
+    return userId1 < userId2
+        ? { userAId: userId1, userBId: userId2 }
+        : { userAId: userId2, userBId: userId1 };
+};
+
+const friendshipExists = async (userId1, userId2) => {
+    const { userAId, userBId } = normalizeFriendshipIds(userId1, userId2);
+
+    return prisma.friendship.findUnique({
+        where: {
+            userAId_userBId: {
+                userAId,
+                userBId,
+            },
+        },
+    });
+};
+
 export const createGame = async ({
     name,
     location,
@@ -304,4 +323,309 @@ export const cancelGameById = async (gameId, hostId) => {
     });
 
     return cancelledGame;
+};
+
+export const invitePlayerToGame = async (hostId, gameId, inviteeUserId) => {
+    if (hostId === inviteeUserId) {
+        throw new Error("You cannot invite yourself");
+    }
+
+    const game = await prisma.game.findFirst({
+        where: {
+            id: Number(gameId),
+            hostId,
+        },
+        include: {
+            host: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
+        },
+    });
+
+    if (!game) {
+        throw new Error("Game not found or you are not the host");
+    }
+
+    if (getGameStatus(game) !== "upcoming") {
+        throw new Error("Players can only be invited to upcoming games");
+    }
+
+    const invitee = await prisma.user.findUnique({
+        where: { id: inviteeUserId },
+        select: {
+            id: true,
+            name: true,
+            reliabilityScore: true,
+        },
+    });
+
+    if (!invitee) {
+        throw new Error("User not found");
+    }
+
+    if (!(await friendshipExists(hostId, inviteeUserId))) {
+        throw new Error("You can only invite friends");
+    }
+
+    if (invitee.reliabilityScore < game.minReliabilityScore) {
+        throw new Error(
+            `This player does not meet the minimum reliability score of ${game.minReliabilityScore}`,
+        );
+    }
+
+    const existingInvitation = await prisma.invitation.findUnique({
+        where: {
+            gameId_userId: {
+                gameId: Number(gameId),
+                userId: inviteeUserId,
+            },
+        },
+    });
+
+    if (existingInvitation) {
+        throw new Error("Player already invited");
+    }
+
+    const invitation = await prisma.invitation.create({
+        data: {
+            gameId: Number(gameId),
+            userId: inviteeUserId,
+        },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    reliabilityScore: true,
+                },
+            },
+        },
+    });
+
+    const notification = await prisma.notification.create({
+        data: {
+            recipientId: inviteeUserId,
+            senderId: hostId,
+            type: "INVITATION_RECEIVED",
+            title: "Game invitation received",
+            message: `${game.host.name} invited you to ${game.name} at ${game.location}.`,
+            gameId: Number(gameId),
+        },
+    });
+
+    return {
+        invitation,
+        notification,
+        player: {
+            id: invitee.id,
+            name: invitee.name,
+            role: "Invitee",
+            rsvpStatus: "pending",
+            attendanceStatus: "",
+        },
+    };
+};
+
+export const respondToInvitation = async (userId, gameId, status) => {
+    const allowedStatuses = ["PENDING", "ACCEPTED", "DECLINED"];
+
+    if (!allowedStatuses.includes(status)) {
+        throw new Error("Invalid invitation status");
+    }
+
+    const game = await prisma.game.findUnique({
+        where: { id: Number(gameId) },
+    });
+
+    if (!game) {
+        throw new Error("Game not found");
+    }
+
+    if (game.hostId === userId) {
+        throw new Error("Hosts cannot respond to invitations");
+    }
+
+    if (getGameStatus(game) !== "upcoming") {
+        throw new Error("You can only respond to upcoming games");
+    }
+
+    const invitation = await prisma.invitation.findUnique({
+        where: {
+            gameId_userId: {
+                gameId: Number(gameId),
+                userId,
+            },
+        },
+    });
+
+    if (!invitation) {
+        throw new Error("Invitation not found");
+    }
+
+    const updatedInvitation = await prisma.invitation.update({
+        where: { id: invitation.id },
+        data: { status },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    reliabilityScore: true,
+                },
+            },
+        },
+    });
+
+    return { invitation: updatedInvitation };
+};
+
+const mapFrontendAttendanceStatus = (status) => {
+    const normalized = status?.toLowerCase();
+
+    if (normalized === "present") {
+        return "PRESENT";
+    }
+
+    if (normalized === "absent" || normalized === "no_show") {
+        return "NO_SHOW";
+    }
+
+    throw new Error("Invalid attendance status");
+};
+
+const calculateReliabilityScore = async (tx, userId) => {
+    const records = await tx.invitation.findMany({
+        where: {
+            userId,
+            attendanceStatus: { not: null },
+            game: {
+                isCancelled: false,
+                endTime: { lt: new Date() },
+            },
+        },
+    });
+
+    if (records.length === 0) {
+        return 100;
+    }
+
+    const presentCount = records.filter(
+        (record) => record.attendanceStatus === "PRESENT",
+    ).length;
+
+    const score = Math.round((presentCount / records.length) * 100);
+
+    return Math.min(100, Math.max(0, score));
+};
+
+export const markGameAttendance = async (hostId, gameId, attendanceList) => {
+    if (!Array.isArray(attendanceList) || attendanceList.length === 0) {
+        throw new Error("Attendance data is required");
+    }
+
+    const game = await prisma.game.findFirst({
+        where: {
+            id: Number(gameId),
+            hostId,
+        },
+        include: {
+            invitation: true,
+        },
+    });
+
+    if (!game) {
+        throw new Error("Game not found or you are not the host");
+    }
+
+    if (game.isCancelled) {
+        throw new Error("Cannot mark attendance for cancelled games");
+    }
+
+    if (getGameStatus(game) !== "completed") {
+        throw new Error("Attendance can only be marked for completed games");
+    }
+
+    const acceptedInvitees = game.invitation.filter(
+        (invite) => invite.status === "ACCEPTED",
+    );
+
+    if (acceptedInvitees.length === 0) {
+        throw new Error("There are no accepted players to mark attendance for");
+    }
+
+    if (attendanceList.length !== acceptedInvitees.length) {
+        throw new Error("Please mark attendance for all accepted players");
+    }
+
+    const playerIds = new Set();
+
+    for (const entry of attendanceList) {
+        if (!entry.playerId || !entry.status) {
+            throw new Error("Each attendance entry must include playerId and status");
+        }
+
+        const playerId = Number(entry.playerId);
+
+        if (playerIds.has(playerId)) {
+            throw new Error("Duplicate player in attendance data");
+        }
+
+        playerIds.add(playerId);
+
+        const invitation = acceptedInvitees.find(
+            (invite) => invite.userId === playerId,
+        );
+
+        if (!invitation) {
+            throw new Error("Player not found in this game");
+        }
+
+        mapFrontendAttendanceStatus(entry.status);
+    }
+
+    const updatedInvitations = await prisma.$transaction(async (tx) => {
+        const results = [];
+
+        for (const entry of attendanceList) {
+            const updatedInvitation = await tx.invitation.update({
+                where: {
+                    gameId_userId: {
+                        gameId: Number(gameId),
+                        userId: Number(entry.playerId),
+                    },
+                },
+                data: {
+                    attendanceStatus: mapFrontendAttendanceStatus(entry.status),
+                },
+                include: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            reliabilityScore: true,
+                        },
+                    },
+                },
+            });
+
+            results.push(updatedInvitation);
+        }
+
+        for (const playerId of playerIds) {
+            const reliabilityScore = await calculateReliabilityScore(tx, playerId);
+
+            await tx.user.update({
+                where: { id: playerId },
+                data: { reliabilityScore },
+            });
+        }
+
+        return results;
+    });
+
+    return { invitations: updatedInvitations };
 };

@@ -214,3 +214,100 @@ export const cancelGameById = async (req, res) => {
         });
     }
 };
+
+export const invitePlayerToGame = async (req, res) => {
+    try {
+        const { gameId } = req.params;
+        const { userId } = req.body;
+
+        if (!userId) {
+            return res.status(400).json({
+                message: "userId is required",
+            });
+        }
+
+        const { invitation, notification, player } =
+            await gameService.invitePlayerToGame(
+                req.userId,
+                gameId,
+                Number(userId),
+            );
+
+        sseService.sendEventToUser(Number(userId), "notification", {
+            notification,
+        });
+
+        return res.status(201).json({
+            message: "Player invited successfully",
+            invitation,
+            player,
+        });
+    } catch (err) {
+        if (
+            err.message === "Game not found or you are not the host" ||
+            err.message === "User not found"
+        ) {
+            return res.status(404).json({ message: err.message });
+        }
+
+        return res.status(400).json({ message: err.message });
+    }
+};
+
+export const respondToInvitation = async (req, res) => {
+    try {
+        const { gameId } = req.params;
+        const { status } = req.body;
+
+        if (!status) {
+            return res.status(400).json({
+                message: "status is required",
+            });
+        }
+
+        const normalizedStatus = status.toUpperCase();
+
+        const { invitation } = await gameService.respondToInvitation(
+            req.userId,
+            gameId,
+            normalizedStatus,
+        );
+
+        return res.status(200).json({
+            message: "Invitation updated successfully",
+            invitation,
+        });
+    } catch (err) {
+        return res.status(400).json({ message: err.message });
+    }
+};
+
+export const markGameAttendance = async (req, res) => {
+    try {
+        const { gameId } = req.params;
+        const { attendance } = req.body;
+
+        if (!attendance) {
+            return res.status(400).json({
+                message: "attendance is required",
+            });
+        }
+
+        const { invitations } = await gameService.markGameAttendance(
+            req.userId,
+            gameId,
+            attendance,
+        );
+
+        return res.status(200).json({
+            message: "Attendance saved successfully",
+            invitations,
+        });
+    } catch (err) {
+        if (err.message === "Game not found or you are not the host") {
+            return res.status(404).json({ message: err.message });
+        }
+
+        return res.status(400).json({ message: err.message });
+    }
+};
