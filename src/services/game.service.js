@@ -301,6 +301,19 @@ export const cancelGameById = async (gameId, hostId) => {
             hostId,
             isCancelled: false,
         },
+        include: {
+            host: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
+            invitation: {
+                select: {
+                    userId: true,
+                },
+            },
+        },
     });
 
     if (!game) {
@@ -322,7 +335,22 @@ export const cancelGameById = async (gameId, hostId) => {
         },
     });
 
-    return cancelledGame;
+    const notifications = await Promise.all(
+        game.invitation.map((invite) =>
+            prisma.notification.create({
+                data: {
+                    recipientId: invite.userId,
+                    senderId: hostId,
+                    type: "GAME_CANCELLED",
+                    title: "Game cancelled",
+                    message: `${game.host.name} cancelled ${game.name} at ${game.location}.`,
+                    gameId: Number(gameId),
+                },
+            }),
+        ),
+    );
+
+    return { cancelledGame, notifications };
 };
 
 export const invitePlayerToGame = async (hostId, gameId, inviteeUserId) => {
@@ -438,6 +466,14 @@ export const respondToInvitation = async (userId, gameId, status) => {
 
     const game = await prisma.game.findUnique({
         where: { id: Number(gameId) },
+        include: {
+            host: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
+        },
     });
 
     if (!game) {
@@ -480,7 +516,22 @@ export const respondToInvitation = async (userId, gameId, status) => {
         },
     });
 
-    return { invitation: updatedInvitation };
+    let notification = null;
+
+    if (status === "ACCEPTED" && invitation.status !== "ACCEPTED") {
+        notification = await prisma.notification.create({
+            data: {
+                recipientId: game.hostId,
+                senderId: userId,
+                type: "MATCH_ACCEPTED",
+                title: "Match accepted",
+                message: `${updatedInvitation.user.name} accepted your invitation to ${game.name}.`,
+                gameId: Number(gameId),
+            },
+        });
+    }
+
+    return { invitation: updatedInvitation, notification };
 };
 
 const mapFrontendAttendanceStatus = (status) => {

@@ -190,7 +190,8 @@ export const cancelGameById = async (req, res) => {
         const { gameId } = req.params;
         const hostId = req.userId;
 
-        const cancelledGame = await gameService.cancelGameById(gameId, hostId);
+        const { cancelledGame, notifications } =
+            await gameService.cancelGameById(gameId, hostId);
 
         if (!cancelledGame) {
             return res.status(404).json({
@@ -201,6 +202,17 @@ export const cancelGameById = async (req, res) => {
         sseService.sendEventToUser(hostId, "next-game-changed", {
             reason: "game-cancelled",
         });
+
+        for (const notification of notifications) {
+            sseService.sendEventToUser(notification.recipientId, "notification", {
+                notification,
+            });
+            sseService.sendEventToUser(
+                notification.recipientId,
+                "next-game-changed",
+                { reason: "game-cancelled" },
+            );
+        }
 
         res.status(200).json({
             message: "Game cancelled successfully",
@@ -267,11 +279,23 @@ export const respondToInvitation = async (req, res) => {
 
         const normalizedStatus = status.toUpperCase();
 
-        const { invitation } = await gameService.respondToInvitation(
+        const { invitation, notification } =
+            await gameService.respondToInvitation(
             req.userId,
             gameId,
             normalizedStatus,
         );
+
+        if (notification) {
+            sseService.sendEventToUser(notification.recipientId, "notification", {
+                notification,
+            });
+            sseService.sendEventToUser(
+                notification.recipientId,
+                "next-game-changed",
+                { reason: "invitation-accepted" },
+            );
+        }
 
         return res.status(200).json({
             message: "Invitation updated successfully",
