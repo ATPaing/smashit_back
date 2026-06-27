@@ -249,6 +249,10 @@ export const invitePlayerToGame = async (req, res) => {
             notification,
         });
 
+        sseService.sendEventToUser(Number(userId), "next-game-changed", {
+            reason: "game-invited",
+        });
+
         return res.status(201).json({
             message: "Player invited successfully",
             invitation,
